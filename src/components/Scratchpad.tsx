@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Eraser, Pencil, RotateCcw, Trash2 } from "lucide-react";
 
+type Tool = "pen" | "eraser";
+
 type Props = {
   value?: string | null; // restored data URL
   onChange?: (dataUrl: string | null) => void;
@@ -10,6 +12,7 @@ type Props = {
 type Stroke = {
   color: string;
   size: number;
+  erase?: boolean;
   points: { x: number; y: number }[];
 };
 
@@ -22,6 +25,7 @@ export function Scratchpad({ value, onChange, height = 280 }: Props) {
   const [color, setColor] = useState(COLORS[0]);
   const [size, setSize] = useState(2.5);
   const [drawing, setDrawing] = useState(false);
+  const [tool, setTool] = useState<Tool>("pen");
   const drewRef = useRef(false);
 
   // Resize canvas to container (HiDPI safe)
@@ -70,6 +74,8 @@ export function Scratchpad({ value, onChange, height = 280 }: Props) {
 
   function drawStroke(ctx: CanvasRenderingContext2D, s: Stroke) {
     if (s.points.length === 0) return;
+    const prevOp = ctx.globalCompositeOperation;
+    ctx.globalCompositeOperation = s.erase ? "destination-out" : "source-over";
     ctx.strokeStyle = s.color;
     ctx.lineWidth = s.size;
     ctx.lineCap = "round";
@@ -80,6 +86,7 @@ export function Scratchpad({ value, onChange, height = 280 }: Props) {
       ctx.lineTo(s.points[i].x, s.points[i].y);
     }
     ctx.stroke();
+    ctx.globalCompositeOperation = prevOp;
   }
 
   function getPos(e: React.PointerEvent) {
@@ -92,7 +99,8 @@ export function Scratchpad({ value, onChange, height = 280 }: Props) {
     setDrawing(true);
     drewRef.current = true;
     const p = getPos(e);
-    setStrokes((prev) => [...prev, { color, size, points: [p] }]);
+    const erase = tool === "eraser";
+    setStrokes((prev) => [...prev, { color, size, erase, points: [p] }]);
   }
 
   function move(e: React.PointerEvent) {
@@ -103,6 +111,8 @@ export function Scratchpad({ value, onChange, height = 280 }: Props) {
       const cur = next[next.length - 1];
       cur.points.push(p);
       const ctx = canvasRef.current!.getContext("2d")!;
+      const prevOp = ctx.globalCompositeOperation;
+      ctx.globalCompositeOperation = cur.erase ? "destination-out" : "source-over";
       ctx.strokeStyle = cur.color;
       ctx.lineWidth = cur.size;
       ctx.lineCap = "round";
@@ -112,6 +122,7 @@ export function Scratchpad({ value, onChange, height = 280 }: Props) {
       ctx.moveTo(cur.points[n - 2].x, cur.points[n - 2].y);
       ctx.lineTo(p.x, p.y);
       ctx.stroke();
+      ctx.globalCompositeOperation = prevOp;
       return next;
     });
   }
@@ -161,14 +172,46 @@ export function Scratchpad({ value, onChange, height = 280 }: Props) {
           <Pencil className="h-3.5 w-3.5" /> Scratchpad
         </span>
         <div className="flex items-center gap-1 ml-1">
+          <button
+            type="button"
+            onClick={() => setTool("pen")}
+            aria-pressed={tool === "pen"}
+            className={`inline-flex items-center gap-1 rounded-md border px-2 py-1 text-xs ${
+              tool === "pen"
+                ? "border-primary bg-primary/15 text-primary"
+                : "border-input hover:bg-secondary"
+            }`}
+          >
+            <Pencil className="h-3.5 w-3.5" /> Pen
+          </button>
+          <button
+            type="button"
+            onClick={() => setTool("eraser")}
+            aria-pressed={tool === "eraser"}
+            className={`inline-flex items-center gap-1 rounded-md border px-2 py-1 text-xs ${
+              tool === "eraser"
+                ? "border-primary bg-primary/15 text-primary"
+                : "border-input hover:bg-secondary"
+            }`}
+          >
+            <Eraser className="h-3.5 w-3.5" /> Eraser
+          </button>
+        </div>
+        <div className="flex items-center gap-1 ml-1">
           {COLORS.map((c) => (
             <button
               key={c}
               type="button"
-              onClick={() => setColor(c)}
+              onClick={() => {
+                setColor(c);
+                setTool("pen");
+              }}
               aria-label={`color ${c}`}
-              className={`h-5 w-5 rounded-full border ${
-                color === c ? "ring-2 ring-primary border-primary" : "border-border"
+              disabled={tool === "eraser"}
+              className={`h-5 w-5 rounded-full border transition disabled:opacity-40 ${
+                tool === "pen" && color === c
+                  ? "ring-2 ring-primary border-primary"
+                  : "border-border"
               }`}
               style={{ background: c }}
             />
@@ -217,7 +260,7 @@ export function Scratchpad({ value, onChange, height = 280 }: Props) {
           onPointerUp={end}
           onPointerLeave={end}
           onPointerCancel={end}
-          className="block w-full h-full touch-none cursor-crosshair"
+          className={`block w-full h-full touch-none ${tool === "eraser" ? "cursor-cell" : "cursor-crosshair"}`}
         />
         {strokes.length === 0 && (
           <div className="pointer-events-none absolute inset-0 flex items-center justify-center text-xs text-muted-foreground">

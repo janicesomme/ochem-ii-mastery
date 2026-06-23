@@ -17,6 +17,7 @@ import { Route as QuickSheetsIndexRouteImport } from './routes/quick-sheets.inde
 import { Route as SprintChapterIdRouteImport } from './routes/sprint.$chapterId'
 import { Route as QuickSheetsSheetIdRouteImport } from './routes/quick-sheets.$sheetId'
 import { Route as QuestionQuestionIdRouteImport } from './routes/question.$questionId'
+import { Route as DeepReviewReviewIdRouteImport } from './routes/deep-review.$reviewId'
 import { Route as ChapterChapterIdIndexRouteImport } from './routes/chapter.$chapterId.index'
 import { Route as ChapterChapterIdMapRouteImport } from './routes/chapter.$chapterId.map'
 
@@ -60,6 +61,11 @@ const QuestionQuestionIdRoute = QuestionQuestionIdRouteImport.update({
   path: '/question/$questionId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DeepReviewReviewIdRoute = DeepReviewReviewIdRouteImport.update({
+  id: '/deep-review/$reviewId',
+  path: '/deep-review/$reviewId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ChapterChapterIdIndexRoute = ChapterChapterIdIndexRouteImport.update({
   id: '/chapter/$chapterId/',
   path: '/chapter/$chapterId/',
@@ -76,6 +82,7 @@ export interface FileRoutesByFullPath {
   '/progress': typeof ProgressRoute
   '/question-bank': typeof QuestionBankRoute
   '/review': typeof ReviewRoute
+  '/deep-review/$reviewId': typeof DeepReviewReviewIdRoute
   '/question/$questionId': typeof QuestionQuestionIdRoute
   '/quick-sheets/$sheetId': typeof QuickSheetsSheetIdRoute
   '/sprint/$chapterId': typeof SprintChapterIdRoute
@@ -88,6 +95,7 @@ export interface FileRoutesByTo {
   '/progress': typeof ProgressRoute
   '/question-bank': typeof QuestionBankRoute
   '/review': typeof ReviewRoute
+  '/deep-review/$reviewId': typeof DeepReviewReviewIdRoute
   '/question/$questionId': typeof QuestionQuestionIdRoute
   '/quick-sheets/$sheetId': typeof QuickSheetsSheetIdRoute
   '/sprint/$chapterId': typeof SprintChapterIdRoute
@@ -101,6 +109,7 @@ export interface FileRoutesById {
   '/progress': typeof ProgressRoute
   '/question-bank': typeof QuestionBankRoute
   '/review': typeof ReviewRoute
+  '/deep-review/$reviewId': typeof DeepReviewReviewIdRoute
   '/question/$questionId': typeof QuestionQuestionIdRoute
   '/quick-sheets/$sheetId': typeof QuickSheetsSheetIdRoute
   '/sprint/$chapterId': typeof SprintChapterIdRoute
@@ -115,6 +124,7 @@ export interface FileRouteTypes {
     | '/progress'
     | '/question-bank'
     | '/review'
+    | '/deep-review/$reviewId'
     | '/question/$questionId'
     | '/quick-sheets/$sheetId'
     | '/sprint/$chapterId'
@@ -127,6 +137,7 @@ export interface FileRouteTypes {
     | '/progress'
     | '/question-bank'
     | '/review'
+    | '/deep-review/$reviewId'
     | '/question/$questionId'
     | '/quick-sheets/$sheetId'
     | '/sprint/$chapterId'
@@ -139,6 +150,7 @@ export interface FileRouteTypes {
     | '/progress'
     | '/question-bank'
     | '/review'
+    | '/deep-review/$reviewId'
     | '/question/$questionId'
     | '/quick-sheets/$sheetId'
     | '/sprint/$chapterId'
@@ -152,6 +164,7 @@ export interface RootRouteChildren {
   ProgressRoute: typeof ProgressRoute
   QuestionBankRoute: typeof QuestionBankRoute
   ReviewRoute: typeof ReviewRoute
+  DeepReviewReviewIdRoute: typeof DeepReviewReviewIdRoute
   QuestionQuestionIdRoute: typeof QuestionQuestionIdRoute
   QuickSheetsSheetIdRoute: typeof QuickSheetsSheetIdRoute
   SprintChapterIdRoute: typeof SprintChapterIdRoute
@@ -218,6 +231,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof QuestionQuestionIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/deep-review/$reviewId': {
+      id: '/deep-review/$reviewId'
+      path: '/deep-review/$reviewId'
+      fullPath: '/deep-review/$reviewId'
+      preLoaderRoute: typeof DeepReviewReviewIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/chapter/$chapterId/': {
       id: '/chapter/$chapterId/'
       path: '/chapter/$chapterId'
@@ -240,6 +260,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProgressRoute: ProgressRoute,
   QuestionBankRoute: QuestionBankRoute,
   ReviewRoute: ReviewRoute,
+  DeepReviewReviewIdRoute: DeepReviewReviewIdRoute,
   QuestionQuestionIdRoute: QuestionQuestionIdRoute,
   QuickSheetsSheetIdRoute: QuickSheetsSheetIdRoute,
   SprintChapterIdRoute: SprintChapterIdRoute,

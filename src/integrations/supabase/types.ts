@@ -14,7 +14,335 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      chapters: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          number: number
+          sort_order: number
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          number: number
+          sort_order?: number
+          title: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          number?: number
+          sort_order?: number
+          title?: string
+        }
+        Relationships: []
+      }
+      question_answers: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          question_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          question_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          question_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "question_answers_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "questions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      question_hints: {
+        Row: {
+          content: string
+          created_at: string
+          hint_level: number
+          id: string
+          kind: string
+          question_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          hint_level: number
+          id?: string
+          kind?: string
+          question_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          hint_level?: number
+          id?: string
+          kind?: string
+          question_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "question_hints_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "questions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      question_steps: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          question_id: string
+          step_number: number
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          question_id: string
+          step_number: number
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          question_id?: string
+          step_number?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "question_steps_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "questions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      questions: {
+        Row: {
+          chapter_id: string
+          common_trap: string | null
+          created_at: string
+          difficulty: string
+          id: string
+          memory_trick: string | null
+          prompt: string
+          question_type: string
+          sort_order: number
+          title: string
+          topic_id: string | null
+        }
+        Insert: {
+          chapter_id: string
+          common_trap?: string | null
+          created_at?: string
+          difficulty: string
+          id?: string
+          memory_trick?: string | null
+          prompt: string
+          question_type: string
+          sort_order?: number
+          title: string
+          topic_id?: string | null
+        }
+        Update: {
+          chapter_id?: string
+          common_trap?: string | null
+          created_at?: string
+          difficulty?: string
+          id?: string
+          memory_trick?: string | null
+          prompt?: string
+          question_type?: string
+          sort_order?: number
+          title?: string
+          topic_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "questions_chapter_id_fkey"
+            columns: ["chapter_id"]
+            isOneToOne: false
+            referencedRelation: "chapters"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "questions_topic_id_fkey"
+            columns: ["topic_id"]
+            isOneToOne: false
+            referencedRelation: "topics"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quick_sheets: {
+        Row: {
+          chapter_id: string | null
+          content: string
+          created_at: string
+          id: string
+          sort_order: number
+          summary: string
+          title: string
+        }
+        Insert: {
+          chapter_id?: string | null
+          content: string
+          created_at?: string
+          id?: string
+          sort_order?: number
+          summary: string
+          title: string
+        }
+        Update: {
+          chapter_id?: string | null
+          content?: string
+          created_at?: string
+          id?: string
+          sort_order?: number
+          summary?: string
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quick_sheets_chapter_id_fkey"
+            columns: ["chapter_id"]
+            isOneToOne: false
+            referencedRelation: "chapters"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      topics: {
+        Row: {
+          chapter_id: string
+          created_at: string
+          description: string | null
+          id: string
+          sort_order: number
+          title: string
+        }
+        Insert: {
+          chapter_id: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          sort_order?: number
+          title: string
+        }
+        Update: {
+          chapter_id?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          sort_order?: number
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "topics_chapter_id_fkey"
+            columns: ["chapter_id"]
+            isOneToOne: false
+            referencedRelation: "chapters"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_question_attempts: {
+        Row: {
+          attempt_text: string | null
+          created_at: string
+          hints_used: number
+          id: string
+          question_id: string
+          score: number
+          used_solution: boolean
+          user_id: string
+        }
+        Insert: {
+          attempt_text?: string | null
+          created_at?: string
+          hints_used?: number
+          id?: string
+          question_id: string
+          score: number
+          used_solution?: boolean
+          user_id: string
+        }
+        Update: {
+          attempt_text?: string | null
+          created_at?: string
+          hints_used?: number
+          id?: string
+          question_id?: string
+          score?: number
+          used_solution?: boolean
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_question_attempts_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "questions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_question_notes: {
+        Row: {
+          created_at: string
+          id: string
+          note: string
+          question_id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          note: string
+          question_id: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          note?: string
+          question_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_question_notes_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "questions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never

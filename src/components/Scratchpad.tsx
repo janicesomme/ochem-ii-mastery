@@ -260,7 +260,7 @@ export function Scratchpad({ value, onChange, height = 280 }: Props) {
           onPointerUp={end}
           onPointerLeave={end}
           onPointerCancel={end}
-          className="block w-full h-full touch-none cursor-crosshair"
+          className={`block w-full h-full touch-none ${tool === "eraser" ? "cursor-cell" : "cursor-crosshair"}`}
         />
         {strokes.length === 0 && (
           <div className="pointer-events-none absolute inset-0 flex items-center justify-center text-xs text-muted-foreground">

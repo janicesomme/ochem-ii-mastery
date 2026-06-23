@@ -246,9 +246,8 @@ function BattleMapPage() {
           </div>
           <div className="mt-3">
             <Link
-              to="/chapter/$chapterId"
+              to="/sprint/$chapterId"
               params={{ chapterId: chapter.id }}
-              search={smartPracticeSearch(map)}
               className="btn-primary"
             >
               <Sparkles className="h-4 w-4" /> Start recommended sprint
@@ -483,14 +482,8 @@ function BattleMapPage() {
                 </p>
               </div>
               <Link
-                to="/chapter/$chapterId"
+                to="/sprint/$chapterId"
                 params={{ chapterId: chapter.id }}
-                search={{
-                  topic: p.topic_id,
-                  mode: "sprint",
-                  label: `Sprint — ${p.label}${p.minutes ? ` (${p.minutes} min)` : ""}`,
-                  from: "battle-map",
-                }}
                 className="btn-primary shrink-0"
               >
                 <Sparkles className="h-3.5 w-3.5" /> Start sprint
@@ -501,9 +494,8 @@ function BattleMapPage() {
 
         <div className="mt-4 flex flex-wrap gap-2">
           <Link
-            to="/chapter/$chapterId"
+            to="/sprint/$chapterId"
             params={{ chapterId: chapter.id }}
-            search={smartPracticeSearch(map)}
             className="btn-primary"
           >
             <Sparkles className="h-4 w-4" /> Start Smart Practice

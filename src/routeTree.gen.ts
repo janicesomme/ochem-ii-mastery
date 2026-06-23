@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ReviewRouteImport } from './routes/review'
+import { Route as QuestionBankRouteImport } from './routes/question-bank'
 import { Route as ProgressRouteImport } from './routes/progress'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as QuickSheetsIndexRouteImport } from './routes/quick-sheets.index'
@@ -20,6 +21,11 @@ import { Route as ChapterChapterIdRouteImport } from './routes/chapter.$chapterI
 const ReviewRoute = ReviewRouteImport.update({
   id: '/review',
   path: '/review',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QuestionBankRoute = QuestionBankRouteImport.update({
+  id: '/question-bank',
+  path: '/question-bank',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProgressRoute = ProgressRouteImport.update({
@@ -56,6 +62,7 @@ const ChapterChapterIdRoute = ChapterChapterIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/progress': typeof ProgressRoute
+  '/question-bank': typeof QuestionBankRoute
   '/review': typeof ReviewRoute
   '/chapter/$chapterId': typeof ChapterChapterIdRoute
   '/question/$questionId': typeof QuestionQuestionIdRoute
@@ -65,6 +72,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/progress': typeof ProgressRoute
+  '/question-bank': typeof QuestionBankRoute
   '/review': typeof ReviewRoute
   '/chapter/$chapterId': typeof ChapterChapterIdRoute
   '/question/$questionId': typeof QuestionQuestionIdRoute
@@ -75,6 +83,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/progress': typeof ProgressRoute
+  '/question-bank': typeof QuestionBankRoute
   '/review': typeof ReviewRoute
   '/chapter/$chapterId': typeof ChapterChapterIdRoute
   '/question/$questionId': typeof QuestionQuestionIdRoute
@@ -86,6 +95,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/progress'
+    | '/question-bank'
     | '/review'
     | '/chapter/$chapterId'
     | '/question/$questionId'
@@ -95,6 +105,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/progress'
+    | '/question-bank'
     | '/review'
     | '/chapter/$chapterId'
     | '/question/$questionId'
@@ -104,6 +115,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/progress'
+    | '/question-bank'
     | '/review'
     | '/chapter/$chapterId'
     | '/question/$questionId'
@@ -114,6 +126,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ProgressRoute: typeof ProgressRoute
+  QuestionBankRoute: typeof QuestionBankRoute
   ReviewRoute: typeof ReviewRoute
   ChapterChapterIdRoute: typeof ChapterChapterIdRoute
   QuestionQuestionIdRoute: typeof QuestionQuestionIdRoute
@@ -128,6 +141,13 @@ declare module '@tanstack/react-router' {
       path: '/review'
       fullPath: '/review'
       preLoaderRoute: typeof ReviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/question-bank': {
+      id: '/question-bank'
+      path: '/question-bank'
+      fullPath: '/question-bank'
+      preLoaderRoute: typeof QuestionBankRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/progress': {
@@ -178,6 +198,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ProgressRoute: ProgressRoute,
+  QuestionBankRoute: QuestionBankRoute,
   ReviewRoute: ReviewRoute,
   ChapterChapterIdRoute: ChapterChapterIdRoute,
   QuestionQuestionIdRoute: QuestionQuestionIdRoute,
@@ -187,3 +208,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

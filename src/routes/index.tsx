@@ -301,7 +301,7 @@ function HeroTop({
 
   return (
     <section className="mb-5">
-      <div className="grid gap-3 lg:grid-cols-3">
+      <div className="grid gap-3 md:grid-cols-3 md:items-stretch">
         <CountdownCard
           exam={exam}
           days={days}
@@ -326,38 +326,9 @@ function HeroTop({
           reviewSlice={reviewSlice}
         />
       </div>
-
-      {/* Biggest risk callout */}
-      {weakestChapter && (
-        <div className="panel mt-3 px-4 py-3 border-warning/40 bg-[color-mix(in_oklch,var(--color-warning)_10%,transparent)]">
-          <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
-            <div className="inline-flex items-center gap-2 shrink-0">
-              <Zap className="h-4 w-4 text-warning" />
-              <span className="text-[10px] uppercase tracking-wider font-semibold text-warning">
-                Biggest risk before exam
-              </span>
-            </div>
-            <div className="min-w-0 flex-1">
-              <p className="text-sm font-semibold truncate">
-                {focusChapter}
-                {focusTopic ? ` — ${focusTopic}` : ""}
-              </p>
-              <p className="text-xs text-muted-foreground">
-                You&apos;re missing the first move, so later mechanism questions fall apart.
-              </p>
-            </div>
-            <Link
-              to="/chapter/$chapterId/map"
-              params={{ chapterId: weakestChapter.ch.id }}
-              className="btn-ghost text-xs py-1.5 px-3 shrink-0"
-            >
-              Open battle map <ArrowRight className="h-3.5 w-3.5" />
-            </Link>
-          </div>
-        </div>
-      )}
     </section>
   );
+
 }
 
 function CountdownCard({
@@ -569,21 +540,35 @@ function TodaysPlanCard({
         </span>
       </div>
 
-      <ul className="mt-3 space-y-1.5 text-sm">
+      <ul className="mt-3 space-y-1 text-xs">
         <PlanLine>
-          Do <strong>{count}</strong> questions
+          Do <strong className="text-foreground">{count}</strong> questions
         </PlanLine>
         <PlanLine>
           Focus:{" "}
           <strong className="text-foreground">
-            {focusChapter ? focusChapter.replace(/^Chapter \d+ — /, "") : "Pick a chapter"}
-            {focusTopic ? ` — ${focusTopic}` : ""}
+            {focusTopic ?? (focusChapter ? focusChapter.replace(/^Chapter \d+ — /, "") : "Pick a chapter")}
           </strong>
         </PlanLine>
         <PlanLine>
-          Clear <strong>{reviewSlice}</strong> review item{reviewSlice === 1 ? "" : "s"}
+          Clear <strong className="text-foreground">{reviewSlice}</strong> review item{reviewSlice === 1 ? "" : "s"}
         </PlanLine>
       </ul>
+
+      {weakestChapter && (
+        <div className="mt-3 rounded-md border border-warning/40 bg-[color-mix(in_oklch,var(--color-warning)_10%,transparent)] px-2.5 py-2">
+          <p className="text-[10px] uppercase tracking-wider font-semibold text-warning inline-flex items-center gap-1">
+            <Zap className="h-3 w-3" /> Biggest risk
+          </p>
+          <p className="text-xs font-semibold mt-0.5 truncate">
+            {focusTopic ?? focusChapter}
+          </p>
+          <p className="text-[11px] text-muted-foreground leading-snug">
+            Missing the first move — later mechanism questions fall apart.
+          </p>
+        </div>
+      )}
+
 
       <div className="mt-auto pt-4 flex flex-wrap gap-2">
         {weakestChapter ? (

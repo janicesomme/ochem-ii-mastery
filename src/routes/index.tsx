@@ -491,13 +491,22 @@ function TodaysMission({
         </div>
         <div className="flex flex-wrap gap-2 shrink-0">
           {weakestChapter ? (
-            <Link
-              to="/chapter/$chapterId/map"
-              params={{ chapterId: weakestChapter.ch.id }}
-              className="btn-primary"
-            >
-              Open battle map <ArrowRight className="h-3.5 w-3.5" />
-            </Link>
+            <>
+              <Link
+                to="/sprint/$chapterId"
+                params={{ chapterId: weakestChapter.ch.id }}
+                className="btn-primary"
+              >
+                <Sparkles className="h-3.5 w-3.5" /> Start smart sprint
+              </Link>
+              <Link
+                to="/chapter/$chapterId/map"
+                params={{ chapterId: weakestChapter.ch.id }}
+                className="btn-ghost"
+              >
+                Open battle map <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
+            </>
           ) : (
             <Link to="/question-bank" className="btn-primary">
               Open question bank <ArrowRight className="h-3.5 w-3.5" />

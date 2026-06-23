@@ -34,7 +34,7 @@ import {
 } from "@/lib/readiness";
 import { demoChapterStats } from "@/lib/demo";
 import { useEffect, useMemo, useState } from "react";
-import type { ChapterMap } from "@/lib/chapter-map";
+
 
 function slug(s: string): string {
   return s
@@ -44,22 +44,6 @@ function slug(s: string): string {
     .slice(0, 60);
 }
 
-function smartPracticeSearch(map: ChapterMap): {
-  topic?: string;
-  mode: string;
-  label: string;
-  from: string;
-} {
-  const first = map.practice_priority[0];
-  return {
-    topic: first?.topic_id,
-    mode: "sprint",
-    label: first
-      ? `Smart Practice — ${first.label}`
-      : "Smart Practice",
-    from: "battle-map",
-  };
-}
 
 export const Route = createFileRoute("/chapter/$chapterId/map")({
   loader: ({ context, params }) => {
@@ -208,13 +192,13 @@ function BattleMapPage() {
                 Open Full Question Bank <ChevronRight className="h-4 w-4" />
               </Link>
               <Link
-                to="/chapter/$chapterId"
+                to="/sprint/$chapterId"
                 params={{ chapterId: chapter.id }}
-                search={smartPracticeSearch(map)}
                 className="btn-ghost"
               >
-                Start Smart Practice
+                <Sparkles className="h-3.5 w-3.5" /> Start Smart Practice
               </Link>
+
             </div>
           </div>
         </div>
@@ -246,9 +230,8 @@ function BattleMapPage() {
           </div>
           <div className="mt-3">
             <Link
-              to="/chapter/$chapterId"
+              to="/sprint/$chapterId"
               params={{ chapterId: chapter.id }}
-              search={smartPracticeSearch(map)}
               className="btn-primary"
             >
               <Sparkles className="h-4 w-4" /> Start recommended sprint
@@ -483,14 +466,8 @@ function BattleMapPage() {
                 </p>
               </div>
               <Link
-                to="/chapter/$chapterId"
+                to="/sprint/$chapterId"
                 params={{ chapterId: chapter.id }}
-                search={{
-                  topic: p.topic_id,
-                  mode: "sprint",
-                  label: `Sprint — ${p.label}${p.minutes ? ` (${p.minutes} min)` : ""}`,
-                  from: "battle-map",
-                }}
                 className="btn-primary shrink-0"
               >
                 <Sparkles className="h-3.5 w-3.5" /> Start sprint
@@ -501,9 +478,8 @@ function BattleMapPage() {
 
         <div className="mt-4 flex flex-wrap gap-2">
           <Link
-            to="/chapter/$chapterId"
+            to="/sprint/$chapterId"
             params={{ chapterId: chapter.id }}
-            search={smartPracticeSearch(map)}
             className="btn-primary"
           >
             <Sparkles className="h-4 w-4" /> Start Smart Practice

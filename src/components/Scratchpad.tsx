@@ -99,7 +99,8 @@ export function Scratchpad({ value, onChange, height = 280 }: Props) {
     setDrawing(true);
     drewRef.current = true;
     const p = getPos(e);
-    setStrokes((prev) => [...prev, { color, size, points: [p] }]);
+    const erase = tool === "eraser";
+    setStrokes((prev) => [...prev, { color, size, erase, points: [p] }]);
   }
 
   function move(e: React.PointerEvent) {
@@ -110,6 +111,8 @@ export function Scratchpad({ value, onChange, height = 280 }: Props) {
       const cur = next[next.length - 1];
       cur.points.push(p);
       const ctx = canvasRef.current!.getContext("2d")!;
+      const prevOp = ctx.globalCompositeOperation;
+      ctx.globalCompositeOperation = cur.erase ? "destination-out" : "source-over";
       ctx.strokeStyle = cur.color;
       ctx.lineWidth = cur.size;
       ctx.lineCap = "round";
@@ -119,6 +122,7 @@ export function Scratchpad({ value, onChange, height = 280 }: Props) {
       ctx.moveTo(cur.points[n - 2].x, cur.points[n - 2].y);
       ctx.lineTo(p.x, p.y);
       ctx.stroke();
+      ctx.globalCompositeOperation = prevOp;
       return next;
     });
   }

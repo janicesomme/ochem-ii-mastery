@@ -195,50 +195,27 @@ function Dashboard() {
 
   return (
     <AppShell>
-      {/* Command strip — at-a-glance status */}
-      <CommandStrip
+      {/* Hero top — Countdown · Readiness · Today's Plan */}
+      <HeroTop
+        exam={exam}
         days={days}
-        readiness={readiness}
         target={target}
+        readiness={readiness}
         gap={gap}
+        attempted={attemptedTotal}
+        total={totalQs}
         reviewCount={reviewCount}
         perDay={perDay}
-        weakestChapter={weakestChapter?.ch.title}
-        weakestTopic={weakestTopic}
-      />
-
-      {/* Today's mission with placeholders for future smart guidance */}
-      <TodaysMission
+        status={status}
+        ringColor={ringColor}
         weakestChapter={weakestChapter}
         weakestTopic={weakestTopic}
-        reviewCount={reviewCount}
-        perDay={perDay}
+        demoActive={demoActive}
       />
-
-      {/* Compact Readiness + Countdown row */}
-      <section className="grid gap-3 md:grid-cols-2 mt-4 mb-6">
-        <CompactReadiness
-          readiness={readiness}
-          target={target}
-          gap={gap}
-          attempted={attemptedTotal}
-          total={totalQs}
-          reviewCount={reviewCount}
-          status={status}
-          ringColor={ringColor}
-        />
-        <CompactCountdown
-          exam={exam}
-          days={days}
-          perDay={perDay}
-          remaining={remaining}
-          target={target}
-          demoActive={demoActive}
-        />
-      </section>
 
       {/* Today's chapter insight */}
       <TodaysChapterInsight />
+
 
 
       {/* Chapter readiness */}

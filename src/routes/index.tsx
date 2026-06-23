@@ -18,7 +18,8 @@ import {
   chaptersQuery,
   quickSheetsQuery,
 } from "@/lib/queries";
-import { topics as allTopics } from "@/lib/mock-data";
+import { topics as allTopics, chapters as allChapters } from "@/lib/mock-data";
+import { getTodaysChapterInsight } from "@/lib/chapter-map";
 import { progress, type Attempt } from "@/lib/progress";
 import { daysUntil, getExam, setExam, type ExamSettings } from "@/lib/exam";
 import {

@@ -15,6 +15,7 @@ import {
 import { AppShell, DifficultyChip } from "@/components/AppShell";
 import { Scratchpad } from "@/components/Scratchpad";
 import { chapterQuery, questionDetailQuery, questionsQuery } from "@/lib/queries";
+import { getQuestionDecoder } from "@/lib/chapter-map";
 import { progress } from "@/lib/progress";
 
 export const Route = createFileRoute("/question/$questionId")({

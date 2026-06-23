@@ -12,6 +12,7 @@ import {
   Zap,
 } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
+import { ReadinessRing } from "@/components/ReadinessRing";
 import {
   allQuestionsQuery,
   chaptersQuery,
@@ -20,6 +21,13 @@ import {
 import { topics as allTopics } from "@/lib/mock-data";
 import { progress, type Attempt } from "@/lib/progress";
 import { daysUntil, getExam, setExam, type ExamSettings } from "@/lib/exam";
+import {
+  buildReviewIds,
+  computeChapterStat,
+  latestPerQuestion,
+  statusMeta,
+  type ChapterStat,
+} from "@/lib/readiness";
 import { useEffect, useMemo, useState } from "react";
 
 export const Route = createFileRoute("/")({
@@ -29,7 +37,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Your Ochem II study command center: exam countdown, readiness, weak spots, and today's mission.",
+          "Your Ochem II study command center: exam countdown, readiness rings, weak spots, and today's mission.",
       },
       { property: "og:title", content: "No-Fear Ochem II — Dashboard" },
       {
@@ -65,12 +73,6 @@ function useLiveState() {
   return { attempts: progress.all(), exam: getExam() };
 }
 
-function latestPerQuestion(attempts: Attempt[]): Map<string, Attempt> {
-  const map = new Map<string, Attempt>();
-  for (const a of attempts) map.set(a.question_id, a);
-  return map;
-}
-
 function Dashboard() {
   const { data: chapters } = useSuspenseQuery(chaptersQuery);
   const { data: questions } = useSuspenseQuery(allQuestionsQuery);
@@ -78,63 +80,19 @@ function Dashboard() {
   const { attempts, exam } = useLiveState();
 
   const latest = useMemo(() => latestPerQuestion(attempts), [attempts]);
+  const reviewIds = useMemo(() => buildReviewIds(attempts), [attempts]);
 
-  // Overall readiness mock: weighted by attempts, penalize hints/solutions/missed
+  const chapterStats: ChapterStat[] = useMemo(
+    () => chapters.map((c) => computeChapterStat(c, questions, allTopics, latest, reviewIds)),
+    [chapters, questions, latest, reviewIds],
+  );
+
   const readiness = useMemo(() => {
-    if (questions.length === 0) return 0;
-    let earned = 0;
-    for (const q of questions) {
-      const a = latest.get(q.id);
-      if (!a) continue;
-      // Base score / 5, minor extra penalty for heavy hint use
-      const hintPenalty = Math.min(a.hints_used * 0.05, 0.15);
-      const solPenalty = a.used_solution ? 0.1 : 0;
-      const adj = Math.max(0, a.score / 5 - hintPenalty - solPenalty);
-      earned += adj;
-    }
-    return Math.round((earned / questions.length) * 100);
-  }, [questions, latest]);
+    if (chapterStats.length === 0) return 0;
+    const sum = chapterStats.reduce((s, c) => s + c.readiness, 0);
+    return Math.round(sum / chapterStats.length);
+  }, [chapterStats]);
 
-  // Review queue: missed, low score, used solution, or 2+ hints
-  const reviewIds = useMemo(() => {
-    const set = new Set<string>();
-    for (const a of attempts) {
-      if (a.score <= 1 || a.used_solution || a.hints_used >= 2) {
-        set.add(a.question_id);
-      }
-    }
-    return set;
-  }, [attempts]);
-
-  // Per-chapter rollup
-  const chapterStats = chapters.map((c) => {
-    const chQs = questions.filter((q) => q.chapter_id === c.id);
-    const attempted = chQs.filter((q) => latest.has(q.id));
-    const scoreSum = attempted.reduce((s, q) => s + (latest.get(q.id)?.score ?? 0), 0);
-    const ready = chQs.length === 0 ? 0 : Math.round((scoreSum / (chQs.length * 5)) * 100);
-    const reviewCount = chQs.filter((q) => reviewIds.has(q.id)).length;
-
-    // Weakest topic in chapter
-    const topicsHere = allTopics.filter((t) => t.chapter_id === c.id);
-    let weakest: { title: string; avg: number } | null = null;
-    for (const t of topicsHere) {
-      const tQs = chQs.filter((q) => q.topic_id === t.id);
-      const tAtt = tQs.map((q) => latest.get(q.id)).filter(Boolean) as Attempt[];
-      if (tAtt.length === 0) continue;
-      const avg = tAtt.reduce((s, a) => s + a.score, 0) / tAtt.length;
-      if (!weakest || avg < weakest.avg) weakest = { title: t.title, avg };
-    }
-    return {
-      ch: c,
-      total: chQs.length,
-      attempted: attempted.length,
-      ready,
-      reviewCount,
-      weakest,
-    };
-  });
-
-  // Weak spot map — lowest-avg topics across the whole app, fallback to suggested EAS topics
   const weakSpots = useMemo(() => {
     const rows = allTopics
       .map((t) => {
@@ -144,35 +102,19 @@ function Dashboard() {
         return { t, avg, total: tQs.length, attempted: tAtt.length };
       })
       .filter((r) => r.total > 0);
-    const withData = rows.filter((r) => r.avg !== null).sort((a, b) => (a.avg! - b.avg!));
-    if (withData.length >= 3) return withData.slice(0, 4);
-    // Default suggested EAS focus areas
-    const suggestedIds = ["t-3a", "t-3b", "t-3c", "t-3d"];
+    const withData = rows.filter((r) => r.avg !== null).sort((a, b) => a.avg! - b.avg!);
+    if (withData.length >= 3) return withData.slice(0, 5);
+    const suggestedIds = ["t-3a", "t-3b", "t-3c", "t-3d", "t-5a"];
     return rows.filter((r) => suggestedIds.includes(r.t.id));
   }, [questions, latest]);
 
-  // Exam countdown
   const days = daysUntil(exam.date);
   const attemptedTotal = latest.size;
   const remaining = Math.max(0, questions.length - attemptedTotal);
   const perDay = days && days > 0 ? Math.max(1, Math.ceil(remaining / days)) : null;
 
-  // Today's mission
   const reviewQs = questions.filter((q) => reviewIds.has(q.id));
-  const weakestTopicsForMission = weakSpots.slice(0, 2);
-  const missionTodoCount = Math.min(perDay ?? 5, Math.max(remaining, 0)) || 5;
-
-  // Recent improvement — compare last 5 attempts avg vs previous 5
-  const improvement = useMemo(() => {
-    if (attempts.length < 4) return null;
-    const recent = attempts.slice(-5);
-    const prev = attempts.slice(-10, -5);
-    if (prev.length === 0) return null;
-    const avg = (xs: Attempt[]) => (xs.reduce((s, a) => s + a.score, 0) / xs.length / 5) * 100;
-    const before = Math.round(avg(prev));
-    const after = Math.round(avg(recent));
-    return { before, after, delta: after - before };
-  }, [attempts]);
+  const weakestChapter = [...chapterStats].sort((a, b) => a.readiness - b.readiness)[0];
 
   return (
     <AppShell>
@@ -189,80 +131,61 @@ function Dashboard() {
         </p>
       </section>
 
-      {/* Top row: Countdown + Readiness */}
-      <section className="grid gap-3 sm:grid-cols-2 mb-6">
+      {/* Hero: Countdown + Readiness ring + Quick stats */}
+      <section className="grid gap-3 lg:grid-cols-3 mb-6">
         <ExamCountdownCard exam={exam} days={days} perDay={perDay} remaining={remaining} />
-        <ReadinessCard readiness={readiness} target={exam.targetReadiness} />
+        <ReadinessHeroCard
+          readiness={readiness}
+          target={exam.targetReadiness}
+          attempted={attemptedTotal}
+          total={questions.length}
+          reviewCount={reviewQs.length}
+        />
       </section>
 
-      {/* Today's mission */}
-      <TodaysMission
-        count={missionTodoCount}
-        weakTopics={weakestTopicsForMission.map((w) => w.t.title)}
+      {/* Next best action */}
+      <NextBestAction
+        weakestChapter={weakestChapter}
+        weakestTopic={weakSpots[0]?.t.title}
         reviewCount={reviewQs.length}
+        perDay={perDay}
       />
 
       {/* Chapter progress */}
       <section className="mt-8 mb-8">
-        <SectionHeader title="Chapter progress" />
+        <SectionHeader
+          title="Chapter readiness"
+          subtitle="Tap a ring to keep practicing."
+        />
         <div className="grid gap-3 sm:grid-cols-2">
           {chapterStats.map((s) => (
-            <Link
-              key={s.ch.id}
-              to="/chapter/$chapterId"
-              params={{ chapterId: s.ch.id }}
-              className="panel p-5 hover:border-primary/40 transition-colors group"
-            >
-              <div className="flex items-center justify-between gap-3">
-                <div className="min-w-0">
-                  <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                    Chapter {s.ch.number}
-                  </p>
-                  <h3 className="font-semibold mt-0.5 truncate">{s.ch.title}</h3>
-                </div>
-                <span className="chip chip-accent shrink-0">{s.ready}% ready</span>
-              </div>
-              <div className="mt-3">
-                <div className="h-1.5 bg-secondary rounded-full overflow-hidden">
-                  <div className="h-full bg-primary" style={{ width: `${s.ready}%` }} />
-                </div>
-                <div className="flex items-center justify-between text-xs text-muted-foreground mt-1.5">
-                  <span>{s.attempted}/{s.total} attempted</span>
-                  <span>{s.reviewCount} in review</span>
-                </div>
-                {s.weakest && (
-                  <p className="text-xs text-muted-foreground mt-2">
-                    Weakest: <span className="text-foreground font-medium">{s.weakest.title}</span>
-                  </p>
-                )}
-              </div>
-              <div className="mt-3 inline-flex items-center text-sm text-primary opacity-0 group-hover:opacity-100 transition">
-                Practice <ArrowRight className="h-3.5 w-3.5 ml-1" />
-              </div>
-            </Link>
+            <ChapterCard key={s.ch.id} s={s} />
           ))}
         </div>
       </section>
 
-      {/* Weak spot map + Review preview */}
+      {/* Weak spots + Review */}
       <section className="grid gap-3 lg:grid-cols-2 mb-8">
         <WeakSpotMap weakSpots={weakSpots} />
         <ReviewPreview reviewQs={reviewQs} latest={latest} />
       </section>
 
-      {/* Improvement + Quick sheets */}
+      {/* Quick sheets */}
       <section className="grid gap-3 sm:grid-cols-2">
-        <ImprovementCard improvement={improvement} />
+        <ImprovementCard attempts={attempts} />
         <Link
           to="/quick-sheets"
-          className="panel p-5 hover:border-primary/40 flex flex-col"
+          className="panel p-5 hover:border-primary/40 flex flex-col group transition"
         >
-          <BookOpen className="h-5 w-5 text-primary mb-2" />
-          <h3 className="font-semibold">Quick Sheets</h3>
+          <div className="flex items-center justify-between">
+            <BookOpen className="h-5 w-5 text-primary" />
+            <span className="chip chip-accent">{sheets.length} sheets</span>
+          </div>
+          <h3 className="font-semibold mt-2">Quick Sheets</h3>
           <p className="text-sm text-muted-foreground mt-1 flex-1">
-            {sheets.length} short reminders — not full lessons. Refresh a rule in 30 seconds.
+            Short reminders — not full lessons. Refresh a rule in 30 seconds.
           </p>
-          <span className="text-sm text-primary mt-3 inline-flex items-center">
+          <span className="text-sm text-primary mt-3 inline-flex items-center group-hover:translate-x-0.5 transition">
             Open sheets <ArrowRight className="h-3.5 w-3.5 ml-1" />
           </span>
         </Link>
@@ -297,15 +220,15 @@ function ExamCountdownCard({
   };
 
   return (
-    <div className="panel p-5">
-      <div className="flex items-center justify-between gap-2">
+    <div className="panel panel-glow p-5 relative overflow-hidden">
+      <div className="relative flex items-center justify-between gap-2">
         <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground inline-flex items-center gap-1.5">
           <CalendarDays className="h-3.5 w-3.5" /> Exam countdown
         </p>
         {!editing && (
           <button
             onClick={() => setEditing(true)}
-            className="text-xs text-primary hover:underline"
+            className="text-xs text-primary hover:underline relative"
           >
             Edit
           </button>
@@ -313,7 +236,7 @@ function ExamCountdownCard({
       </div>
 
       {editing ? (
-        <div className="mt-3 space-y-3">
+        <div className="mt-3 space-y-3 relative">
           <label className="block">
             <span className="text-xs text-muted-foreground">Exam date</span>
             <input
@@ -334,23 +257,27 @@ function ExamCountdownCard({
               className="mt-1 w-full rounded-md border border-input bg-surface px-3 py-2 text-sm"
             />
           </label>
-          <button
-            onClick={save}
-            className="inline-flex items-center px-3 py-2 rounded-md bg-primary text-primary-foreground text-sm font-semibold"
-          >
+          <button onClick={save} className="btn-primary">
             Save
           </button>
         </div>
       ) : (
-        <div className="mt-2">
-          <p className="text-3xl font-display font-semibold">
+        <div className="mt-2 relative">
+          <p className="text-4xl font-display font-semibold leading-tight">
             {days === null
-              ? "Set your exam date"
+              ? "Set exam date"
               : days < 0
-                ? "Exam day has passed"
+                ? "Exam passed"
                 : days === 0
-                  ? "Exam is today"
-                  : `Exam in ${days} day${days === 1 ? "" : "s"}`}
+                  ? "Today"
+                  : (
+                    <>
+                      <span className="text-5xl">{days}</span>
+                      <span className="text-2xl text-muted-foreground ml-2">
+                        day{days === 1 ? "" : "s"}
+                      </span>
+                    </>
+                  )}
           </p>
           <div className="grid grid-cols-2 gap-2 mt-4">
             <MiniStat label="Target" value={`${exam.targetReadiness}%`} />
@@ -366,74 +293,171 @@ function ExamCountdownCard({
   );
 }
 
-function ReadinessCard({ readiness, target }: { readiness: number; target: number }) {
+function ReadinessHeroCard({
+  readiness,
+  target,
+  attempted,
+  total,
+  reviewCount,
+}: {
+  readiness: number;
+  target: number;
+  attempted: number;
+  total: number;
+  reviewCount: number;
+}) {
+  const color = ringColor(readiness);
   const gap = target - readiness;
   return (
-    <div className="panel p-5 flex flex-col">
-      <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground inline-flex items-center gap-1.5">
-        <Target className="h-3.5 w-3.5" /> Overall readiness
-      </p>
-      <p className="mt-2 text-5xl font-display font-semibold leading-tight">
-        {readiness}
-        <span className="text-2xl text-muted-foreground">%</span>
-      </p>
-      <div className="mt-3 h-2 rounded-full bg-secondary overflow-hidden relative">
-        <div
-          className="h-full bg-primary"
-          style={{ width: `${Math.min(100, readiness)}%` }}
-        />
-        <div
-          className="absolute top-0 bottom-0 w-px bg-foreground/40"
-          style={{ left: `${Math.min(100, target)}%` }}
-          title={`Target ${target}%`}
-        />
+    <div className="panel panel-glow p-5 lg:col-span-2 flex flex-col sm:flex-row gap-5 items-center sm:items-stretch">
+      <div className="shrink-0 relative">
+        <ReadinessRing value={readiness} size={150} stroke={12} color={color}>
+          <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">
+            Ready
+          </span>
+          <span className="font-display text-3xl font-semibold leading-none mt-1">
+            {readiness}%
+          </span>
+        </ReadinessRing>
       </div>
-      <p className="text-xs text-muted-foreground mt-2">
-        {gap > 0
-          ? `${gap}% to hit your target of ${target}%.`
-          : `You're at or above your ${target}% target. Keep it sharp.`}
-      </p>
+      <div className="flex-1 min-w-0 flex flex-col">
+        <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground inline-flex items-center gap-1.5">
+          <Target className="h-3.5 w-3.5" /> Overall readiness
+        </p>
+        <p className="text-base mt-2">
+          {gap > 0 ? (
+            <>
+              <span className="font-semibold">{gap}%</span> to your target of{" "}
+              <span className="font-semibold">{target}%</span>. Stack a few more attempts.
+            </>
+          ) : (
+            <>You're at or above your <span className="font-semibold">{target}%</span> target. Keep it sharp.</>
+          )}
+        </p>
+        <div className="grid grid-cols-3 gap-2 mt-auto pt-4">
+          <MiniStat label="Done" value={`${attempted}`} sub={`/ ${total}`} />
+          <MiniStat label="Target" value={`${target}%`} />
+          <MiniStat label="Review" value={`${reviewCount}`} />
+        </div>
+      </div>
     </div>
   );
 }
 
-function TodaysMission({
-  count,
-  weakTopics,
+function NextBestAction({
+  weakestChapter,
+  weakestTopic,
   reviewCount,
+  perDay,
 }: {
-  count: number;
-  weakTopics: string[];
+  weakestChapter?: ChapterStat;
+  weakestTopic?: string;
   reviewCount: number;
+  perDay: number | null;
 }) {
-  const topic = weakTopics[0] ?? "directing effects";
-  const second = weakTopics[1] ?? "Friedel-Crafts";
+  const target = weakestChapter;
+  const count = perDay ?? 5;
   return (
-    <section className="panel p-5 border-primary/30 bg-secondary/40">
+    <section className="panel panel-glow p-5 border-primary/30">
       <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground inline-flex items-center gap-1.5">
-        <Flame className="h-3.5 w-3.5" /> Today's mission
+        <Flame className="h-3.5 w-3.5 text-accent" /> Next best action
       </p>
-      <p className="mt-2 text-lg">
-        Do <strong>{count}</strong> {topic} question{count === 1 ? "" : "s"},
-        hit <strong>3</strong> {second} questions, and clear{" "}
-        <strong>{Math.min(reviewCount, 5)}</strong> review item
-        {Math.min(reviewCount, 5) === 1 ? "" : "s"}.
-      </p>
-      <div className="mt-3 flex flex-wrap gap-2">
-        <Link
-          to="/question-bank"
-          className="inline-flex items-center gap-1 px-3 py-1.5 rounded-md bg-primary text-primary-foreground text-sm font-semibold"
-        >
-          Start practice <ArrowRight className="h-3.5 w-3.5" />
-        </Link>
-        <Link
-          to="/review"
-          className="inline-flex items-center gap-1 px-3 py-1.5 rounded-md border border-border text-sm font-semibold"
-        >
-          Open review queue
-        </Link>
+      <div className="mt-2 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+        <p className="text-lg">
+          {target ? (
+            <>
+              Hit <strong>{count}</strong> questions in{" "}
+              <strong>{target.ch.title}</strong>
+              {weakestTopic ? (
+                <> — focus on <strong>{weakestTopic}</strong></>
+              ) : null}
+              {reviewCount > 0 ? (
+                <>, then clear <strong>{Math.min(reviewCount, 5)}</strong> review items.</>
+              ) : "."}
+            </>
+          ) : (
+            <>Pick any chapter and knock out {count} questions to get a baseline.</>
+          )}
+        </p>
+        <div className="flex flex-wrap gap-2 shrink-0">
+          {target ? (
+            <Link
+              to="/chapter/$chapterId"
+              params={{ chapterId: target.ch.id }}
+              className="btn-primary"
+            >
+              Practice this chapter <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
+          ) : (
+            <Link to="/question-bank" className="btn-primary">
+              Open question bank <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
+          )}
+          <Link to="/review" className="btn-ghost">
+            Review queue
+          </Link>
+        </div>
       </div>
     </section>
+  );
+}
+
+export function ChapterCard({ s }: { s: ChapterStat }) {
+  const meta = statusMeta(s.status);
+  const color = ringColor(s.readiness, s.status === "untested");
+  return (
+    <div className="panel panel-glow p-5 hover:border-primary/40 transition-colors group relative">
+      <div className="flex items-start gap-4">
+        <div className="shrink-0">
+          <ReadinessRing value={s.attempted === 0 ? 8 : s.readiness} size={92} stroke={9} color={color}>
+            {s.attempted === 0 ? (
+              <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">
+                New
+              </span>
+            ) : (
+              <span className="font-display font-semibold text-lg">{s.readiness}%</span>
+            )}
+          </ReadinessRing>
+        </div>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center justify-between gap-2">
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+              Chapter {s.ch.number}
+            </p>
+            <span className={`chip ${meta.chip}`}>{meta.label}</span>
+          </div>
+          <h3 className="font-semibold truncate mt-0.5">{s.ch.title}</h3>
+          <div className="mt-2 grid grid-cols-2 gap-x-3 gap-y-1 text-xs text-muted-foreground">
+            <span>
+              <span className="text-foreground font-semibold">{s.attempted}</span>/{s.total} done
+            </span>
+            <span>
+              <span className="text-foreground font-semibold">{s.reviewCount}</span> in review
+            </span>
+          </div>
+          {s.weakest && (
+            <p className="text-xs text-muted-foreground mt-1.5 truncate">
+              Weakest: <span className="text-foreground font-medium">{s.weakest.title}</span>
+            </p>
+          )}
+        </div>
+      </div>
+      <div className="mt-4 flex items-center justify-between">
+        <div className="h-1.5 bg-secondary/70 rounded-full overflow-hidden flex-1 mr-3">
+          <div
+            className="h-full transition-all"
+            style={{ width: `${s.progress}%`, background: color }}
+          />
+        </div>
+        <Link
+          to="/chapter/$chapterId"
+          params={{ chapterId: s.ch.id }}
+          className="text-xs font-semibold text-primary inline-flex items-center gap-1 hover:gap-1.5 transition-all"
+        >
+          {s.attempted === 0 ? "Start" : "Resume"} <ArrowRight className="h-3.5 w-3.5" />
+        </Link>
+      </div>
+    </div>
   );
 }
 
@@ -446,16 +470,13 @@ function WeakSpotMap({
     <div className="panel p-5">
       <div className="flex items-center justify-between">
         <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground inline-flex items-center gap-1.5">
-          <Zap className="h-3.5 w-3.5" /> Weak spot map
+          <Zap className="h-3.5 w-3.5 text-warning" /> Weak spot map
         </p>
-        <Link
-          to="/review"
-          className="text-xs px-2.5 py-1 rounded-md bg-primary text-primary-foreground font-semibold"
-        >
-          Attack weak spots
+        <Link to="/review" className="btn-ghost text-xs py-1 px-2.5">
+          Attack
         </Link>
       </div>
-      <ul className="mt-3 space-y-2">
+      <ul className="mt-3 space-y-3">
         {weakSpots.length === 0 && (
           <li className="text-sm text-muted-foreground">
             Attempt a few questions and your weak spots will appear here.
@@ -463,20 +484,31 @@ function WeakSpotMap({
         )}
         {weakSpots.map((w) => {
           const pct = w.avg === null ? null : Math.round((w.avg / 5) * 100);
+          const barColor = pct === null
+            ? "var(--color-muted-foreground)"
+            : pct < 30
+              ? "var(--color-destructive)"
+              : pct < 55
+                ? "var(--color-warning)"
+                : pct < 80
+                  ? "var(--color-primary)"
+                  : "var(--color-success)";
           return (
             <li key={w.t.id} className="flex items-center gap-3">
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium truncate">{w.t.title}</p>
-                <div className="h-1.5 mt-1 bg-secondary rounded-full overflow-hidden">
+                <div className="flex items-center justify-between">
+                  <p className="text-sm font-medium truncate">{w.t.title}</p>
+                  <span className="text-xs text-muted-foreground shrink-0 ml-2">
+                    {pct === null ? "untested" : `${pct}%`}
+                  </span>
+                </div>
+                <div className="h-2 mt-1 bg-secondary/60 rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-destructive/70"
-                    style={{ width: `${pct ?? 8}%` }}
+                    className="h-full transition-all"
+                    style={{ width: `${pct ?? 8}%`, background: barColor }}
                   />
                 </div>
               </div>
-              <span className="text-xs text-muted-foreground w-20 text-right shrink-0">
-                {pct === null ? "untested" : `${pct}% · ${w.attempted}/${w.total}`}
-              </span>
             </li>
           );
         })}
@@ -496,7 +528,7 @@ function ReviewPreview({
     <div className="panel p-5">
       <div className="flex items-center justify-between">
         <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground inline-flex items-center gap-1.5">
-          <Repeat className="h-3.5 w-3.5" /> Review queue
+          <Repeat className="h-3.5 w-3.5 text-destructive" /> Review queue
         </p>
         <Link to="/review" className="text-xs text-primary hover:underline">
           View all
@@ -507,7 +539,7 @@ function ReviewPreview({
           Nothing here yet. Missed, low-score, or hint-heavy questions land here automatically.
         </p>
       ) : (
-        <ul className="mt-3 space-y-2">
+        <ul className="mt-3 space-y-1">
           {reviewQs.slice(0, 5).map((q) => {
             const a = latest.get(q.id);
             const reason = !a
@@ -519,6 +551,7 @@ function ReviewPreview({
                   : a.hints_used >= 2
                     ? `${a.hints_used} hints`
                     : "low score";
+            const chip = !a || a.score === 0 ? "chip-danger" : "chip-warn";
             return (
               <li key={q.id}>
                 <Link
@@ -527,7 +560,7 @@ function ReviewPreview({
                   className="flex items-center justify-between gap-3 py-1.5 rounded hover:bg-secondary/50 px-2 -mx-2"
                 >
                   <span className="text-sm truncate">{q.title}</span>
-                  <span className="chip chip-warn shrink-0">{reason}</span>
+                  <span className={`chip ${chip} shrink-0`}>{reason}</span>
                 </Link>
               </li>
             );
@@ -538,15 +571,21 @@ function ReviewPreview({
   );
 }
 
-function ImprovementCard({
-  improvement,
-}: {
-  improvement: { before: number; after: number; delta: number } | null;
-}) {
+function ImprovementCard({ attempts }: { attempts: Attempt[] }) {
+  const improvement = useMemo(() => {
+    if (attempts.length < 4) return null;
+    const recent = attempts.slice(-5);
+    const prev = attempts.slice(-10, -5);
+    if (prev.length === 0) return null;
+    const avg = (xs: Attempt[]) => (xs.reduce((s, a) => s + a.score, 0) / xs.length / 5) * 100;
+    const before = Math.round(avg(prev));
+    const after = Math.round(avg(recent));
+    return { before, after, delta: after - before };
+  }, [attempts]);
   return (
     <div className="panel p-5">
       <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground inline-flex items-center gap-1.5">
-        <TrendingUp className="h-3.5 w-3.5" /> Recent improvement
+        <TrendingUp className="h-3.5 w-3.5 text-success" /> Recent improvement
       </p>
       {!improvement ? (
         <p className="mt-2 text-sm text-muted-foreground">
@@ -556,14 +595,12 @@ function ImprovementCard({
         <p className="mt-2 text-sm">
           You went from <strong>{improvement.before}%</strong> to{" "}
           <strong>{improvement.after}%</strong> over your last 5 attempts.{" "}
-          <span className="text-success font-semibold">+{improvement.delta}%</span>{" "}
-          — momentum is real.
+          <span className="text-success font-semibold">+{improvement.delta}%</span> — momentum is real.
         </p>
       ) : (
         <p className="mt-2 text-sm">
           Last 5 attempts: <strong>{improvement.after}%</strong> vs prior{" "}
-          <strong>{improvement.before}%</strong>. Slow down on the next set and
-          reach for the hint before the solution.
+          <strong>{improvement.before}%</strong>. Slow down and reach for a hint before the full solution.
         </p>
       )}
     </div>
@@ -572,17 +609,30 @@ function ImprovementCard({
 
 function MiniStat({ label, value, sub }: { label: string; value: string; sub?: string }) {
   return (
-    <div className="rounded-md bg-secondary/50 px-3 py-2">
+    <div className="rounded-md bg-secondary/40 border border-border/60 px-3 py-2">
       <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">
         {label}
       </p>
       <p className="text-sm font-semibold">
-        {value} {sub && <span className="text-muted-foreground font-normal">· {sub}</span>}
+        {value} {sub && <span className="text-muted-foreground font-normal">{sub}</span>}
       </p>
     </div>
   );
 }
 
-function SectionHeader({ title }: { title: string }) {
-  return <h2 className="text-lg font-semibold mb-3 tracking-tight">{title}</h2>;
+function SectionHeader({ title, subtitle }: { title: string; subtitle?: string }) {
+  return (
+    <div className="mb-3 flex items-end justify-between gap-3">
+      <h2 className="text-lg font-semibold tracking-tight">{title}</h2>
+      {subtitle && <p className="text-xs text-muted-foreground">{subtitle}</p>}
+    </div>
+  );
+}
+
+export function ringColor(readiness: number, untested = false): string {
+  if (untested) return "var(--color-muted-foreground)";
+  if (readiness >= 80) return "var(--color-success)";
+  if (readiness >= 55) return "var(--color-primary)";
+  if (readiness >= 30) return "var(--color-warning)";
+  return "var(--color-destructive)";
 }

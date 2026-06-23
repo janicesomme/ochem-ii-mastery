@@ -11,37 +11,47 @@ export type FrequencySlice = {
 };
 
 export type WordingGroup = {
-  task: string; // e.g. "Product prediction"
-  move: string; // e.g. "identify electrophile → check director → place group"
-  wording_patterns: string[]; // surface phrasings students see
+  task: string;
+  move: string;
+  wording_patterns: string[];
+  example_question_id?: string;
+  example_label?: string;
+  topic_id?: string;
 };
 
 export type TrapCard = {
   title: string;
   detail: string;
   tone: "danger" | "warn";
+  topic_id?: string;
 };
 
 export type PracticePriority = {
   topic_id: string;
   label: string;
   reason: string;
+  minutes?: number;
+};
+
+export type PersonalOverlay = {
+  chapter_top_topic: string;
+  student_weak_topic: string;
+  best_next_move: string;
 };
 
 export type ChapterMap = {
   chapter_id: string;
   high_yield: boolean;
-  insight: string; // one-line warning surfaced on dashboard + hero
+  insight: string;
   main_risk: string;
+  total_questions: number;
   frequency: FrequencySlice[];
   wording_decoder: WordingGroup[];
-  move_map: string[]; // ordered roadmap steps
+  move_map: string[];
   common_traps: TrapCard[];
   practice_priority: PracticePriority[];
-  question_wording_lookup: Record<
-    string,
-    { task: string; move: string }
-  >; // question_id -> decoder line shown on the question page
+  personal_overlay?: PersonalOverlay;
+  question_wording_lookup: Record<string, { task: string; move: string }>;
 };
 
 const EAS: ChapterMap = {
@@ -50,6 +60,7 @@ const EAS: ChapterMap = {
   insight:
     "EAS is mostly directing effects + multistep synthesis. Your weakest area is electrophile generation.",
   main_risk: "Directing effects + multistep order.",
+  total_questions: 124,
   frequency: [
     { topic_id: "t-3b", label: "Directing effects", frequency_percent: 30 },
     { topic_id: "t-3d", label: "Multistep synthesis", frequency_percent: 24 },
@@ -62,6 +73,9 @@ const EAS: ChapterMap = {
     {
       task: "Product prediction",
       move: "identify electrophile → check director → place group",
+      topic_id: "t-3b",
+      example_question_id: "q-5",
+      example_label: "EAS director combo",
       wording_patterns: [
         "Predict the major product",
         "Draw the product after nitration",
@@ -72,6 +86,9 @@ const EAS: ChapterMap = {
     {
       task: "Electrophile generation",
       move: "strong acid activates reagent → leaving group leaves → cation attacks ring",
+      topic_id: "t-3a",
+      example_question_id: "q-8",
+      example_label: "Generating the nitronium electrophile",
       wording_patterns: [
         "What is the active electrophile?",
         "How is the electrophile formed?",
@@ -81,6 +98,9 @@ const EAS: ChapterMap = {
     {
       task: "Multistep synthesis",
       move: "decide final substitution pattern → install the meta director first → then o/p director",
+      topic_id: "t-3d",
+      example_question_id: "q-10",
+      example_label: "Multistep aromatic synthesis order",
       wording_patterns: [
         "Synthesize X from benzene",
         "What is the correct order of steps?",
@@ -90,6 +110,9 @@ const EAS: ChapterMap = {
     {
       task: "Reactivity / limits",
       move: "score ring activation → confirm reaction will run → otherwise: no reaction",
+      topic_id: "t-3c",
+      example_question_id: "q-9",
+      example_label: "Friedel-Crafts on nitrobenzene",
       wording_patterns: [
         "Predict whether the reaction proceeds",
         "Give the major product, if any",
@@ -111,30 +134,35 @@ const EAS: ChapterMap = {
       detail:
         "F, Cl, Br, I slow EAS down — but they still send the new group to ortho/para. Don't auto-place meta.",
       tone: "warn",
+      topic_id: "t-3b",
     },
     {
       title: "Friedel-Crafts fails on strongly deactivated rings",
       detail:
         "Rings with -NO2, -CN, -SO3H, -NR3+, -CF3 don't undergo FC alkylation or acylation.",
       tone: "danger",
+      topic_id: "t-3c",
     },
     {
       title: "NO2 is a meta director",
       detail:
         "Already on the ring? The next group goes meta to it. Don't mirror it as ortho/para.",
       tone: "danger",
+      topic_id: "t-3b",
     },
     {
       title: "Sulfonation is reversible",
       detail:
         "Hot dilute H2SO4 can strip -SO3H off again — sometimes used as a blocking strategy.",
       tone: "warn",
+      topic_id: "t-3c",
     },
     {
       title: "Order matters in multistep",
       detail:
         "Putting the o/p director on first when you wanted meta gives the wrong isomer every time.",
       tone: "danger",
+      topic_id: "t-3d",
     },
   ],
   practice_priority: [
@@ -142,23 +170,33 @@ const EAS: ChapterMap = {
       topic_id: "t-3a",
       label: "Electrophile generation",
       reason: "Lowest readiness — fix the foundation first.",
+      minutes: 10,
     },
     {
       topic_id: "t-3b",
       label: "Directing effects",
       reason: "Highest-frequency topic on the exam.",
+      minutes: 15,
     },
     {
       topic_id: "t-3c",
       label: "Friedel-Crafts limits",
       reason: "Trap-heavy — the 'no reaction' answers live here.",
+      minutes: 10,
     },
     {
       topic_id: "t-3d",
       label: "Multistep synthesis",
       reason: "Synthesizes everything above into one problem.",
+      minutes: 20,
     },
   ],
+  personal_overlay: {
+    chapter_top_topic: "Directing effects (30% of exam Qs)",
+    student_weak_topic: "Electrophile generation (42% readiness)",
+    best_next_move:
+      "Do electrophile generation first (10 min), then directing effects (15 min).",
+  },
   question_wording_lookup: {
     "q-5": {
       task: "Product prediction",
@@ -184,6 +222,7 @@ const SUB_ELIM: ChapterMap = {
   high_yield: true,
   insight: "Substrate class + base strength + solvent decide everything here.",
   main_risk: "Confusing SN1/E1 with SN2/E2 under polar protic conditions.",
+  total_questions: 86,
   frequency: [
     { topic_id: "t-1a", label: "SN2 vs SN1", frequency_percent: 38 },
     { topic_id: "t-1b", label: "E1 vs E2", frequency_percent: 32 },
@@ -236,6 +275,7 @@ const ALKENES: ChapterMap = {
   high_yield: true,
   insight: "Reagent choice determines regio- and stereochemistry. Memorize the table.",
   main_risk: "Forgetting peroxides flip HBr to anti-Markovnikov.",
+  total_questions: 78,
   frequency: [
     { topic_id: "t-2a", label: "Markovnikov addition", frequency_percent: 36 },
     { topic_id: "t-2b", label: "Alkyne reactions", frequency_percent: 28 },
@@ -278,6 +318,7 @@ const ALCOHOLS: ChapterMap = {
   high_yield: false,
   insight: "Pick the oxidant for how far to go. Watch acid vs base on epoxides.",
   main_risk: "Over-oxidizing 1° alcohols with the wrong oxidant.",
+  total_questions: 64,
   frequency: [
     { topic_id: "t-4a", label: "Alcohol oxidation", frequency_percent: 38 },
     { topic_id: "t-4b", label: "Epoxide opening", frequency_percent: 34 },
@@ -324,6 +365,7 @@ const CARBONYL: ChapterMap = {
   high_yield: true,
   insight: "Most carbonyl problems are nucleophilic addition with a workup step.",
   main_risk: "Stopping at the alkoxide instead of protonating to the alcohol.",
+  total_questions: 92,
   frequency: [
     { topic_id: "t-5a", label: "Nucleophilic addition", frequency_percent: 42 },
     { topic_id: "t-5b", label: "Acetal formation", frequency_percent: 24 },
@@ -361,6 +403,7 @@ const ACYL: ChapterMap = {
   high_yield: true,
   insight: "It's a reactivity ladder. Knowing the order solves most questions.",
   main_risk: "Inverting amide vs ester reactivity.",
+  total_questions: 71,
   frequency: [
     { topic_id: "t-6a", label: "Acyl substitution reactivity", frequency_percent: 40 },
     { topic_id: "t-6b", label: "Ester / amide hydrolysis", frequency_percent: 30 },

@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { ChevronLeft } from "lucide-react";
 import { AppShell, DifficultyChip, ScoreChip } from "@/components/AppShell";
+import { ChapterTabs } from "./chapter.$chapterId.map";
 import {
   chapterQuery,
   questionsQuery,
@@ -70,7 +71,9 @@ function ChapterPage() {
       >
         <ChevronLeft className="h-4 w-4" /> Dashboard
       </Link>
+      <ChapterTabs chapterId={chapter.id} active="bank" />
       <header className="mb-6">
+
         <p className="chip">Chapter {chapter.number}</p>
         <h1 className="text-3xl font-semibold mt-2">{chapter.title}</h1>
         {chapter.description && (

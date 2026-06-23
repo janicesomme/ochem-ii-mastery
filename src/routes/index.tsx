@@ -188,24 +188,46 @@ function Dashboard() {
         .sort((a, b) => a.readiness - b.readiness)[0];
 
 
+  const gap = Math.max(0, target - readiness);
+  const status = statusMeta(statusFor(readiness, attemptedTotal));
+  const ringColor = readinessColor(readiness, attemptedTotal === 0);
+  const weakestTopic = weakSpots[0]?.title;
+
   return (
     <AppShell>
-      <section className="mb-6">
-        <p className="chip chip-accent mb-3">
-          <Sparkles className="h-3 w-3" /> Study command center
-        </p>
-        <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight">
-          Welcome back to Ochem II
-        </h1>
-        <p className="mt-2 text-muted-foreground max-w-2xl">
-          Exam countdown, readiness, weak spots, and exactly what to attack next —
-          all in one place.
-        </p>
-      </section>
+      {/* Command strip — at-a-glance status */}
+      <CommandStrip
+        days={days}
+        readiness={readiness}
+        target={target}
+        gap={gap}
+        reviewCount={reviewCount}
+        perDay={perDay}
+        weakestChapter={weakestChapter?.ch.title}
+        weakestTopic={weakestTopic}
+      />
 
-      {/* Hero: Countdown + Readiness ring + Quick stats */}
-      <section className="grid gap-3 lg:grid-cols-3 mb-6">
-        <ExamCountdownCard
+      {/* Today's mission with placeholders for future smart guidance */}
+      <TodaysMission
+        weakestChapter={weakestChapter}
+        weakestTopic={weakestTopic}
+        reviewCount={reviewCount}
+        perDay={perDay}
+      />
+
+      {/* Compact Readiness + Countdown row */}
+      <section className="grid gap-3 md:grid-cols-2 mt-4 mb-6">
+        <CompactReadiness
+          readiness={readiness}
+          target={target}
+          gap={gap}
+          attempted={attemptedTotal}
+          total={totalQs}
+          reviewCount={reviewCount}
+          status={status}
+          ringColor={ringColor}
+        />
+        <CompactCountdown
           exam={exam}
           days={days}
           perDay={perDay}
@@ -213,25 +235,11 @@ function Dashboard() {
           target={target}
           demoActive={demoActive}
         />
-        <ReadinessHeroCard
-          readiness={readiness}
-          target={target}
-          attempted={attemptedTotal}
-          total={totalQs}
-          reviewCount={reviewCount}
-        />
       </section>
-
-      {/* Today's mission + Next best action */}
-      <TodaysMission
-        weakestChapter={weakestChapter}
-        weakestTopic={weakSpots[0]?.title}
-        reviewCount={reviewCount}
-        perDay={perDay}
-      />
 
       {/* Today's chapter insight */}
       <TodaysChapterInsight />
+
 
       {/* Chapter readiness */}
       <section className="mt-8 mb-8">

@@ -253,6 +253,11 @@ function BattleMapPage() {
                   <Link
                     to="/chapter/$chapterId"
                     params={{ chapterId: chapter.id }}
+                    search={{
+                      topic: f.topic_id,
+                      label: f.label,
+                      from: "battle-map",
+                    }}
                     className="text-xs text-primary hover:underline inline-flex items-center gap-1"
                   >
                     Practice these <ArrowRight className="h-3 w-3" />

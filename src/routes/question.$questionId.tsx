@@ -360,7 +360,23 @@ function QuestionPage() {
                 </p>
               )}
             </div>
-          </div>
+
+            {scored !== null && (
+              <ScoreFeedback
+                score={scored as 0 | 1 | 3 | 5}
+                hintsUsed={hintsRevealed}
+                usedSolution={showSolution}
+                topicLabel={
+                  topics.find((t) => t.id === data.question.topic_id)?.title ?? null
+                }
+                chapterId={chapter.id}
+                questionType={data.question.question_type}
+                attempts={progress.all()}
+                topicQuestionIds={siblings
+                  .filter((q) => q.topic_id === data.question.topic_id)
+                  .map((q) => q.id)}
+              />
+            )}
         )}
       </article>
 

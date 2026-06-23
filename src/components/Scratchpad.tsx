@@ -172,14 +172,46 @@ export function Scratchpad({ value, onChange, height = 280 }: Props) {
           <Pencil className="h-3.5 w-3.5" /> Scratchpad
         </span>
         <div className="flex items-center gap-1 ml-1">
+          <button
+            type="button"
+            onClick={() => setTool("pen")}
+            aria-pressed={tool === "pen"}
+            className={`inline-flex items-center gap-1 rounded-md border px-2 py-1 text-xs ${
+              tool === "pen"
+                ? "border-primary bg-primary/15 text-primary"
+                : "border-input hover:bg-secondary"
+            }`}
+          >
+            <Pencil className="h-3.5 w-3.5" /> Pen
+          </button>
+          <button
+            type="button"
+            onClick={() => setTool("eraser")}
+            aria-pressed={tool === "eraser"}
+            className={`inline-flex items-center gap-1 rounded-md border px-2 py-1 text-xs ${
+              tool === "eraser"
+                ? "border-primary bg-primary/15 text-primary"
+                : "border-input hover:bg-secondary"
+            }`}
+          >
+            <Eraser className="h-3.5 w-3.5" /> Eraser
+          </button>
+        </div>
+        <div className="flex items-center gap-1 ml-1">
           {COLORS.map((c) => (
             <button
               key={c}
               type="button"
-              onClick={() => setColor(c)}
+              onClick={() => {
+                setColor(c);
+                setTool("pen");
+              }}
               aria-label={`color ${c}`}
-              className={`h-5 w-5 rounded-full border ${
-                color === c ? "ring-2 ring-primary border-primary" : "border-border"
+              disabled={tool === "eraser"}
+              className={`h-5 w-5 rounded-full border transition disabled:opacity-40 ${
+                tool === "pen" && color === c
+                  ? "ring-2 ring-primary border-primary"
+                  : "border-border"
               }`}
               style={{ background: c }}
             />

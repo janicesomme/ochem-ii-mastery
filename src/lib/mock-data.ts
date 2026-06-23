@@ -476,6 +476,34 @@ Strong deactivators (meta): -NO2, -NR3+, -CF3`,
 2° alcohol → ketone (any oxidant)
 3° alcohol → no reaction (no α-H to lose)`,
     sort_order: 4,
+  {
+    id: "qs-5",
+    chapter_id: "ch-3",
+    title: "Friedel-Crafts limitations",
+    summary: "When FC won't run, and why.",
+    content: `FC alkylation and acylation FAIL on:
+• Rings with strong deactivators (-NO2, -CN, -SO3H, -NR3+, -CF3)
+• Aniline-type rings (-NH2 / -NHR) — Lewis acid binds N
+
+FC alkylation extra issues:
+• Carbocation rearrangements (1°→2°/3°)
+• Polyalkylation (product is more activated than starting material)
+• Use FC acylation + Clemmensen/Wolff-Kishner reduction to get clean 1° alkyl groups`,
+    sort_order: 5,
+  },
+  {
+    id: "qs-6",
+    chapter_id: "ch-6",
+    title: "Acyl substitution reactivity ladder",
+    summary: "Top of the ladder reacts; bottom does not.",
+    content: `Most reactive → Least reactive:
+acid chloride > anhydride > ester ≈ carboxylic acid > amide
+
+Rules of the ladder:
+• You can always go DOWN the ladder (more reactive → less reactive).
+• Going UP requires special reagents (e.g. SOCl2 to make acid chloride).
+• Amides are the dead end — hard to convert to anything else without harsh hydrolysis.`,
+    sort_order: 6,
   },
 ];
 

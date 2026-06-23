@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { AppShell } from "@/components/AppShell";
+import { SprintTutorSummary } from "@/components/TutorVoice";
 import {
   chapterQuery,
   questionsQuery,

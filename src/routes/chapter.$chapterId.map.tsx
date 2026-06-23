@@ -181,17 +181,14 @@ function BattleMapPage() {
               >
                 Open Full Question Bank <ChevronRight className="h-4 w-4" />
               </Link>
-              <button
-                type="button"
-                onClick={() => {
-                  document
-                    .getElementById("priority")
-                    ?.scrollIntoView({ behavior: "smooth" });
-                }}
+              <Link
+                to="/chapter/$chapterId"
+                params={{ chapterId: chapter.id }}
+                search={smartPracticeSearch(map)}
                 className="btn-ghost"
               >
                 Start Smart Practice
-              </button>
+              </Link>
             </div>
           </div>
         </div>

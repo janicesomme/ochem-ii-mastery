@@ -208,13 +208,13 @@ function BattleMapPage() {
                 Open Full Question Bank <ChevronRight className="h-4 w-4" />
               </Link>
               <Link
-                to="/chapter/$chapterId"
+                to="/sprint/$chapterId"
                 params={{ chapterId: chapter.id }}
-                search={smartPracticeSearch(map)}
                 className="btn-ghost"
               >
-                Start Smart Practice
+                <Sparkles className="h-3.5 w-3.5" /> Start Smart Practice
               </Link>
+
             </div>
           </div>
         </div>

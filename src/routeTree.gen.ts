@@ -14,9 +14,9 @@ import { Route as QuestionBankRouteImport } from './routes/question-bank'
 import { Route as ProgressRouteImport } from './routes/progress'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as QuickSheetsIndexRouteImport } from './routes/quick-sheets.index'
+import { Route as SprintChapterIdRouteImport } from './routes/sprint.$chapterId'
 import { Route as QuickSheetsSheetIdRouteImport } from './routes/quick-sheets.$sheetId'
 import { Route as QuestionQuestionIdRouteImport } from './routes/question.$questionId'
-import { Route as SprintChapterIdRouteImport } from './routes/sprint.$chapterId'
 import { Route as ChapterChapterIdIndexRouteImport } from './routes/chapter.$chapterId.index'
 import { Route as ChapterChapterIdMapRouteImport } from './routes/chapter.$chapterId.map'
 
@@ -45,6 +45,11 @@ const QuickSheetsIndexRoute = QuickSheetsIndexRouteImport.update({
   path: '/quick-sheets/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SprintChapterIdRoute = SprintChapterIdRouteImport.update({
+  id: '/sprint/$chapterId',
+  path: '/sprint/$chapterId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const QuickSheetsSheetIdRoute = QuickSheetsSheetIdRouteImport.update({
   id: '/quick-sheets/$sheetId',
   path: '/quick-sheets/$sheetId',
@@ -53,11 +58,6 @@ const QuickSheetsSheetIdRoute = QuickSheetsSheetIdRouteImport.update({
 const QuestionQuestionIdRoute = QuestionQuestionIdRouteImport.update({
   id: '/question/$questionId',
   path: '/question/$questionId',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SprintChapterIdRoute = SprintChapterIdRouteImport.update({
-  id: '/sprint/$chapterId',
-  path: '/sprint/$chapterId',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ChapterChapterIdIndexRoute = ChapterChapterIdIndexRouteImport.update({
@@ -77,8 +77,8 @@ export interface FileRoutesByFullPath {
   '/question-bank': typeof QuestionBankRoute
   '/review': typeof ReviewRoute
   '/question/$questionId': typeof QuestionQuestionIdRoute
-  '/sprint/$chapterId': typeof SprintChapterIdRoute
   '/quick-sheets/$sheetId': typeof QuickSheetsSheetIdRoute
+  '/sprint/$chapterId': typeof SprintChapterIdRoute
   '/quick-sheets/': typeof QuickSheetsIndexRoute
   '/chapter/$chapterId/map': typeof ChapterChapterIdMapRoute
   '/chapter/$chapterId/': typeof ChapterChapterIdIndexRoute
@@ -89,8 +89,8 @@ export interface FileRoutesByTo {
   '/question-bank': typeof QuestionBankRoute
   '/review': typeof ReviewRoute
   '/question/$questionId': typeof QuestionQuestionIdRoute
-  '/sprint/$chapterId': typeof SprintChapterIdRoute
   '/quick-sheets/$sheetId': typeof QuickSheetsSheetIdRoute
+  '/sprint/$chapterId': typeof SprintChapterIdRoute
   '/quick-sheets': typeof QuickSheetsIndexRoute
   '/chapter/$chapterId/map': typeof ChapterChapterIdMapRoute
   '/chapter/$chapterId': typeof ChapterChapterIdIndexRoute
@@ -102,8 +102,8 @@ export interface FileRoutesById {
   '/question-bank': typeof QuestionBankRoute
   '/review': typeof ReviewRoute
   '/question/$questionId': typeof QuestionQuestionIdRoute
-  '/sprint/$chapterId': typeof SprintChapterIdRoute
   '/quick-sheets/$sheetId': typeof QuickSheetsSheetIdRoute
+  '/sprint/$chapterId': typeof SprintChapterIdRoute
   '/quick-sheets/': typeof QuickSheetsIndexRoute
   '/chapter/$chapterId/map': typeof ChapterChapterIdMapRoute
   '/chapter/$chapterId/': typeof ChapterChapterIdIndexRoute
@@ -116,8 +116,8 @@ export interface FileRouteTypes {
     | '/question-bank'
     | '/review'
     | '/question/$questionId'
-    | '/sprint/$chapterId'
     | '/quick-sheets/$sheetId'
+    | '/sprint/$chapterId'
     | '/quick-sheets/'
     | '/chapter/$chapterId/map'
     | '/chapter/$chapterId/'
@@ -128,8 +128,8 @@ export interface FileRouteTypes {
     | '/question-bank'
     | '/review'
     | '/question/$questionId'
-    | '/sprint/$chapterId'
     | '/quick-sheets/$sheetId'
+    | '/sprint/$chapterId'
     | '/quick-sheets'
     | '/chapter/$chapterId/map'
     | '/chapter/$chapterId'
@@ -140,8 +140,8 @@ export interface FileRouteTypes {
     | '/question-bank'
     | '/review'
     | '/question/$questionId'
-    | '/sprint/$chapterId'
     | '/quick-sheets/$sheetId'
+    | '/sprint/$chapterId'
     | '/quick-sheets/'
     | '/chapter/$chapterId/map'
     | '/chapter/$chapterId/'
@@ -153,8 +153,8 @@ export interface RootRouteChildren {
   QuestionBankRoute: typeof QuestionBankRoute
   ReviewRoute: typeof ReviewRoute
   QuestionQuestionIdRoute: typeof QuestionQuestionIdRoute
-  SprintChapterIdRoute: typeof SprintChapterIdRoute
   QuickSheetsSheetIdRoute: typeof QuickSheetsSheetIdRoute
+  SprintChapterIdRoute: typeof SprintChapterIdRoute
   QuickSheetsIndexRoute: typeof QuickSheetsIndexRoute
   ChapterChapterIdMapRoute: typeof ChapterChapterIdMapRoute
   ChapterChapterIdIndexRoute: typeof ChapterChapterIdIndexRoute
@@ -197,6 +197,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof QuickSheetsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sprint/$chapterId': {
+      id: '/sprint/$chapterId'
+      path: '/sprint/$chapterId'
+      fullPath: '/sprint/$chapterId'
+      preLoaderRoute: typeof SprintChapterIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/quick-sheets/$sheetId': {
       id: '/quick-sheets/$sheetId'
       path: '/quick-sheets/$sheetId'
@@ -209,13 +216,6 @@ declare module '@tanstack/react-router' {
       path: '/question/$questionId'
       fullPath: '/question/$questionId'
       preLoaderRoute: typeof QuestionQuestionIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sprint/$chapterId': {
-      id: '/sprint/$chapterId'
-      path: '/sprint/$chapterId'
-      fullPath: '/sprint/$chapterId'
-      preLoaderRoute: typeof SprintChapterIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/chapter/$chapterId/': {
@@ -241,8 +241,8 @@ const rootRouteChildren: RootRouteChildren = {
   QuestionBankRoute: QuestionBankRoute,
   ReviewRoute: ReviewRoute,
   QuestionQuestionIdRoute: QuestionQuestionIdRoute,
-  SprintChapterIdRoute: SprintChapterIdRoute,
   QuickSheetsSheetIdRoute: QuickSheetsSheetIdRoute,
+  SprintChapterIdRoute: SprintChapterIdRoute,
   QuickSheetsIndexRoute: QuickSheetsIndexRoute,
   ChapterChapterIdMapRoute: ChapterChapterIdMapRoute,
   ChapterChapterIdIndexRoute: ChapterChapterIdIndexRoute,

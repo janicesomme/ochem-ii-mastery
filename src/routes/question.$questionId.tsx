@@ -14,9 +14,15 @@ import {
 } from "lucide-react";
 import { AppShell, DifficultyChip } from "@/components/AppShell";
 import { Scratchpad } from "@/components/Scratchpad";
-import { chapterQuery, questionDetailQuery, questionsQuery } from "@/lib/queries";
+import {
+  chapterQuery,
+  questionDetailQuery,
+  questionsQuery,
+  topicsByChapterQuery,
+} from "@/lib/queries";
 import { getQuestionDecoder } from "@/lib/chapter-map";
 import { progress } from "@/lib/progress";
+import { ScoreFeedback } from "@/components/TutorVoice";
 
 export const Route = createFileRoute("/question/$questionId")({
   loader: ({ context, params }) =>

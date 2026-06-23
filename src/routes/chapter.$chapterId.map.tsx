@@ -222,6 +222,7 @@ function BattleMapPage() {
             <Link
               to="/chapter/$chapterId"
               params={{ chapterId: chapter.id }}
+              search={smartPracticeSearch(map)}
               className="btn-primary"
             >
               <Sparkles className="h-4 w-4" /> Start recommended sprint

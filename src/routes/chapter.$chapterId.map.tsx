@@ -333,6 +333,12 @@ function BattleMapPage() {
                 <Link
                   to="/chapter/$chapterId"
                   params={{ chapterId: chapter.id }}
+                  search={{
+                    move: slug(g.move),
+                    topic: g.topic_id,
+                    label: `Move — ${g.task}`,
+                    from: "battle-map",
+                  }}
                   className="text-xs text-primary hover:underline inline-flex items-center gap-1"
                 >
                   Drill this move <ArrowRight className="h-3 w-3" />

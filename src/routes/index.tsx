@@ -301,7 +301,7 @@ function HeroTop({
 
   return (
     <section className="mb-5">
-      <div className="grid gap-3 lg:grid-cols-3">
+      <div className="grid gap-3 md:grid-cols-3 md:items-stretch">
         <CountdownCard
           exam={exam}
           days={days}
@@ -326,38 +326,9 @@ function HeroTop({
           reviewSlice={reviewSlice}
         />
       </div>
-
-      {/* Biggest risk callout */}
-      {weakestChapter && (
-        <div className="panel mt-3 px-4 py-3 border-warning/40 bg-[color-mix(in_oklch,var(--color-warning)_10%,transparent)]">
-          <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
-            <div className="inline-flex items-center gap-2 shrink-0">
-              <Zap className="h-4 w-4 text-warning" />
-              <span className="text-[10px] uppercase tracking-wider font-semibold text-warning">
-                Biggest risk before exam
-              </span>
-            </div>
-            <div className="min-w-0 flex-1">
-              <p className="text-sm font-semibold truncate">
-                {focusChapter}
-                {focusTopic ? ` — ${focusTopic}` : ""}
-              </p>
-              <p className="text-xs text-muted-foreground">
-                You&apos;re missing the first move, so later mechanism questions fall apart.
-              </p>
-            </div>
-            <Link
-              to="/chapter/$chapterId/map"
-              params={{ chapterId: weakestChapter.ch.id }}
-              className="btn-ghost text-xs py-1.5 px-3 shrink-0"
-            >
-              Open battle map <ArrowRight className="h-3.5 w-3.5" />
-            </Link>
-          </div>
-        </div>
-      )}
     </section>
   );
+
 }
 
 function CountdownCard({

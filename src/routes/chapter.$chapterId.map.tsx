@@ -318,6 +318,7 @@ function BattleMapPage() {
                   <Link
                     to="/question/$questionId"
                     params={{ questionId: g.example_question_id }}
+                    search={{ from: "wording" } as never}
                     className="text-xs inline-flex items-center gap-1.5 rounded-md border border-border bg-muted/30 px-2 py-1 hover:bg-muted/60"
                   >
                     <Target className="h-3 w-3 text-primary" />

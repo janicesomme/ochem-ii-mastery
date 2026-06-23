@@ -419,8 +419,9 @@ function ReadinessHeroCard({
         <p className="text-base mt-2">
           {gap > 0 ? (
             <>
-              <span className="font-semibold">{gap}%</span> to your target of{" "}
-              <span className="font-semibold">{target}%</span>. Stack a few more attempts.
+              <span className="font-semibold">{gap} percentage points</span> below
+              your <span className="font-semibold">{target}%</span> target. Stack a
+              few more attempts.
             </>
           ) : (
             <>
@@ -429,6 +430,7 @@ function ReadinessHeroCard({
             </>
           )}
         </p>
+
         <div className="grid grid-cols-3 gap-2 mt-auto pt-4">
           <MiniStat label="Done" value={`${attempted}`} sub={`/ ${total}`} />
           <MiniStat label="Target" value={`${target}%`} />

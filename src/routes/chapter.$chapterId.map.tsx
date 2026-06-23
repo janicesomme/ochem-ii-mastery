@@ -410,6 +410,12 @@ function BattleMapPage() {
                   <Link
                     to="/chapter/$chapterId"
                     params={{ chapterId: chapter.id }}
+                    search={{
+                      trap: slug(t.title),
+                      topic: t.topic_id,
+                      label: `Trap — ${t.title}`,
+                      from: "battle-map",
+                    }}
                     className="text-xs text-primary hover:underline inline-flex items-center gap-1"
                   >
                     Drill this trap <ArrowRight className="h-3 w-3" />

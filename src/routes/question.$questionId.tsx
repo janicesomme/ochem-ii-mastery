@@ -6,12 +6,14 @@ import {
   Brain,
   Check,
   ChevronLeft,
+  ImageIcon,
   Lightbulb,
   ListChecks,
   Sparkles,
   Target,
 } from "lucide-react";
 import { AppShell, DifficultyChip } from "@/components/AppShell";
+import { Scratchpad } from "@/components/Scratchpad";
 import { chapterQuery, questionDetailQuery, questionsQuery } from "@/lib/queries";
 import { progress } from "@/lib/progress";
 
@@ -31,6 +33,20 @@ export const Route = createFileRoute("/question/$questionId")({
   component: QuestionPage,
 });
 
+function attemptPromptFor(type: string): string {
+  const t = type.toLowerCase();
+  if (t.includes("mechanism")) {
+    return "Draw or describe the first move, key intermediate, or mechanism path.";
+  }
+  if (t.includes("product") || t.includes("prediction")) {
+    return "Draw or type your predicted product before opening hints.";
+  }
+  if (t.includes("synthesis") || t.includes("reagent")) {
+    return "Type the reagents or draw the sequence you would try.";
+  }
+  return "Use the scratchpad or text box to commit to an answer before opening hints.";
+}
+
 function QuestionPage() {
   const { questionId } = Route.useParams();
   const { data } = useSuspenseQuery(questionDetailQuery(questionId));
@@ -42,6 +58,7 @@ function QuestionPage() {
 
   const [tried, setTried] = useState(false);
   const [attemptText, setAttemptText] = useState("");
+  const [scratch, setScratch] = useState<string | null>(null);
   const [hintsRevealed, setHintsRevealed] = useState(0);
   const [checklistOpen, setChecklistOpen] = useState(false);
   const [showSolution, setShowSolution] = useState(false);
@@ -50,6 +67,7 @@ function QuestionPage() {
 
   const orderedHints = [...data.hints].filter((h) => h.kind === "hint");
   const checklist = data.hints.find((h) => h.kind === "checklist");
+  const attemptPrompt = attemptPromptFor(data.question.question_type);
 
   const handleScore = (score: 0 | 1 | 3 | 5) => {
     progress.recordAttempt({
@@ -57,6 +75,7 @@ function QuestionPage() {
       score,
       hints_used: hintsRevealed,
       used_solution: showSolution,
+      scratchpad: scratch,
     });
     setScored(score);
   };
@@ -68,6 +87,7 @@ function QuestionPage() {
   const reset = () => {
     setTried(false);
     setAttemptText("");
+    setScratch(null);
     setHintsRevealed(0);
     setChecklistOpen(false);
     setShowSolution(false);
@@ -97,20 +117,30 @@ function QuestionPage() {
           {data.question.prompt}
         </p>
 
-        <div className="mt-6">
-          <label className="block text-xs uppercase tracking-wider font-semibold text-muted-foreground mb-1.5">
-            Your attempt
-          </label>
-          <textarea
-            value={attemptText}
-            onChange={(e) => setAttemptText(e.target.value)}
-            placeholder="Sketch the mechanism, list reagents, or draft your reasoning before peeking at hints…"
-            className="w-full min-h-32 rounded-md border border-input bg-surface px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
-          />
+        {/* Future: question image from Supabase Storage */}
+        <QuestionImage url={data.question.question_image_url} label="Question figure" />
+
+        <div className="mt-6 space-y-4">
+          <p className="text-sm text-muted-foreground">{attemptPrompt}</p>
+
+          <Scratchpad value={scratch} onChange={setScratch} />
+
+          <div>
+            <label className="block text-xs uppercase tracking-wider font-semibold text-muted-foreground mb-1.5">
+              Or type your answer
+            </label>
+            <textarea
+              value={attemptText}
+              onChange={(e) => setAttemptText(e.target.value)}
+              placeholder="Reagents, conditions, intermediates, key arrows — whatever locks in your commitment."
+              className="w-full min-h-28 rounded-md border border-input bg-surface px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+            />
+          </div>
+
           {!tried && (
             <button
               onClick={() => setTried(true)}
-              className="mt-3 inline-flex items-center gap-1.5 rounded-md bg-primary text-primary-foreground px-4 py-2 text-sm font-semibold hover:opacity-90"
+              className="inline-flex items-center gap-1.5 rounded-md bg-primary text-primary-foreground px-4 py-2 text-sm font-semibold hover:opacity-90"
             >
               <Check className="h-4 w-4" /> I tried
             </button>
@@ -185,19 +215,59 @@ function QuestionPage() {
                   Reveal step-by-step
                 </button>
               ) : (
-                <ol className="space-y-2">
-                  {data.steps.map((s) => (
-                    <li
-                      key={s.id}
-                      className="flex gap-3 rounded-md bg-secondary/60 p-3 text-sm"
-                    >
-                      <span className="font-semibold font-display text-primary">
-                        {s.step_number}.
-                      </span>
-                      <span>{s.content}</span>
-                    </li>
-                  ))}
-                </ol>
+                <div className="space-y-4">
+                  {/* Side-by-side: your scratchpad vs official answer image */}
+                  <div className="grid gap-3 md:grid-cols-2">
+                    <CompareCard title="Your scratchpad">
+                      {scratch ? (
+                        <img
+                          src={scratch}
+                          alt="Your attempt"
+                          className="w-full rounded border border-border bg-background"
+                        />
+                      ) : (
+                        <EmptyTile note="No drawing this round." />
+                      )}
+                    </CompareCard>
+                    <CompareCard title="Official answer">
+                      <AnswerImage
+                        url={data.question.answer_image_url}
+                        fallback="Answer image will appear here once added."
+                      />
+                    </CompareCard>
+                  </div>
+
+                  {/* Mechanism / solution image, full width */}
+                  <CompareCard title="Mechanism">
+                    <AnswerImage
+                      url={
+                        data.question.mechanism_image_url ??
+                        data.question.solution_image_url
+                      }
+                      fallback="Mechanism / solution image will appear here once added."
+                      tall
+                    />
+                  </CompareCard>
+
+                  <div>
+                    <p className="text-xs uppercase tracking-wider font-semibold text-muted-foreground mb-2">
+                      Step-by-step
+                    </p>
+                    <ol className="space-y-2">
+                      {data.steps.map((s) => (
+                        <li
+                          key={s.id}
+                          className="flex gap-3 rounded-md bg-secondary/60 p-3 text-sm"
+                        >
+                          <span className="font-semibold font-display text-primary">
+                            {s.step_number}.
+                          </span>
+                          <span>{s.content}</span>
+                        </li>
+                      ))}
+                    </ol>
+                  </div>
+                </div>
               )}
             </UnlockSection>
 
@@ -267,7 +337,8 @@ function QuestionPage() {
               </div>
               {scored !== null && (
                 <p className="text-xs text-muted-foreground mt-3">
-                  Saved. {scored <= 1 && "Added to your review queue."}
+                  Saved{scratch ? " with your scratchpad" : ""}.{" "}
+                  {scored <= 1 && "Added to your review queue."}
                 </p>
               )}
             </div>
@@ -306,6 +377,72 @@ function QuestionPage() {
         </button>
       </nav>
     </AppShell>
+  );
+}
+
+function QuestionImage({ url, label }: { url?: string | null; label: string }) {
+  if (!url) return null;
+  return (
+    <figure className="mt-4">
+      <img
+        src={url}
+        alt={label}
+        className="rounded-md border border-border bg-background max-h-96 w-auto"
+      />
+      <figcaption className="mt-1 text-xs text-muted-foreground">{label}</figcaption>
+    </figure>
+  );
+}
+
+function CompareCard({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="rounded-md border border-border bg-surface p-3">
+      <p className="text-[10px] uppercase tracking-wider font-semibold text-muted-foreground mb-2">
+        {title}
+      </p>
+      {children}
+    </div>
+  );
+}
+
+function AnswerImage({
+  url,
+  fallback,
+  tall,
+}: {
+  url?: string | null;
+  fallback: string;
+  tall?: boolean;
+}) {
+  if (url) {
+    return (
+      <img
+        src={url}
+        alt="Answer / mechanism"
+        className="w-full rounded border border-border bg-background"
+      />
+    );
+  }
+  return <EmptyTile note={fallback} tall={tall} />;
+}
+
+function EmptyTile({ note, tall }: { note: string; tall?: boolean }) {
+  return (
+    <div
+      className={`flex items-center justify-center rounded border border-dashed border-border bg-muted/20 text-xs text-muted-foreground ${
+        tall ? "h-48" : "h-36"
+      }`}
+    >
+      <span className="inline-flex items-center gap-1.5 px-3 text-center">
+        <ImageIcon className="h-4 w-4" /> {note}
+      </span>
+    </div>
   );
 }
 

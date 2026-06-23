@@ -12,10 +12,21 @@ import {
   buildReviewIds,
   computeChapterStat,
   latestPerQuestion,
+  readinessColor,
   statusMeta,
   type ChapterStat,
 } from "@/lib/readiness";
-import { ringColor } from "./index";
+import {
+  DEMO_COMPLETED,
+  DEMO_DAYS,
+  DEMO_OVERALL,
+  DEMO_PER_DAY,
+  DEMO_REVIEW,
+  DEMO_TARGET,
+  DEMO_TOTAL_QUESTIONS,
+  DEMO_WEAK_SPOTS,
+  demoChapterStats,
+} from "@/lib/demo";
 
 export const Route = createFileRoute("/progress")({
   head: () => ({
@@ -62,41 +73,63 @@ function ProgressPage() {
 
   const attempts = progress.all();
   const exam = getExam();
+  const demoActive = attempts.length === 0;
   const latest = useMemo(() => latestPerQuestion(attempts), [attempts]);
   const reviewIds = useMemo(() => buildReviewIds(attempts), [attempts]);
 
-  const chapterStats: ChapterStat[] = useMemo(
+  const realChapterStats: ChapterStat[] = useMemo(
     () =>
       chapters.map((c) => computeChapterStat(c, questions, allTopics, latest, reviewIds)),
     [chapters, questions, latest, reviewIds],
   );
+  const chapterStats = demoActive ? demoChapterStats(chapters) : realChapterStats;
 
-  const overall = chapterStats.length
-    ? Math.round(chapterStats.reduce((s, c) => s + c.readiness, 0) / chapterStats.length)
-    : 0;
+  const overall = demoActive
+    ? DEMO_OVERALL
+    : chapterStats.length
+      ? Math.round(chapterStats.reduce((s, c) => s + c.readiness, 0) / chapterStats.length)
+      : 0;
 
-  const days = daysUntil(exam.date);
-  const attemptedTotal = latest.size;
-  const remaining = Math.max(0, questions.length - attemptedTotal);
-  const perDay = days && days > 0 ? Math.max(1, Math.ceil(remaining / days)) : null;
-  const reviewTotal = reviewIds.size;
+  const realDays = daysUntil(exam.date);
+  const days = demoActive && realDays === null ? DEMO_DAYS : realDays;
+  const attemptedTotal = demoActive ? DEMO_COMPLETED : latest.size;
+  const totalQs = demoActive ? DEMO_TOTAL_QUESTIONS : questions.length;
+  const remaining = Math.max(0, totalQs - attemptedTotal);
+  const perDay = demoActive && realDays === null
+    ? DEMO_PER_DAY
+    : days && days > 0
+      ? Math.max(1, Math.ceil(remaining / days))
+      : null;
+  const reviewTotal = demoActive ? DEMO_REVIEW : reviewIds.size;
+  const target = demoActive ? DEMO_TARGET : exam.targetReadiness;
 
-  const topicStats = useMemo(
-    () =>
-      allTopics
+  const topWeakTopics = demoActive
+    ? DEMO_WEAK_SPOTS.slice()
+        .sort((a, b) => a.readiness - b.readiness)
+        .slice(0, 5)
+        .map((w) => ({
+          id: w.id,
+          title: w.title,
+          readiness: w.readiness,
+          attempted: w.attempted,
+        }))
+    : allTopics
         .map((t) => {
           const tq = questions.filter((q) => q.topic_id === t.id);
-          const scored = tq
-            .map((q) => latest.get(q.id))
-            .filter(Boolean) as Attempt[];
+          const scored = tq.map((q) => latest.get(q.id)).filter(Boolean) as Attempt[];
           const avg = scored.length
             ? scored.reduce((s, a) => s + a.score, 0) / scored.length
             : null;
-          return { topic: t, attempted: scored.length, total: tq.length, avg };
+          return {
+            id: t.id,
+            title: t.title,
+            readiness: avg === null ? 0 : Math.round((avg / 5) * 100),
+            attempted: scored.length,
+          };
         })
-        .filter((s) => s.total > 0),
-    [questions, latest],
-  );
+        .filter((s) => s.attempted > 0)
+        .sort((a, b) => a.readiness - b.readiness)
+        .slice(0, 5);
 
   const weakestChapters = [...chapterStats]
     .filter((c) => c.attempted > 0)
@@ -108,15 +141,12 @@ function ProgressPage() {
     .sort((a, b) => b.readiness - a.readiness)
     .slice(0, 3);
 
-  const topWeakTopics = [...topicStats]
-    .filter((t) => t.attempted > 0)
-    .sort((a, b) => (a.avg ?? 5) - (b.avg ?? 5))
-    .slice(0, 5);
-
   const nextChapter =
     weakestChapters[0] ??
     chapterStats.find((c) => c.attempted === 0) ??
     chapterStats[0];
+  const nextTopic = topWeakTopics[0]?.title;
+  const secondTopic = topWeakTopics[3]?.title ?? topWeakTopics[1]?.title;
 
   return (
     <AppShell>
@@ -139,10 +169,15 @@ function ProgressPage() {
       </header>
 
       {/* Top hero */}
-      <section className="panel panel-glow p-5 mb-6">
+      <section className="panel p-5 mb-6">
         <div className="flex flex-col lg:flex-row gap-6 lg:items-center">
           <div className="shrink-0 mx-auto lg:mx-0">
-            <ReadinessRing value={overall} size={170} stroke={14} color={ringColor(overall)}>
+            <ReadinessRing
+              value={overall}
+              size={170}
+              stroke={14}
+              color={readinessColor(overall, attemptedTotal === 0)}
+            >
               <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">
                 Overall
               </span>
@@ -150,28 +185,36 @@ function ProgressPage() {
                 {overall}%
               </span>
               <span className="text-[10px] text-muted-foreground mt-1">
-                target {exam.targetReadiness}%
+                target {target}%
               </span>
             </ReadinessRing>
           </div>
-          <div className="flex-1 grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div className="flex-1 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
             <HeroStat
               label="Exam in"
               value={
-                days === null ? "—" : days < 0 ? "passed" : days === 0 ? "today" : `${days}d`
+                days === null
+                  ? "—"
+                  : days < 0
+                    ? "passed"
+                    : days === 0
+                      ? "today"
+                      : `${days}d`
               }
             />
             <HeroStat
               label="Questions done"
               value={`${attemptedTotal}`}
-              sub={`/ ${questions.length}`}
+              sub={`/ ${totalQs}`}
             />
             <HeroStat label="In review" value={`${reviewTotal}`} />
             <HeroStat
               label="Per day"
               value={perDay ? `${perDay}` : "—"}
-              sub={perDay ? "to hit target" : "set exam date"}
+              sub={perDay ? "to target" : "set date"}
             />
+            <HeroStat label="Target" value={`${target}%`} />
+            <HeroStat label="Overall" value={`${overall}%`} />
           </div>
         </div>
       </section>
@@ -197,7 +240,8 @@ function ProgressPage() {
           rows={weakestChapters.map((c) => ({
             label: c.ch.title,
             value: `${c.readiness}%`,
-            tone: "danger" as const,
+            readiness: c.readiness,
+            attempted: c.attempted,
             href: { to: "/chapter/$chapterId" as const, params: { chapterId: c.ch.id } },
           }))}
           empty="No attempts yet — start anywhere."
@@ -208,7 +252,8 @@ function ProgressPage() {
           rows={strongestChapters.map((c) => ({
             label: c.ch.title,
             value: `${c.readiness}%`,
-            tone: "success" as const,
+            readiness: c.readiness,
+            attempted: c.attempted,
             href: { to: "/chapter/$chapterId" as const, params: { chapterId: c.ch.id } },
           }))}
           empty="Need a few solid attempts first."
@@ -217,19 +262,17 @@ function ProgressPage() {
           title="Top weak topics"
           icon={<Zap className="h-3.5 w-3.5 text-warning" />}
           rows={topWeakTopics.map((t) => ({
-            label: t.topic.title,
-            value: t.avg !== null ? `${Math.round((t.avg / 5) * 100)}%` : "—",
-            tone:
-              t.avg !== null && t.avg < 1.5
-                ? ("danger" as const)
-                : ("warn" as const),
+            label: t.title,
+            value: t.attempted > 0 ? `${t.readiness}%` : "—",
+            readiness: t.readiness,
+            attempted: t.attempted,
           }))}
           empty="Attempt questions to surface weak topics."
         />
       </section>
 
       {/* Recommended next action */}
-      <section className="panel panel-glow p-5 border-primary/30">
+      <section className="panel p-5 border-primary/40">
         <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground inline-flex items-center gap-1.5">
           <Target className="h-3.5 w-3.5 text-primary" /> Recommended next action
         </p>
@@ -237,11 +280,16 @@ function ProgressPage() {
           <p className="text-lg">
             {nextChapter ? (
               <>
-                Attack <strong>{nextChapter.ch.title}</strong>
-                {nextChapter.weakest ? (
-                  <> — especially <strong>{nextChapter.weakest.title}</strong></>
+                Focus on <strong>{nextChapter.ch.title}</strong> next
+                {nextTopic ? (
+                  <>
+                    {" "}— especially <strong>{nextTopic}</strong>
+                    {secondTopic && secondTopic !== nextTopic ? (
+                      <> and <strong>{secondTopic}</strong></>
+                    ) : null}
+                  </>
                 ) : null}
-                . You're at <strong>{nextChapter.readiness}%</strong> readiness here.
+                . You&apos;re at <strong>{nextChapter.readiness}%</strong> readiness here.
               </>
             ) : (
               <>Pick a chapter to begin.</>
@@ -269,12 +317,12 @@ function ProgressPage() {
 
 function ChapterTile({ s }: { s: ChapterStat }) {
   const meta = statusMeta(s.status);
-  const color = ringColor(s.readiness, s.status === "untested");
+  const color = readinessColor(s.readiness, s.status === "untested");
   return (
     <Link
       to="/chapter/$chapterId"
       params={{ chapterId: s.ch.id }}
-      className="panel panel-glow p-4 hover:border-primary/40 transition-colors group relative flex flex-col"
+      className="panel p-4 hover:border-primary/40 transition-colors flex flex-col"
     >
       <div className="flex items-center justify-between">
         <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
@@ -309,12 +357,9 @@ function ChapterTile({ s }: { s: ChapterStat }) {
           )}
         </div>
       </div>
-      <div className="mt-3 flex items-center justify-between">
-        <div className="h-1.5 bg-secondary/70 rounded-full overflow-hidden flex-1 mr-3">
-          <div
-            className="h-full"
-            style={{ width: `${s.progress}%`, background: color }}
-          />
+      <div className="mt-3 flex items-center justify-between gap-3">
+        <div className="h-1.5 bg-secondary/70 rounded-full overflow-hidden flex-1">
+          <div className="h-full" style={{ width: `${s.progress}%`, background: color }} />
         </div>
         <span className="text-xs text-muted-foreground">{s.progress}%</span>
       </div>
@@ -325,7 +370,8 @@ function ChapterTile({ s }: { s: ChapterStat }) {
 type Row = {
   label: string;
   value: string;
-  tone: "success" | "warn" | "danger" | "neutral";
+  readiness: number;
+  attempted: number;
   href?: { to: "/chapter/$chapterId"; params: { chapterId: string } };
 };
 
@@ -348,20 +394,29 @@ function AnalysisCard({
       {rows.length === 0 ? (
         <p className="mt-3 text-sm text-muted-foreground">{empty}</p>
       ) : (
-        <ul className="mt-3 space-y-1">
+        <ul className="mt-3 space-y-2">
           {rows.map((r, i) => {
-            const chip =
-              r.tone === "success"
-                ? "chip-success"
-                : r.tone === "warn"
-                  ? "chip-warn"
-                  : r.tone === "danger"
-                    ? "chip-danger"
-                    : "";
+            const color = readinessColor(r.readiness, r.attempted === 0);
             const content = (
-              <div className="flex items-center justify-between gap-3 py-1.5 px-2 -mx-2 rounded hover:bg-secondary/50">
-                <span className="text-sm truncate">{r.label}</span>
-                <span className={`chip ${chip} shrink-0`}>{r.value}</span>
+              <div className="py-1.5 px-2 -mx-2 rounded hover:bg-secondary/50">
+                <div className="flex items-center justify-between gap-3">
+                  <span className="text-sm truncate">{r.label}</span>
+                  <span
+                    className="text-xs font-semibold shrink-0"
+                    style={{ color }}
+                  >
+                    {r.value}
+                  </span>
+                </div>
+                <div className="h-1.5 mt-1.5 bg-secondary/60 rounded-full overflow-hidden">
+                  <div
+                    className="h-full"
+                    style={{
+                      width: `${r.attempted === 0 ? 8 : r.readiness}%`,
+                      background: color,
+                    }}
+                  />
+                </div>
               </div>
             );
             return (

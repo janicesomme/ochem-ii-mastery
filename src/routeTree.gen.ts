@@ -16,7 +16,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as QuickSheetsIndexRouteImport } from './routes/quick-sheets.index'
 import { Route as QuickSheetsSheetIdRouteImport } from './routes/quick-sheets.$sheetId'
 import { Route as QuestionQuestionIdRouteImport } from './routes/question.$questionId'
-import { Route as ChapterChapterIdRouteImport } from './routes/chapter.$chapterId'
+import { Route as ChapterChapterIdIndexRouteImport } from './routes/chapter.$chapterId.index'
 import { Route as ChapterChapterIdMapRouteImport } from './routes/chapter.$chapterId.map'
 
 const ReviewRoute = ReviewRouteImport.update({
@@ -54,15 +54,15 @@ const QuestionQuestionIdRoute = QuestionQuestionIdRouteImport.update({
   path: '/question/$questionId',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ChapterChapterIdRoute = ChapterChapterIdRouteImport.update({
-  id: '/chapter/$chapterId',
-  path: '/chapter/$chapterId',
+const ChapterChapterIdIndexRoute = ChapterChapterIdIndexRouteImport.update({
+  id: '/chapter/$chapterId/',
+  path: '/chapter/$chapterId/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ChapterChapterIdMapRoute = ChapterChapterIdMapRouteImport.update({
-  id: '/map',
-  path: '/map',
-  getParentRoute: () => ChapterChapterIdRoute,
+  id: '/chapter/$chapterId/map',
+  path: '/chapter/$chapterId/map',
+  getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -70,22 +70,22 @@ export interface FileRoutesByFullPath {
   '/progress': typeof ProgressRoute
   '/question-bank': typeof QuestionBankRoute
   '/review': typeof ReviewRoute
-  '/chapter/$chapterId': typeof ChapterChapterIdRouteWithChildren
   '/question/$questionId': typeof QuestionQuestionIdRoute
   '/quick-sheets/$sheetId': typeof QuickSheetsSheetIdRoute
   '/quick-sheets/': typeof QuickSheetsIndexRoute
   '/chapter/$chapterId/map': typeof ChapterChapterIdMapRoute
+  '/chapter/$chapterId/': typeof ChapterChapterIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/progress': typeof ProgressRoute
   '/question-bank': typeof QuestionBankRoute
   '/review': typeof ReviewRoute
-  '/chapter/$chapterId': typeof ChapterChapterIdRouteWithChildren
   '/question/$questionId': typeof QuestionQuestionIdRoute
   '/quick-sheets/$sheetId': typeof QuickSheetsSheetIdRoute
   '/quick-sheets': typeof QuickSheetsIndexRoute
   '/chapter/$chapterId/map': typeof ChapterChapterIdMapRoute
+  '/chapter/$chapterId': typeof ChapterChapterIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -93,11 +93,11 @@ export interface FileRoutesById {
   '/progress': typeof ProgressRoute
   '/question-bank': typeof QuestionBankRoute
   '/review': typeof ReviewRoute
-  '/chapter/$chapterId': typeof ChapterChapterIdRouteWithChildren
   '/question/$questionId': typeof QuestionQuestionIdRoute
   '/quick-sheets/$sheetId': typeof QuickSheetsSheetIdRoute
   '/quick-sheets/': typeof QuickSheetsIndexRoute
   '/chapter/$chapterId/map': typeof ChapterChapterIdMapRoute
+  '/chapter/$chapterId/': typeof ChapterChapterIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -106,33 +106,33 @@ export interface FileRouteTypes {
     | '/progress'
     | '/question-bank'
     | '/review'
-    | '/chapter/$chapterId'
     | '/question/$questionId'
     | '/quick-sheets/$sheetId'
     | '/quick-sheets/'
     | '/chapter/$chapterId/map'
+    | '/chapter/$chapterId/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/progress'
     | '/question-bank'
     | '/review'
-    | '/chapter/$chapterId'
     | '/question/$questionId'
     | '/quick-sheets/$sheetId'
     | '/quick-sheets'
     | '/chapter/$chapterId/map'
+    | '/chapter/$chapterId'
   id:
     | '__root__'
     | '/'
     | '/progress'
     | '/question-bank'
     | '/review'
-    | '/chapter/$chapterId'
     | '/question/$questionId'
     | '/quick-sheets/$sheetId'
     | '/quick-sheets/'
     | '/chapter/$chapterId/map'
+    | '/chapter/$chapterId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -140,10 +140,11 @@ export interface RootRouteChildren {
   ProgressRoute: typeof ProgressRoute
   QuestionBankRoute: typeof QuestionBankRoute
   ReviewRoute: typeof ReviewRoute
-  ChapterChapterIdRoute: typeof ChapterChapterIdRouteWithChildren
   QuestionQuestionIdRoute: typeof QuestionQuestionIdRoute
   QuickSheetsSheetIdRoute: typeof QuickSheetsSheetIdRoute
   QuickSheetsIndexRoute: typeof QuickSheetsIndexRoute
+  ChapterChapterIdMapRoute: typeof ChapterChapterIdMapRoute
+  ChapterChapterIdIndexRoute: typeof ChapterChapterIdIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -197,44 +198,44 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof QuestionQuestionIdRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/chapter/$chapterId': {
-      id: '/chapter/$chapterId'
+    '/chapter/$chapterId/': {
+      id: '/chapter/$chapterId/'
       path: '/chapter/$chapterId'
-      fullPath: '/chapter/$chapterId'
-      preLoaderRoute: typeof ChapterChapterIdRouteImport
+      fullPath: '/chapter/$chapterId/'
+      preLoaderRoute: typeof ChapterChapterIdIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/chapter/$chapterId/map': {
       id: '/chapter/$chapterId/map'
-      path: '/map'
+      path: '/chapter/$chapterId/map'
       fullPath: '/chapter/$chapterId/map'
       preLoaderRoute: typeof ChapterChapterIdMapRouteImport
-      parentRoute: typeof ChapterChapterIdRoute
+      parentRoute: typeof rootRouteImport
     }
   }
 }
-
-interface ChapterChapterIdRouteChildren {
-  ChapterChapterIdMapRoute: typeof ChapterChapterIdMapRoute
-}
-
-const ChapterChapterIdRouteChildren: ChapterChapterIdRouteChildren = {
-  ChapterChapterIdMapRoute: ChapterChapterIdMapRoute,
-}
-
-const ChapterChapterIdRouteWithChildren =
-  ChapterChapterIdRoute._addFileChildren(ChapterChapterIdRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ProgressRoute: ProgressRoute,
   QuestionBankRoute: QuestionBankRoute,
   ReviewRoute: ReviewRoute,
-  ChapterChapterIdRoute: ChapterChapterIdRouteWithChildren,
   QuestionQuestionIdRoute: QuestionQuestionIdRoute,
   QuickSheetsSheetIdRoute: QuickSheetsSheetIdRoute,
   QuickSheetsIndexRoute: QuickSheetsIndexRoute,
+  ChapterChapterIdMapRoute: ChapterChapterIdMapRoute,
+  ChapterChapterIdIndexRoute: ChapterChapterIdIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

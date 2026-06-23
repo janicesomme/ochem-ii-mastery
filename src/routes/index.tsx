@@ -516,7 +516,11 @@ export function ChapterCard({ s }: { s: ChapterStat }) {
   const meta = statusMeta(s.status);
   const color = readinessColor(s.readiness, s.status === "untested");
   return (
-    <div className="panel p-5 hover:border-primary/40 transition-colors group">
+    <Link
+      to="/chapter/$chapterId/map"
+      params={{ chapterId: s.ch.id }}
+      className="panel p-5 hover:border-primary/40 transition-colors group block"
+    >
       <div className="flex items-start gap-4">
         <div className="shrink-0">
           <ReadinessRing
@@ -564,17 +568,14 @@ export function ChapterCard({ s }: { s: ChapterStat }) {
             style={{ width: `${s.progress}%`, background: color }}
           />
         </div>
-        <Link
-          to="/chapter/$chapterId/map"
-          params={{ chapterId: s.ch.id }}
-          className="text-xs font-semibold text-primary inline-flex items-center gap-1 hover:gap-1.5 transition-all"
-        >
+        <span className="text-xs font-semibold text-primary inline-flex items-center gap-1 group-hover:gap-1.5 transition-all">
           Battle map <ArrowRight className="h-3.5 w-3.5" />
-        </Link>
+        </span>
       </div>
-    </div>
+    </Link>
   );
 }
+
 
 function WeakSpotMap({ weakSpots }: { weakSpots: DemoWeakSpot[] }) {
   return (

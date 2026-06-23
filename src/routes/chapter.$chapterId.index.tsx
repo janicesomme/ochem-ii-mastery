@@ -10,7 +10,7 @@ import {
 import { progress } from "@/lib/progress";
 import { useEffect, useMemo, useState } from "react";
 
-export const Route = createFileRoute("/chapter/$chapterId")({
+export const Route = createFileRoute("/chapter/$chapterId/")({
   loader: ({ context, params }) => {
     context.queryClient.ensureQueryData(chapterQuery(params.chapterId));
     context.queryClient.ensureQueryData(topicsByChapterQuery(params.chapterId));

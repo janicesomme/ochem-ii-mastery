@@ -1,6 +1,6 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, Filter as FilterIcon, X } from "lucide-react";
 import { AppShell, DifficultyChip, ScoreChip } from "@/components/AppShell";
 import { ChapterTabs } from "./chapter.$chapterId.map";
 import {
@@ -11,7 +11,28 @@ import {
 import { progress } from "@/lib/progress";
 import { useEffect, useMemo, useState } from "react";
 
+type BankSearch = {
+  topic?: string;
+  move?: string;
+  trap?: string;
+  mode?: string;
+  label?: string;
+  from?: string;
+};
+
 export const Route = createFileRoute("/chapter/$chapterId/")({
+  validateSearch: (raw: Record<string, unknown>): BankSearch => {
+    const s = (k: string) =>
+      typeof raw[k] === "string" ? (raw[k] as string) : undefined;
+    return {
+      topic: s("topic"),
+      move: s("move"),
+      trap: s("trap"),
+      mode: s("mode"),
+      label: s("label"),
+      from: s("from"),
+    };
+  },
   loader: ({ context, params }) => {
     context.queryClient.ensureQueryData(chapterQuery(params.chapterId));
     context.queryClient.ensureQueryData(topicsByChapterQuery(params.chapterId));
@@ -34,15 +55,22 @@ export const Route = createFileRoute("/chapter/$chapterId/")({
 
 function ChapterPage() {
   const { chapterId } = Route.useParams();
+  const search = Route.useSearch();
+  const navigate = useNavigate();
   const { data: chapter } = useSuspenseQuery(chapterQuery(chapterId));
   const { data: topics } = useSuspenseQuery(topicsByChapterQuery(chapterId));
   const { data: questions } = useSuspenseQuery(
     questionsQuery({ chapterId }),
   );
 
-  const [topicId, setTopicId] = useState<string | "">("");
+  const [topicId, setTopicId] = useState<string | "">(search.topic ?? "");
   const [difficulty, setDifficulty] = useState<string>("");
   const [type, setType] = useState<string>("");
+
+  // sync topic filter when URL changes (e.g. arriving from Battle Map)
+  useEffect(() => {
+    setTopicId(search.topic ?? "");
+  }, [search.topic]);
 
   const [, force] = useState(0);
   useEffect(() => {
@@ -63,6 +91,30 @@ function ChapterPage() {
       (!type || q.question_type === type),
   );
 
+  const battleFilter = useMemo(() => {
+    if (!search.from && !search.topic && !search.move && !search.trap && !search.mode)
+      return null;
+    if (search.label) return search.label;
+    if (search.mode === "sprint") return "Smart Practice sprint";
+    if (search.topic) {
+      const t = topics.find((x) => x.id === search.topic);
+      return t ? t.title : `topic: ${search.topic}`;
+    }
+    if (search.move) return `move: ${search.move.replace(/-/g, " ")}`;
+    if (search.trap) return `trap: ${search.trap.replace(/-/g, " ")}`;
+    return null;
+  }, [search, topics]);
+
+  const clearBattleFilter = () => {
+    setTopicId("");
+    navigate({
+      to: "/chapter/$chapterId",
+      params: { chapterId },
+      search: {},
+      replace: true,
+    });
+  };
+
   return (
     <AppShell>
       <Link
@@ -73,7 +125,6 @@ function ChapterPage() {
       </Link>
       <ChapterTabs chapterId={chapter.id} active="bank" />
       <header className="mb-6">
-
         <p className="chip">Chapter {chapter.number}</p>
         <h1 className="text-3xl font-semibold mt-2">{chapter.title}</h1>
         {chapter.description && (
@@ -82,6 +133,27 @@ function ChapterPage() {
           </p>
         )}
       </header>
+
+      {battleFilter && (
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-primary/40 bg-primary/10 px-4 py-3">
+          <p className="inline-flex items-center gap-2 text-sm">
+            <FilterIcon className="h-4 w-4 text-primary" />
+            <span>
+              <span className="font-semibold text-primary">
+                Filtered by Battle Map:
+              </span>{" "}
+              <span className="font-medium">{battleFilter}</span>
+            </span>
+          </p>
+          <button
+            type="button"
+            onClick={clearBattleFilter}
+            className="inline-flex items-center gap-1 text-xs rounded-md border border-border bg-surface px-2 py-1 hover:bg-muted/60"
+          >
+            <X className="h-3 w-3" /> Clear filter
+          </button>
+        </div>
+      )}
 
       <section className="panel p-4 mb-6">
         <div className="grid gap-3 sm:grid-cols-3">
@@ -145,6 +217,19 @@ function ChapterPage() {
           {filtered.length === 0 && (
             <p className="panel p-8 text-center text-muted-foreground text-sm">
               No questions match these filters.
+              {battleFilter && (
+                <>
+                  {" "}
+                  <button
+                    type="button"
+                    onClick={clearBattleFilter}
+                    className="text-primary hover:underline"
+                  >
+                    Clear Battle Map filter
+                  </button>
+                  .
+                </>
+              )}
             </p>
           )}
         </div>

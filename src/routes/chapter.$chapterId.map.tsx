@@ -34,6 +34,32 @@ import {
 } from "@/lib/readiness";
 import { demoChapterStats } from "@/lib/demo";
 import { useEffect, useMemo, useState } from "react";
+import type { ChapterMap } from "@/lib/chapter-map";
+
+function slug(s: string): string {
+  return s
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "")
+    .slice(0, 60);
+}
+
+function smartPracticeSearch(map: ChapterMap): {
+  topic?: string;
+  mode: string;
+  label: string;
+  from: string;
+} {
+  const first = map.practice_priority[0];
+  return {
+    topic: first?.topic_id,
+    mode: "sprint",
+    label: first
+      ? `Smart Practice — ${first.label}`
+      : "Smart Practice",
+    from: "battle-map",
+  };
+}
 
 export const Route = createFileRoute("/chapter/$chapterId/map")({
   loader: ({ context, params }) => {
@@ -181,17 +207,14 @@ function BattleMapPage() {
               >
                 Open Full Question Bank <ChevronRight className="h-4 w-4" />
               </Link>
-              <button
-                type="button"
-                onClick={() => {
-                  document
-                    .getElementById("priority")
-                    ?.scrollIntoView({ behavior: "smooth" });
-                }}
+              <Link
+                to="/chapter/$chapterId"
+                params={{ chapterId: chapter.id }}
+                search={smartPracticeSearch(map)}
                 className="btn-ghost"
               >
                 Start Smart Practice
-              </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -225,6 +248,7 @@ function BattleMapPage() {
             <Link
               to="/chapter/$chapterId"
               params={{ chapterId: chapter.id }}
+              search={smartPracticeSearch(map)}
               className="btn-primary"
             >
               <Sparkles className="h-4 w-4" /> Start recommended sprint
@@ -255,6 +279,11 @@ function BattleMapPage() {
                   <Link
                     to="/chapter/$chapterId"
                     params={{ chapterId: chapter.id }}
+                    search={{
+                      topic: f.topic_id,
+                      label: f.label,
+                      from: "battle-map",
+                    }}
                     className="text-xs text-primary hover:underline inline-flex items-center gap-1"
                   >
                     Practice these <ArrowRight className="h-3 w-3" />
@@ -330,6 +359,12 @@ function BattleMapPage() {
                 <Link
                   to="/chapter/$chapterId"
                   params={{ chapterId: chapter.id }}
+                  search={{
+                    move: slug(g.move),
+                    topic: g.topic_id,
+                    label: `Move — ${g.task}`,
+                    from: "battle-map",
+                  }}
                   className="text-xs text-primary hover:underline inline-flex items-center gap-1"
                 >
                   Drill this move <ArrowRight className="h-3 w-3" />
@@ -361,6 +396,11 @@ function BattleMapPage() {
               <Link
                 to="/chapter/$chapterId"
                 params={{ chapterId: chapter.id }}
+                search={{
+                  move: slug(step),
+                  label: `Move step ${i + 1} — ${step}`,
+                  from: "battle-map",
+                }}
                 className="text-[11px] text-primary hover:underline inline-flex items-center gap-1 shrink-0"
               >
                 Drill <ArrowRight className="h-3 w-3" />
@@ -396,6 +436,12 @@ function BattleMapPage() {
                   <Link
                     to="/chapter/$chapterId"
                     params={{ chapterId: chapter.id }}
+                    search={{
+                      trap: slug(t.title),
+                      topic: t.topic_id,
+                      label: `Trap — ${t.title}`,
+                      from: "battle-map",
+                    }}
                     className="text-xs text-primary hover:underline inline-flex items-center gap-1"
                   >
                     Drill this trap <ArrowRight className="h-3 w-3" />
@@ -439,6 +485,12 @@ function BattleMapPage() {
               <Link
                 to="/chapter/$chapterId"
                 params={{ chapterId: chapter.id }}
+                search={{
+                  topic: p.topic_id,
+                  mode: "sprint",
+                  label: `Sprint — ${p.label}${p.minutes ? ` (${p.minutes} min)` : ""}`,
+                  from: "battle-map",
+                }}
                 className="btn-primary shrink-0"
               >
                 <Sparkles className="h-3.5 w-3.5" /> Start sprint
@@ -451,6 +503,7 @@ function BattleMapPage() {
           <Link
             to="/chapter/$chapterId"
             params={{ chapterId: chapter.id }}
+            search={smartPracticeSearch(map)}
             className="btn-primary"
           >
             <Sparkles className="h-4 w-4" /> Start Smart Practice

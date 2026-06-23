@@ -488,11 +488,11 @@ function TodaysMission({
         <div className="flex flex-wrap gap-2 shrink-0">
           {weakestChapter ? (
             <Link
-              to="/chapter/$chapterId"
+              to="/chapter/$chapterId/map"
               params={{ chapterId: weakestChapter.ch.id }}
               className="btn-primary"
             >
-              Practice this chapter <ArrowRight className="h-3.5 w-3.5" />
+              Open battle map <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           ) : (
             <Link to="/question-bank" className="btn-primary">

@@ -26,8 +26,8 @@ export const chapters: Chapter[] = [
   {
     id: "ch-3",
     number: 3,
-    title: "Aromatic Chemistry",
-    description: "EAS, directors, and multi-step aromatic synthesis.",
+    title: "Aromatic Chemistry / EAS",
+    description: "Electrophile generation, directors, and Friedel-Crafts.",
     sort_order: 3,
   },
   {
@@ -37,6 +37,20 @@ export const chapters: Chapter[] = [
     description: "Oxidation, dehydration, and epoxide ring-opening.",
     sort_order: 4,
   },
+  {
+    id: "ch-5",
+    number: 5,
+    title: "Carbonyl Reactions",
+    description: "Aldehydes, ketones, nucleophilic addition.",
+    sort_order: 5,
+  },
+  {
+    id: "ch-6",
+    number: 6,
+    title: "Carboxylic Acid Derivatives",
+    description: "Esters, amides, acid chlorides, and acyl substitution.",
+    sort_order: 6,
+  },
 ];
 
 export const topics: Topic[] = [
@@ -44,9 +58,16 @@ export const topics: Topic[] = [
   { id: "t-1b", chapter_id: "ch-1", title: "E1 vs E2", description: null, sort_order: 2 },
   { id: "t-2a", chapter_id: "ch-2", title: "Markovnikov addition", description: null, sort_order: 1 },
   { id: "t-2b", chapter_id: "ch-2", title: "Alkyne reactions", description: null, sort_order: 2 },
-  { id: "t-3a", chapter_id: "ch-3", title: "EAS directors", description: null, sort_order: 1 },
+  { id: "t-3a", chapter_id: "ch-3", title: "Electrophile generation", description: null, sort_order: 1 },
+  { id: "t-3b", chapter_id: "ch-3", title: "Directing effects (o/p/m)", description: null, sort_order: 2 },
+  { id: "t-3c", chapter_id: "ch-3", title: "Friedel-Crafts reactions", description: null, sort_order: 3 },
+  { id: "t-3d", chapter_id: "ch-3", title: "Multistep aromatic synthesis", description: null, sort_order: 4 },
   { id: "t-4a", chapter_id: "ch-4", title: "Alcohol oxidation", description: null, sort_order: 1 },
   { id: "t-4b", chapter_id: "ch-4", title: "Epoxide opening", description: null, sort_order: 2 },
+  { id: "t-5a", chapter_id: "ch-5", title: "Nucleophilic addition", description: null, sort_order: 1 },
+  { id: "t-5b", chapter_id: "ch-5", title: "Acetal formation", description: null, sort_order: 2 },
+  { id: "t-6a", chapter_id: "ch-6", title: "Acyl substitution reactivity", description: null, sort_order: 1 },
+  { id: "t-6b", chapter_id: "ch-6", title: "Ester / amide hydrolysis", description: null, sort_order: 2 },
 ];
 
 type FullQuestion = {

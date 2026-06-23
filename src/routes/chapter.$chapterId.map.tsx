@@ -34,7 +34,7 @@ import {
 } from "@/lib/readiness";
 import { demoChapterStats } from "@/lib/demo";
 import { useEffect, useMemo, useState } from "react";
-import type { ChapterMap } from "@/lib/chapter-map";
+
 
 function slug(s: string): string {
   return s

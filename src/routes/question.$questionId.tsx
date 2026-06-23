@@ -15,6 +15,7 @@ import {
 import { AppShell, DifficultyChip } from "@/components/AppShell";
 import { Scratchpad } from "@/components/Scratchpad";
 import { chapterQuery, questionDetailQuery, questionsQuery } from "@/lib/queries";
+import { getQuestionDecoder } from "@/lib/chapter-map";
 import { progress } from "@/lib/progress";
 
 export const Route = createFileRoute("/question/$questionId")({
@@ -116,6 +117,8 @@ function QuestionPage() {
         <p className="mt-4 text-foreground/90 whitespace-pre-wrap leading-relaxed">
           {data.question.prompt}
         </p>
+
+        <DecoderBox questionId={data.question.id} chapterId={chapter.id} />
 
         {/* Future: question image from Supabase Storage */}
         <QuestionImage url={data.question.question_image_url} label="Question figure" />
@@ -377,6 +380,32 @@ function QuestionPage() {
         </button>
       </nav>
     </AppShell>
+  );
+}
+
+function DecoderBox({ questionId, chapterId }: { questionId: string; chapterId: string }) {
+  const d = getQuestionDecoder(questionId);
+  if (!d) return null;
+  return (
+    <div className="mt-5 rounded-lg border border-primary/30 bg-primary/10 p-3.5 text-sm">
+      <p className="text-[11px] uppercase tracking-wider font-semibold text-primary inline-flex items-center gap-1.5">
+        <Sparkles className="h-3.5 w-3.5" /> Decoder
+      </p>
+      <p className="mt-1.5">
+        This question is asking you to:{" "}
+        <span className="font-semibold">{d.task.toLowerCase()}</span>.
+      </p>
+      <p className="text-xs text-muted-foreground mt-1">
+        <span className="font-semibold text-foreground">Move:</span> {d.move}
+      </p>
+      <Link
+        to="/chapter/$chapterId/map"
+        params={{ chapterId }}
+        className="text-xs text-primary hover:underline inline-flex items-center gap-1 mt-2"
+      >
+        See chapter battle map →
+      </Link>
+    </div>
   );
 }
 

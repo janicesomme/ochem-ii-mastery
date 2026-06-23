@@ -18,7 +18,8 @@ import {
   chaptersQuery,
   quickSheetsQuery,
 } from "@/lib/queries";
-import { topics as allTopics } from "@/lib/mock-data";
+import { topics as allTopics, chapters as allChapters } from "@/lib/mock-data";
+import { getTodaysChapterInsight } from "@/lib/chapter-map";
 import { progress, type Attempt } from "@/lib/progress";
 import { daysUntil, getExam, setExam, type ExamSettings } from "@/lib/exam";
 import {
@@ -229,11 +230,14 @@ function Dashboard() {
         perDay={perDay}
       />
 
+      {/* Today's chapter insight */}
+      <TodaysChapterInsight />
+
       {/* Chapter readiness */}
       <section className="mt-8 mb-8">
         <SectionHeader
           title="Chapter readiness"
-          subtitle="Tap a ring to keep practicing."
+          subtitle="Tap Battle map to plan your attack."
         />
         <div className="grid gap-3 sm:grid-cols-2">
           {chapterStats.map((s) => (
@@ -488,11 +492,11 @@ function TodaysMission({
         <div className="flex flex-wrap gap-2 shrink-0">
           {weakestChapter ? (
             <Link
-              to="/chapter/$chapterId"
+              to="/chapter/$chapterId/map"
               params={{ chapterId: weakestChapter.ch.id }}
               className="btn-primary"
             >
-              Practice this chapter <ArrowRight className="h-3.5 w-3.5" />
+              Open battle map <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           ) : (
             <Link to="/question-bank" className="btn-primary">
@@ -561,11 +565,11 @@ export function ChapterCard({ s }: { s: ChapterStat }) {
           />
         </div>
         <Link
-          to="/chapter/$chapterId"
+          to="/chapter/$chapterId/map"
           params={{ chapterId: s.ch.id }}
           className="text-xs font-semibold text-primary inline-flex items-center gap-1 hover:gap-1.5 transition-all"
         >
-          {s.attempted === 0 ? "Start" : "Resume"} <ArrowRight className="h-3.5 w-3.5" />
+          Battle map <ArrowRight className="h-3.5 w-3.5" />
         </Link>
       </div>
     </div>
@@ -706,6 +710,33 @@ function ImprovementCard({
         </p>
       )}
     </div>
+  );
+}
+
+function TodaysChapterInsight() {
+  const { chapter_id, insight } = getTodaysChapterInsight();
+  const ch = allChapters.find((c) => c.id === chapter_id);
+  if (!ch) return null;
+  return (
+    <section className="panel p-5 mt-4 border-accent/40">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground inline-flex items-center gap-1.5">
+            <Sparkles className="h-3.5 w-3.5 text-accent" /> Today&apos;s chapter insight
+          </p>
+          <p className="text-base mt-2">
+            <span className="font-semibold">{ch.title}:</span> {insight}
+          </p>
+        </div>
+        <Link
+          to="/chapter/$chapterId/map"
+          params={{ chapterId: ch.id }}
+          className="btn-primary shrink-0"
+        >
+          Open battle map <ArrowRight className="h-3.5 w-3.5" />
+        </Link>
+      </div>
+    </section>
   );
 }
 

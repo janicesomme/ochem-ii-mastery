@@ -377,6 +377,7 @@ function QuestionPage() {
                   .map((q) => q.id)}
               />
             )}
+          </div>
         )}
       </article>
 

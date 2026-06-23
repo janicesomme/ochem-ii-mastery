@@ -118,7 +118,13 @@ function QuestionPage() {
           {data.question.prompt}
         </p>
 
-        <DecoderBox questionId={data.question.id} chapterId={chapter.id} />
+        <DecoderBox
+          key={data.question.id}
+          questionId={data.question.id}
+          chapterId={chapter.id}
+          questionType={data.question.question_type}
+          tried={tried}
+        />
 
         {/* Future: question image from Supabase Storage */}
         <QuestionImage url={data.question.question_image_url} label="Question figure" />
@@ -383,28 +389,86 @@ function QuestionPage() {
   );
 }
 
-function DecoderBox({ questionId, chapterId }: { questionId: string; chapterId: string }) {
+function DecoderBox({
+  questionId,
+  chapterId,
+  questionType,
+  tried,
+}: {
+  questionId: string;
+  chapterId: string;
+  questionType: string;
+  tried: boolean;
+}) {
   const d = getQuestionDecoder(questionId);
+  const [open, setOpen] = useState(false);
+  const fromWording =
+    typeof window !== "undefined" &&
+    new URLSearchParams(window.location.search).get("from") === "wording";
+
   if (!d) return null;
+
   return (
-    <div className="mt-5 rounded-lg border border-primary/30 bg-primary/10 p-3.5 text-sm">
-      <p className="text-[11px] uppercase tracking-wider font-semibold text-primary inline-flex items-center gap-1.5">
-        <Sparkles className="h-3.5 w-3.5" /> Decoder
-      </p>
-      <p className="mt-1.5">
-        This question is asking you to:{" "}
-        <span className="font-semibold">{d.task.toLowerCase()}</span>.
-      </p>
-      <p className="text-xs text-muted-foreground mt-1">
-        <span className="font-semibold text-foreground">Move:</span> {d.move}
-      </p>
-      <Link
-        to="/chapter/$chapterId/map"
-        params={{ chapterId }}
-        className="text-xs text-primary hover:underline inline-flex items-center gap-1 mt-2"
+    <div className="mt-5 rounded-lg border border-primary/30 bg-primary/10 text-sm overflow-hidden">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        className="w-full flex items-center justify-between gap-3 px-3.5 py-2.5 text-left hover:bg-primary/15"
+        aria-expanded={open}
       >
-        See chapter battle map →
-      </Link>
+        <span className="inline-flex items-center gap-1.5 text-[11px] uppercase tracking-wider font-semibold text-primary">
+          <Sparkles className="h-3.5 w-3.5" />
+          Question Decoder: What is this really asking?
+        </span>
+        <span className="text-xs text-muted-foreground">
+          {open ? "Hide" : "Open"}
+        </span>
+      </button>
+
+      {fromWording && !open && (
+        <p className="px-3.5 pb-2.5 -mt-1 text-xs text-muted-foreground italic">
+          Example from Wording Decoder — open decoder if you want help
+          identifying the task.
+        </p>
+      )}
+
+      {open && (
+        <div className="px-3.5 pb-3.5 pt-1 space-y-2.5 border-t border-primary/20">
+          <div>
+            <p className="text-[10px] uppercase tracking-wider font-semibold text-muted-foreground">
+              Question type
+            </p>
+            <p className="mt-0.5">
+              <span className="font-semibold">{questionType}</span> —{" "}
+              this question is asking you to{" "}
+              <span className="font-semibold">{d.task.toLowerCase()}</span>.
+            </p>
+          </div>
+
+          {!tried ? (
+            <p className="text-xs text-muted-foreground rounded-md border border-dashed border-border bg-background/40 p-2">
+              More specific move logic unlocks after you click{" "}
+              <span className="font-semibold text-foreground">I tried</span> —
+              that way the decoder doesn't spoil the answer.
+            </p>
+          ) : (
+            <div>
+              <p className="text-[10px] uppercase tracking-wider font-semibold text-muted-foreground">
+                Required move
+              </p>
+              <p className="text-xs mt-0.5">{d.move}</p>
+            </div>
+          )}
+
+          <Link
+            to="/chapter/$chapterId/map"
+            params={{ chapterId }}
+            className="text-xs text-primary hover:underline inline-flex items-center gap-1"
+          >
+            See chapter battle map →
+          </Link>
+        </div>
+      )}
     </div>
   );
 }

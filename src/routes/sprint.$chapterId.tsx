@@ -464,6 +464,20 @@ function ActiveSprint({
               tone={summary.toReview.length > 0 ? "warn" : undefined}
             />
           </div>
+          <div className="mt-4">
+            <SprintTutorSummary
+              avgScorePct={summary.avgScorePct}
+              weakestTopicLabel={summary.weakestTopic?.label}
+              improvedTopicLabel={
+                summary.avgScorePct >= 60 && summary.weakestTopic
+                  ? session.plan.mix.find(
+                      (m) => m.topic_id !== summary.weakestTopic?.topic_id,
+                    )?.label
+                  : undefined
+              }
+              chapterId={chapterId}
+            />
+          </div>
           {summary.weakestTopic && (
             <p className="text-sm mt-3">
               Weakest in this sprint:{" "}

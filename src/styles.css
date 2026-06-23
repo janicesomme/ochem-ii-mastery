@@ -84,7 +84,7 @@
 
   --border: oklch(0.9 0.008 240);
   --input: oklch(0.9 0.008 240);
-  --ring: oklch(0.62 0.13 195);
+  --ring: oklch(0.623 0.214 259);
 }
 
 .dark {
@@ -100,9 +100,9 @@
   --popover: oklch(0.185 0.004 270);
   --popover-foreground: oklch(0.97 0.003 250);
 
-  /* Teal accent — buttons/links/highlights only */
-  --primary: oklch(0.78 0.13 192);
-  --primary-foreground: oklch(0.14 0.01 270);
+  /* Electric blue accent — buttons/links/highlights only */
+  --primary: oklch(0.66 0.2 260);
+  --primary-foreground: oklch(0.99 0.005 250);
 
   --secondary: oklch(0.24 0.006 270);
   --secondary-foreground: oklch(0.96 0.005 250);
@@ -127,7 +127,7 @@
 
   --border: oklch(1 0 0 / 9%);
   --input: oklch(1 0 0 / 12%);
-  --ring: oklch(0.78 0.13 192);
+  --ring: oklch(0.66 0.2 260);
 }
 
 

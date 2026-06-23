@@ -238,6 +238,7 @@ export function recommendSprint(args: RecommendArgs): SprintPlan {
   // Topic total counts in the bank
   const totalByTopic = new Map<string, number>();
   for (const q of args.questions) {
+    if (!q.topic_id) continue;
     totalByTopic.set(q.topic_id, (totalByTopic.get(q.topic_id) ?? 0) + 1);
   }
 
@@ -476,16 +477,18 @@ export function buildStudentSignals(
   for (const q of questions.filter((q) => q.chapter_id === chapterId)) {
     const a = latest.get(q.id);
     if (!a) continue;
+    const tid = q.topic_id;
+    if (!tid) continue;
     const hintPenalty = Math.min(a.hints_used * 0.05, 0.15);
     const solPenalty = a.used_solution ? 0.1 : 0;
     const earned = Math.max(0, a.score / 5 - hintPenalty - solPenalty);
-    const acc = sums[q.topic_id] ?? { earned: 0, n: 0 };
+    const acc = sums[tid] ?? { earned: 0, n: 0 };
     acc.earned += earned;
     acc.n += 1;
-    sums[q.topic_id] = acc;
-    attempted[q.topic_id] = (attempted[q.topic_id] ?? 0) + 1;
+    sums[tid] = acc;
+    attempted[tid] = (attempted[tid] ?? 0) + 1;
     if (a.score <= 1 || a.used_solution || a.hints_used >= 2) {
-      review[q.topic_id] = (review[q.topic_id] ?? 0) + 1;
+      review[tid] = (review[tid] ?? 0) + 1;
     }
   }
   for (const [tid, s] of Object.entries(sums)) {
@@ -588,7 +591,7 @@ export function summarizeSprint(
   const topicSums = new Map<string, { earned: number; n: number }>();
   for (const [qid, a] of attemptsByQ.entries()) {
     const q = questions.find((x) => x.id === qid);
-    if (!q) continue;
+    if (!q || !q.topic_id) continue;
     const acc = topicSums.get(q.topic_id) ?? { earned: 0, n: 0 };
     acc.earned += a.score / 5;
     acc.n += 1;

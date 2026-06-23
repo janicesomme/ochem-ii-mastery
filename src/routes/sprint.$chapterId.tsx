@@ -137,8 +137,13 @@ function SprintPage() {
         <ActiveSprint
           session={sessionForThisChapter}
           chapterId={chapterId}
-          questions={questions}
+          questions={questions.map((q) => ({
+            id: q.id,
+            title: q.title,
+            topic_id: q.topic_id ?? "",
+          }))}
         />
+
       ) : (
         <Recommendation
           plan={plan}

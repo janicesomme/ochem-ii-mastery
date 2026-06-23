@@ -60,6 +60,7 @@ const EAS: ChapterMap = {
   insight:
     "EAS is mostly directing effects + multistep synthesis. Your weakest area is electrophile generation.",
   main_risk: "Directing effects + multistep order.",
+  total_questions: 124,
   frequency: [
     { topic_id: "t-3b", label: "Directing effects", frequency_percent: 30 },
     { topic_id: "t-3d", label: "Multistep synthesis", frequency_percent: 24 },
@@ -194,6 +195,7 @@ const SUB_ELIM: ChapterMap = {
   high_yield: true,
   insight: "Substrate class + base strength + solvent decide everything here.",
   main_risk: "Confusing SN1/E1 with SN2/E2 under polar protic conditions.",
+  total_questions: 86,
   frequency: [
     { topic_id: "t-1a", label: "SN2 vs SN1", frequency_percent: 38 },
     { topic_id: "t-1b", label: "E1 vs E2", frequency_percent: 32 },
@@ -246,6 +248,7 @@ const ALKENES: ChapterMap = {
   high_yield: true,
   insight: "Reagent choice determines regio- and stereochemistry. Memorize the table.",
   main_risk: "Forgetting peroxides flip HBr to anti-Markovnikov.",
+  total_questions: 78,
   frequency: [
     { topic_id: "t-2a", label: "Markovnikov addition", frequency_percent: 36 },
     { topic_id: "t-2b", label: "Alkyne reactions", frequency_percent: 28 },
@@ -288,6 +291,7 @@ const ALCOHOLS: ChapterMap = {
   high_yield: false,
   insight: "Pick the oxidant for how far to go. Watch acid vs base on epoxides.",
   main_risk: "Over-oxidizing 1° alcohols with the wrong oxidant.",
+  total_questions: 64,
   frequency: [
     { topic_id: "t-4a", label: "Alcohol oxidation", frequency_percent: 38 },
     { topic_id: "t-4b", label: "Epoxide opening", frequency_percent: 34 },
@@ -334,6 +338,7 @@ const CARBONYL: ChapterMap = {
   high_yield: true,
   insight: "Most carbonyl problems are nucleophilic addition with a workup step.",
   main_risk: "Stopping at the alkoxide instead of protonating to the alcohol.",
+  total_questions: 92,
   frequency: [
     { topic_id: "t-5a", label: "Nucleophilic addition", frequency_percent: 42 },
     { topic_id: "t-5b", label: "Acetal formation", frequency_percent: 24 },
@@ -371,6 +376,7 @@ const ACYL: ChapterMap = {
   high_yield: true,
   insight: "It's a reactivity ladder. Knowing the order solves most questions.",
   main_risk: "Inverting amide vs ester reactivity.",
+  total_questions: 71,
   frequency: [
     { topic_id: "t-6a", label: "Acyl substitution reactivity", frequency_percent: 40 },
     { topic_id: "t-6b", label: "Ester / amide hydrolysis", frequency_percent: 30 },

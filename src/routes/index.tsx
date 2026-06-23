@@ -570,6 +570,9 @@ function TodaysPlanCard({
         </div>
       )}
 
+      <PlanTutorNote focusTopic={focusTopic ?? focusChapter} />
+
+
 
       <div className="mt-auto pt-4 flex flex-wrap gap-2">
         {weakestChapter ? (

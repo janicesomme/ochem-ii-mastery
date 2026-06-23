@@ -142,9 +142,11 @@ function ProgressPage() {
     .slice(0, 3);
 
   const nextChapter =
+    (demoActive ? chapterStats.find((c) => c.ch.id === "ch-3") : undefined) ??
     weakestChapters[0] ??
     chapterStats.find((c) => c.attempted === 0) ??
     chapterStats[0];
+
   const nextTopic = topWeakTopics[0]?.title;
   const secondTopic = topWeakTopics[3]?.title ?? topWeakTopics[1]?.title;
 

@@ -58,6 +58,9 @@ function QuestionPage() {
   const { questionId } = Route.useParams();
   const { data } = useSuspenseQuery(questionDetailQuery(questionId));
   const { data: chapter } = useSuspenseQuery(chapterQuery(data.question.chapter_id));
+  const { data: topics } = useSuspenseQuery(
+    topicsByChapterQuery(data.question.chapter_id),
+  );
   const navigate = useNavigate();
   const { data: siblings } = useSuspenseQuery(
     questionsQuery({ chapterId: data.question.chapter_id }),

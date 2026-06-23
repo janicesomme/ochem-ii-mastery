@@ -74,6 +74,8 @@ export function Scratchpad({ value, onChange, height = 280 }: Props) {
 
   function drawStroke(ctx: CanvasRenderingContext2D, s: Stroke) {
     if (s.points.length === 0) return;
+    const prevOp = ctx.globalCompositeOperation;
+    ctx.globalCompositeOperation = s.erase ? "destination-out" : "source-over";
     ctx.strokeStyle = s.color;
     ctx.lineWidth = s.size;
     ctx.lineCap = "round";
@@ -84,6 +86,7 @@ export function Scratchpad({ value, onChange, height = 280 }: Props) {
       ctx.lineTo(s.points[i].x, s.points[i].y);
     }
     ctx.stroke();
+    ctx.globalCompositeOperation = prevOp;
   }
 
   function getPos(e: React.PointerEvent) {

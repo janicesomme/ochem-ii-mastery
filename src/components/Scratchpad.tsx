@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Eraser, Pencil, RotateCcw, Trash2 } from "lucide-react";
 
+type Tool = "pen" | "eraser";
+
 type Props = {
   value?: string | null; // restored data URL
   onChange?: (dataUrl: string | null) => void;

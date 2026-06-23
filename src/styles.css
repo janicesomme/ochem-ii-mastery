@@ -181,6 +181,12 @@
     color: var(--color-success);
     border-color: color-mix(in oklch, var(--color-success) 35%, transparent);
   }
+  .chip-strong {
+    background: color-mix(in oklch, var(--color-strong) 22%, transparent);
+    color: var(--color-strong);
+    border-color: color-mix(in oklch, var(--color-strong) 45%, transparent);
+  }
+
   .chip-warn {
     background: color-mix(in oklch, var(--color-warning) 22%, transparent);
     color: var(--color-warning);

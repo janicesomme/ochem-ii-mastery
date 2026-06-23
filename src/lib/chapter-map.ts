@@ -11,37 +11,47 @@ export type FrequencySlice = {
 };
 
 export type WordingGroup = {
-  task: string; // e.g. "Product prediction"
-  move: string; // e.g. "identify electrophile → check director → place group"
-  wording_patterns: string[]; // surface phrasings students see
+  task: string;
+  move: string;
+  wording_patterns: string[];
+  example_question_id?: string;
+  example_label?: string;
+  topic_id?: string;
 };
 
 export type TrapCard = {
   title: string;
   detail: string;
   tone: "danger" | "warn";
+  topic_id?: string;
 };
 
 export type PracticePriority = {
   topic_id: string;
   label: string;
   reason: string;
+  minutes?: number;
+};
+
+export type PersonalOverlay = {
+  chapter_top_topic: string;
+  student_weak_topic: string;
+  best_next_move: string;
 };
 
 export type ChapterMap = {
   chapter_id: string;
   high_yield: boolean;
-  insight: string; // one-line warning surfaced on dashboard + hero
+  insight: string;
   main_risk: string;
+  total_questions: number;
   frequency: FrequencySlice[];
   wording_decoder: WordingGroup[];
-  move_map: string[]; // ordered roadmap steps
+  move_map: string[];
   common_traps: TrapCard[];
   practice_priority: PracticePriority[];
-  question_wording_lookup: Record<
-    string,
-    { task: string; move: string }
-  >; // question_id -> decoder line shown on the question page
+  personal_overlay?: PersonalOverlay;
+  question_wording_lookup: Record<string, { task: string; move: string }>;
 };
 
 const EAS: ChapterMap = {

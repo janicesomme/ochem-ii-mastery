@@ -228,7 +228,7 @@ export const fullQuestions: FullQuestion[] = [
   make(
     "q-5",
     "ch-3",
-    "t-3a",
+    "t-3b",
     "EAS director combo",
     "Toluene is nitrated, then brominated. Where does Br end up?",
     "synthesis",

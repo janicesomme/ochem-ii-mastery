@@ -9,38 +9,134 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ReviewRouteImport } from './routes/review'
+import { Route as ProgressRouteImport } from './routes/progress'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as QuickSheetsIndexRouteImport } from './routes/quick-sheets.index'
+import { Route as QuickSheetsSheetIdRouteImport } from './routes/quick-sheets.$sheetId'
+import { Route as QuestionQuestionIdRouteImport } from './routes/question.$questionId'
+import { Route as ChapterChapterIdRouteImport } from './routes/chapter.$chapterId'
 
+const ReviewRoute = ReviewRouteImport.update({
+  id: '/review',
+  path: '/review',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProgressRoute = ProgressRouteImport.update({
+  id: '/progress',
+  path: '/progress',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const QuickSheetsIndexRoute = QuickSheetsIndexRouteImport.update({
+  id: '/quick-sheets/',
+  path: '/quick-sheets/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QuickSheetsSheetIdRoute = QuickSheetsSheetIdRouteImport.update({
+  id: '/quick-sheets/$sheetId',
+  path: '/quick-sheets/$sheetId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QuestionQuestionIdRoute = QuestionQuestionIdRouteImport.update({
+  id: '/question/$questionId',
+  path: '/question/$questionId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChapterChapterIdRoute = ChapterChapterIdRouteImport.update({
+  id: '/chapter/$chapterId',
+  path: '/chapter/$chapterId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/progress': typeof ProgressRoute
+  '/review': typeof ReviewRoute
+  '/chapter/$chapterId': typeof ChapterChapterIdRoute
+  '/question/$questionId': typeof QuestionQuestionIdRoute
+  '/quick-sheets/$sheetId': typeof QuickSheetsSheetIdRoute
+  '/quick-sheets/': typeof QuickSheetsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/progress': typeof ProgressRoute
+  '/review': typeof ReviewRoute
+  '/chapter/$chapterId': typeof ChapterChapterIdRoute
+  '/question/$questionId': typeof QuestionQuestionIdRoute
+  '/quick-sheets/$sheetId': typeof QuickSheetsSheetIdRoute
+  '/quick-sheets': typeof QuickSheetsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/progress': typeof ProgressRoute
+  '/review': typeof ReviewRoute
+  '/chapter/$chapterId': typeof ChapterChapterIdRoute
+  '/question/$questionId': typeof QuestionQuestionIdRoute
+  '/quick-sheets/$sheetId': typeof QuickSheetsSheetIdRoute
+  '/quick-sheets/': typeof QuickSheetsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/progress'
+    | '/review'
+    | '/chapter/$chapterId'
+    | '/question/$questionId'
+    | '/quick-sheets/$sheetId'
+    | '/quick-sheets/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/progress'
+    | '/review'
+    | '/chapter/$chapterId'
+    | '/question/$questionId'
+    | '/quick-sheets/$sheetId'
+    | '/quick-sheets'
+  id:
+    | '__root__'
+    | '/'
+    | '/progress'
+    | '/review'
+    | '/chapter/$chapterId'
+    | '/question/$questionId'
+    | '/quick-sheets/$sheetId'
+    | '/quick-sheets/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ProgressRoute: typeof ProgressRoute
+  ReviewRoute: typeof ReviewRoute
+  ChapterChapterIdRoute: typeof ChapterChapterIdRoute
+  QuestionQuestionIdRoute: typeof QuestionQuestionIdRoute
+  QuickSheetsSheetIdRoute: typeof QuickSheetsSheetIdRoute
+  QuickSheetsIndexRoute: typeof QuickSheetsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/review': {
+      id: '/review'
+      path: '/review'
+      fullPath: '/review'
+      preLoaderRoute: typeof ReviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/progress': {
+      id: '/progress'
+      path: '/progress'
+      fullPath: '/progress'
+      preLoaderRoute: typeof ProgressRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +144,45 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/quick-sheets/': {
+      id: '/quick-sheets/'
+      path: '/quick-sheets'
+      fullPath: '/quick-sheets/'
+      preLoaderRoute: typeof QuickSheetsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/quick-sheets/$sheetId': {
+      id: '/quick-sheets/$sheetId'
+      path: '/quick-sheets/$sheetId'
+      fullPath: '/quick-sheets/$sheetId'
+      preLoaderRoute: typeof QuickSheetsSheetIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/question/$questionId': {
+      id: '/question/$questionId'
+      path: '/question/$questionId'
+      fullPath: '/question/$questionId'
+      preLoaderRoute: typeof QuestionQuestionIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/chapter/$chapterId': {
+      id: '/chapter/$chapterId'
+      path: '/chapter/$chapterId'
+      fullPath: '/chapter/$chapterId'
+      preLoaderRoute: typeof ChapterChapterIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ProgressRoute: ProgressRoute,
+  ReviewRoute: ReviewRoute,
+  ChapterChapterIdRoute: ChapterChapterIdRoute,
+  QuestionQuestionIdRoute: QuestionQuestionIdRoute,
+  QuickSheetsSheetIdRoute: QuickSheetsSheetIdRoute,
+  QuickSheetsIndexRoute: QuickSheetsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

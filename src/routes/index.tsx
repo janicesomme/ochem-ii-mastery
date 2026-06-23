@@ -561,11 +561,11 @@ export function ChapterCard({ s }: { s: ChapterStat }) {
           />
         </div>
         <Link
-          to="/chapter/$chapterId"
+          to="/chapter/$chapterId/map"
           params={{ chapterId: s.ch.id }}
           className="text-xs font-semibold text-primary inline-flex items-center gap-1 hover:gap-1.5 transition-all"
         >
-          {s.attempted === 0 ? "Start" : "Resume"} <ArrowRight className="h-3.5 w-3.5" />
+          Battle map <ArrowRight className="h-3.5 w-3.5" />
         </Link>
       </div>
     </div>

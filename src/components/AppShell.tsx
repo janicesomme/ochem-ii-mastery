@@ -1,9 +1,10 @@
 import { Link } from "@tanstack/react-router";
-import { BookOpen, FlaskConical, ListChecks, Repeat, TrendingUp } from "lucide-react";
+import { BookOpen, FlaskConical, ListChecks, Repeat, TrendingUp, Layers } from "lucide-react";
 import type { ReactNode } from "react";
 
 const navItems = [
   { to: "/", label: "Dashboard", icon: FlaskConical },
+  { to: "/question-bank", label: "Question Bank", icon: Layers },
   { to: "/quick-sheets", label: "Quick Sheets", icon: BookOpen },
   { to: "/review", label: "Review", icon: Repeat },
   { to: "/progress", label: "Progress", icon: TrendingUp },

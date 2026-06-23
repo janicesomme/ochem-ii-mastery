@@ -476,6 +476,7 @@ Strong deactivators (meta): -NO2, -NR3+, -CF3`,
 2° alcohol → ketone (any oxidant)
 3° alcohol → no reaction (no α-H to lose)`,
     sort_order: 4,
+  },
   {
     id: "qs-5",
     chapter_id: "ch-3",

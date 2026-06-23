@@ -713,6 +713,33 @@ function ImprovementCard({
   );
 }
 
+function TodaysChapterInsight() {
+  const { chapter_id, insight } = getTodaysChapterInsight();
+  const ch = allChapters.find((c) => c.id === chapter_id);
+  if (!ch) return null;
+  return (
+    <section className="panel p-5 mt-4 border-accent/40">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground inline-flex items-center gap-1.5">
+            <Sparkles className="h-3.5 w-3.5 text-accent" /> Today&apos;s chapter insight
+          </p>
+          <p className="text-base mt-2">
+            <span className="font-semibold">{ch.title}:</span> {insight}
+          </p>
+        </div>
+        <Link
+          to="/chapter/$chapterId/map"
+          params={{ chapterId: ch.id }}
+          className="btn-primary shrink-0"
+        >
+          Open battle map <ArrowRight className="h-3.5 w-3.5" />
+        </Link>
+      </div>
+    </section>
+  );
+}
+
 function MiniStat({ label, value, sub }: { label: string; value: string; sub?: string }) {
   return (
     <div className="rounded-md bg-secondary/40 border border-border/60 px-3 py-2">

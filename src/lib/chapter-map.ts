@@ -73,6 +73,9 @@ const EAS: ChapterMap = {
     {
       task: "Product prediction",
       move: "identify electrophile → check director → place group",
+      topic_id: "t-3b",
+      example_question_id: "q-5",
+      example_label: "EAS director combo",
       wording_patterns: [
         "Predict the major product",
         "Draw the product after nitration",
@@ -83,6 +86,9 @@ const EAS: ChapterMap = {
     {
       task: "Electrophile generation",
       move: "strong acid activates reagent → leaving group leaves → cation attacks ring",
+      topic_id: "t-3a",
+      example_question_id: "q-8",
+      example_label: "Generating the nitronium electrophile",
       wording_patterns: [
         "What is the active electrophile?",
         "How is the electrophile formed?",
@@ -92,6 +98,9 @@ const EAS: ChapterMap = {
     {
       task: "Multistep synthesis",
       move: "decide final substitution pattern → install the meta director first → then o/p director",
+      topic_id: "t-3d",
+      example_question_id: "q-10",
+      example_label: "Multistep aromatic synthesis order",
       wording_patterns: [
         "Synthesize X from benzene",
         "What is the correct order of steps?",
@@ -101,6 +110,9 @@ const EAS: ChapterMap = {
     {
       task: "Reactivity / limits",
       move: "score ring activation → confirm reaction will run → otherwise: no reaction",
+      topic_id: "t-3c",
+      example_question_id: "q-9",
+      example_label: "Friedel-Crafts on nitrobenzene",
       wording_patterns: [
         "Predict whether the reaction proceeds",
         "Give the major product, if any",
@@ -122,30 +134,35 @@ const EAS: ChapterMap = {
       detail:
         "F, Cl, Br, I slow EAS down — but they still send the new group to ortho/para. Don't auto-place meta.",
       tone: "warn",
+      topic_id: "t-3b",
     },
     {
       title: "Friedel-Crafts fails on strongly deactivated rings",
       detail:
         "Rings with -NO2, -CN, -SO3H, -NR3+, -CF3 don't undergo FC alkylation or acylation.",
       tone: "danger",
+      topic_id: "t-3c",
     },
     {
       title: "NO2 is a meta director",
       detail:
         "Already on the ring? The next group goes meta to it. Don't mirror it as ortho/para.",
       tone: "danger",
+      topic_id: "t-3b",
     },
     {
       title: "Sulfonation is reversible",
       detail:
         "Hot dilute H2SO4 can strip -SO3H off again — sometimes used as a blocking strategy.",
       tone: "warn",
+      topic_id: "t-3c",
     },
     {
       title: "Order matters in multistep",
       detail:
         "Putting the o/p director on first when you wanted meta gives the wrong isomer every time.",
       tone: "danger",
+      topic_id: "t-3d",
     },
   ],
   practice_priority: [
@@ -153,23 +170,33 @@ const EAS: ChapterMap = {
       topic_id: "t-3a",
       label: "Electrophile generation",
       reason: "Lowest readiness — fix the foundation first.",
+      minutes: 10,
     },
     {
       topic_id: "t-3b",
       label: "Directing effects",
       reason: "Highest-frequency topic on the exam.",
+      minutes: 15,
     },
     {
       topic_id: "t-3c",
       label: "Friedel-Crafts limits",
       reason: "Trap-heavy — the 'no reaction' answers live here.",
+      minutes: 10,
     },
     {
       topic_id: "t-3d",
       label: "Multistep synthesis",
       reason: "Synthesizes everything above into one problem.",
+      minutes: 20,
     },
   ],
+  personal_overlay: {
+    chapter_top_topic: "Directing effects (30% of exam Qs)",
+    student_weak_topic: "Electrophile generation (42% readiness)",
+    best_next_move:
+      "Do electrophile generation first (10 min), then directing effects (15 min).",
+  },
   question_wording_lookup: {
     "q-5": {
       task: "Product prediction",

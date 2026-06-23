@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { ReadinessRing } from "@/components/ReadinessRing";
+import { PlanTutorNote } from "@/components/TutorVoice";
 import {
   allQuestionsQuery,
   chaptersQuery,

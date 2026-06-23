@@ -57,8 +57,8 @@
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.18 0.02 250);
 
-  /* Teal accent — for buttons/links only */
-  --primary: oklch(0.62 0.13 195);
+  /* Electric blue accent — for buttons/links only */
+  --primary: oklch(0.623 0.214 259);
   --primary-foreground: oklch(0.99 0.005 240);
 
   --secondary: oklch(0.95 0.008 240);

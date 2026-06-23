@@ -5,6 +5,7 @@ import { AppShell, DifficultyChip, ScoreChip } from "@/components/AppShell";
 import { allQuestionsQuery } from "@/lib/queries";
 import { progress } from "@/lib/progress";
 import { useEffect, useState } from "react";
+import { ReviewTutorIntro } from "@/components/TutorVoice";
 
 export const Route = createFileRoute("/review")({
   head: () => ({

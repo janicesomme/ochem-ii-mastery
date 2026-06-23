@@ -25,7 +25,13 @@ export type Question = {
   memory_trick: string | null;
   common_trap: string | null;
   sort_order: number;
+  // Future: populated from Supabase Storage. Mock placeholders for now.
+  question_image_url?: string | null;
+  answer_image_url?: string | null;
+  mechanism_image_url?: string | null;
+  solution_image_url?: string | null;
 };
+
 
 export type Hint = {
   id: string;

@@ -7,7 +7,9 @@ export type Attempt = {
   hints_used: number;
   used_solution: boolean;
   created_at: string;
+  scratchpad?: string | null; // data URL of student's drawing, optional
 };
+
 
 const KEY = "nofear-ochem2-attempts-v1";
 

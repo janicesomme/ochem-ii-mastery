@@ -37,6 +37,9 @@
   --color-ring: var(--ring);
   --color-surface: var(--surface);
   --color-surface-foreground: var(--surface-foreground);
+  --color-strong: var(--strong);
+  --color-strong-foreground: var(--strong-foreground);
+
 }
 
 :root {

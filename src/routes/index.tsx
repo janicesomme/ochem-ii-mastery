@@ -263,174 +263,116 @@ function Dashboard() {
 
 /* ---------- Subcomponents ---------- */
 
-function CommandStrip({
+function HeroTop({
+  exam,
   days,
-  readiness,
   target,
-  gap,
-  reviewCount,
-  perDay,
-  weakestChapter,
-  weakestTopic,
-}: {
-  days: number | null;
-  readiness: number;
-  target: number;
-  gap: number;
-  reviewCount: number;
-  perDay: number | null;
-  weakestChapter?: string;
-  weakestTopic?: string;
-}) {
-  const readyTone =
-    readiness >= target
-      ? "text-success"
-      : gap >= 25
-        ? "text-destructive"
-        : "text-warning";
-  const daysTone =
-    days === null
-      ? "text-muted-foreground"
-      : days <= 3
-        ? "text-destructive"
-        : days <= 10
-          ? "text-warning"
-          : "text-foreground";
-
-  return (
-    <section className="panel px-4 py-3 mb-3">
-      <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
-        <Cell icon={<CalendarDays className="h-3.5 w-3.5 text-primary" />} label="Exam">
-          <span className={`font-semibold ${daysTone}`}>
-            {days === null ? "Set date" : days < 0 ? "passed" : `${days} day${days === 1 ? "" : "s"}`}
-          </span>
-        </Cell>
-        <Divider />
-        <Cell icon={<Target className="h-3.5 w-3.5 text-primary" />} label="Readiness">
-          <span className={`font-semibold ${readyTone}`}>{readiness}%</span>
-          <span className="text-muted-foreground"> / target {target}%</span>
-        </Cell>
-        <Divider />
-        <Cell label="Gap">
-          {gap > 0 ? (
-            <span className={`font-semibold ${readyTone}`}>{gap} pts below</span>
-          ) : (
-            <span className="font-semibold text-success">on target</span>
-          )}
-        </Cell>
-        <Divider />
-        <Cell icon={<Repeat className="h-3.5 w-3.5 text-destructive" />} label="Review">
-          <span className="font-semibold">{reviewCount}</span>
-        </Cell>
-        <Divider />
-        <Cell icon={<Flame className="h-3.5 w-3.5 text-accent" />} label="Today">
-          <span className="font-semibold">{perDay ?? "—"}</span>
-          <span className="text-muted-foreground"> questions</span>
-        </Cell>
-        {weakestChapter && (
-          <>
-            <Divider />
-            <Cell icon={<Zap className="h-3.5 w-3.5 text-warning" />} label="Weakest">
-              <span className="font-medium truncate">
-                {weakestChapter}
-                {weakestTopic ? ` — ${weakestTopic}` : ""}
-              </span>
-            </Cell>
-          </>
-        )}
-      </div>
-    </section>
-  );
-}
-
-function Cell({
-  icon,
-  label,
-  children,
-}: {
-  icon?: React.ReactNode;
-  label: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="inline-flex items-center gap-1.5 min-w-0">
-      {icon}
-      <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">
-        {label}
-      </span>
-      <span className="truncate">{children}</span>
-    </div>
-  );
-}
-
-function Divider() {
-  return <span className="h-4 w-px bg-border hidden sm:inline-block" aria-hidden />;
-}
-
-function CompactReadiness({
   readiness,
-  target,
   gap,
   attempted,
   total,
   reviewCount,
+  perDay,
   status,
   ringColor,
-}: {
-  readiness: number;
-  target: number;
-  gap: number;
-  attempted: number;
-  total: number;
-  reviewCount: number;
-  status: { label: string; chip: string };
-  ringColor: string;
-}) {
-  return (
-    <div className="panel p-4 flex items-center gap-4">
-      <ReadinessRing value={readiness} size={76} stroke={8} color={ringColor}>
-        <span className="font-display text-base font-semibold leading-none">
-          {readiness}%
-        </span>
-      </ReadinessRing>
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-2">
-          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground inline-flex items-center gap-1.5">
-            <Target className="h-3.5 w-3.5 text-primary" /> Readiness
-          </p>
-          <span className={`chip ${status.chip}`}>{status.label}</span>
-        </div>
-        <p className="text-sm mt-1.5">
-          {gap > 0 ? (
-            <>
-              <span className="font-semibold">{gap} pts</span> below {target}% target
-            </>
-          ) : (
-            <>At or above {target}% target</>
-          )}
-        </p>
-        <div className="text-xs text-muted-foreground mt-1">
-          <span className="text-foreground font-semibold">{attempted}</span>/{total} done ·{" "}
-          <span className="text-foreground font-semibold">{reviewCount}</span> in review
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function CompactCountdown({
-  exam,
-  days,
-  perDay,
-  remaining,
-  target,
+  weakestChapter,
+  weakestTopic,
   demoActive,
 }: {
   exam: ExamSettings;
   days: number | null;
-  perDay: number | null;
-  remaining: number;
   target: number;
+  readiness: number;
+  gap: number;
+  attempted: number;
+  total: number;
+  reviewCount: number;
+  perDay: number | null;
+  status: { label: string; chip: string };
+  ringColor: string;
+  weakestChapter?: ChapterStat;
+  weakestTopic?: string;
+  demoActive: boolean;
+}) {
+  const count = perDay ?? 5;
+  const reviewSlice = Math.min(reviewCount, 5);
+  const focusTopic = weakestTopic ?? weakestChapter?.weakest?.title;
+  const focusChapter = weakestChapter?.ch.title;
+
+  return (
+    <section className="mb-5">
+      <div className="grid gap-3 lg:grid-cols-3">
+        <CountdownCard
+          exam={exam}
+          days={days}
+          target={target}
+          readiness={readiness}
+          gap={gap}
+          demoActive={demoActive}
+        />
+        <ReadinessCard
+          readiness={readiness}
+          attempted={attempted}
+          total={total}
+          reviewCount={reviewCount}
+          status={status}
+          ringColor={ringColor}
+        />
+        <TodaysPlanCard
+          weakestChapter={weakestChapter}
+          focusChapter={focusChapter}
+          focusTopic={focusTopic}
+          count={count}
+          reviewSlice={reviewSlice}
+        />
+      </div>
+
+      {/* Biggest risk callout */}
+      {weakestChapter && (
+        <div className="panel mt-3 px-4 py-3 border-warning/40 bg-[color-mix(in_oklch,var(--color-warning)_10%,transparent)]">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+            <div className="inline-flex items-center gap-2 shrink-0">
+              <Zap className="h-4 w-4 text-warning" />
+              <span className="text-[10px] uppercase tracking-wider font-semibold text-warning">
+                Biggest risk before exam
+              </span>
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="text-sm font-semibold truncate">
+                {focusChapter}
+                {focusTopic ? ` — ${focusTopic}` : ""}
+              </p>
+              <p className="text-xs text-muted-foreground">
+                You&apos;re missing the first move, so later mechanism questions fall apart.
+              </p>
+            </div>
+            <Link
+              to="/chapter/$chapterId/map"
+              params={{ chapterId: weakestChapter.ch.id }}
+              className="btn-ghost text-xs py-1.5 px-3 shrink-0"
+            >
+              Open battle map <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
+          </div>
+        </div>
+      )}
+    </section>
+  );
+}
+
+function CountdownCard({
+  exam,
+  days,
+  target,
+  readiness,
+  gap,
+  demoActive,
+}: {
+  exam: ExamSettings;
+  days: number | null;
+  target: number;
+  readiness: number;
+  gap: number;
   demoActive: boolean;
 }) {
   const [editing, setEditing] = useState(false);
@@ -454,10 +396,21 @@ function CompactCountdown({
           ? "text-warning"
           : "text-foreground";
 
+  const urgency =
+    days === null
+      ? "Set your exam date to unlock countdown."
+      : days <= 3
+        ? "Crunch time. Drill weakest topics only."
+        : gap > 15
+          ? "You are close, but not safe yet."
+          : gap > 0
+            ? "Within reach — stay on plan."
+            : "On target. Hold the line.";
+
   return (
-    <div className="panel p-4">
-      <div className="flex items-center justify-between gap-2">
-        <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground inline-flex items-center gap-1.5">
+    <div className="panel p-5 flex flex-col bg-[color-mix(in_oklch,var(--color-primary)_5%,var(--color-card))]">
+      <div className="flex items-center justify-between">
+        <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground inline-flex items-center gap-1.5">
           <CalendarDays className="h-3.5 w-3.5 text-primary" /> Exam countdown
         </p>
         {!editing && (
@@ -498,130 +451,198 @@ function CompactCountdown({
           </div>
         </div>
       ) : (
-        <div className="mt-2 flex items-end justify-between gap-3">
-          <div>
-            <p className="font-display font-semibold leading-none">
-              {days === null ? (
-                <span className="text-xl">Set exam date</span>
-              ) : days < 0 ? (
-                <span className="text-xl">Exam passed</span>
-              ) : days === 0 ? (
-                <span className={`text-3xl ${daysTone}`}>Today</span>
-              ) : (
-                <>
-                  <span className={`text-3xl ${daysTone}`}>{days}</span>
-                  <span className="text-base text-muted-foreground ml-1.5">
-                    day{days === 1 ? "" : "s"} left
-                  </span>
-                </>
-              )}
-            </p>
-            {demoActive && !exam.date && (
-              <p className="text-[11px] text-muted-foreground mt-1">
-                Sample countdown — set your date to make it real.
-              </p>
+        <>
+          <div className="mt-2 flex items-baseline gap-2">
+            {days === null ? (
+              <span className="font-display text-2xl font-semibold">Set exam date</span>
+            ) : days < 0 ? (
+              <span className="font-display text-2xl font-semibold">Exam passed</span>
+            ) : (
+              <>
+                <span className={`font-display text-5xl font-bold leading-none ${daysTone}`}>
+                  {days}
+                </span>
+                <span className="text-sm uppercase tracking-wider font-semibold text-muted-foreground">
+                  day{days === 1 ? "" : "s"} left
+                </span>
+              </>
             )}
           </div>
-          <div className="text-right text-xs text-muted-foreground space-y-0.5">
-            <p>
-              Target <span className="text-foreground font-semibold">{target}%</span>
-            </p>
-            <p>
-              <span className="text-foreground font-semibold">{perDay ?? "—"}</span> Qs / day
-            </p>
-            <p>
-              <span className="text-foreground font-semibold">{remaining}</span> left
-            </p>
+
+          <div className="mt-4 grid grid-cols-3 gap-2 text-xs">
+            <Stat label="Target" value={`${target}%`} />
+            <Stat label="Current" value={`${readiness}%`} />
+            <Stat
+              label="Gap"
+              value={gap > 0 ? `−${gap}` : "0"}
+              tone={gap > 15 ? "danger" : gap > 0 ? "warn" : "success"}
+            />
           </div>
-        </div>
+
+          <p
+            className={`text-xs mt-3 leading-snug ${
+              days !== null && days <= 3
+                ? "text-destructive"
+                : gap > 15
+                  ? "text-warning"
+                  : "text-muted-foreground"
+            }`}
+          >
+            {urgency}
+          </p>
+          {demoActive && !exam.date && (
+            <p className="text-[11px] text-muted-foreground mt-1">
+              Sample countdown — set your date to make it real.
+            </p>
+          )}
+        </>
       )}
     </div>
   );
 }
 
-
-
-function TodaysMission({
-  weakestChapter,
-  weakestTopic,
+function ReadinessCard({
+  readiness,
+  attempted,
+  total,
   reviewCount,
-  perDay,
+  status,
+  ringColor,
 }: {
-  weakestChapter?: ChapterStat;
-  weakestTopic?: string;
+  readiness: number;
+  attempted: number;
+  total: number;
   reviewCount: number;
-  perDay: number | null;
+  status: { label: string; chip: string };
+  ringColor: string;
 }) {
-  const count = perDay ?? 5;
-  const reviewSlice = Math.min(reviewCount, 5);
   return (
-    <section className="panel p-5 border-primary/50 ring-1 ring-primary/20">
-      <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
-        <div className="min-w-0">
-          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground inline-flex items-center gap-1.5">
-            <Flame className="h-3.5 w-3.5 text-accent" /> Today&apos;s mission
-          </p>
-          <p className="text-lg mt-2 font-medium">
-            {weakestChapter ? (
-              <>
-                Do <strong>{count}</strong> questions:{" "}
-                <strong>{weakestTopic ?? weakestChapter.ch.title}</strong>
-                {reviewCount > 0 ? (
-                  <> + <strong>{reviewSlice}</strong> review items.</>
-                ) : (
-                  "."
-                )}
-              </>
-            ) : (
-              <>Pick any chapter and knock out {count} questions to get a baseline.</>
-            )}
-          </p>
-        </div>
-        <div className="flex flex-wrap gap-2 shrink-0">
-          {weakestChapter ? (
-            <Link
-              to="/sprint/$chapterId"
-              params={{ chapterId: weakestChapter.ch.id }}
-              className="btn-primary"
-            >
-              <Sparkles className="h-3.5 w-3.5" /> Start smart sprint
-            </Link>
-          ) : (
-            <Link to="/question-bank" className="btn-primary">
-              Open question bank <ArrowRight className="h-3.5 w-3.5" />
-            </Link>
-          )}
-          <Link to="/review" className="btn-ghost">
-            Review queue
-          </Link>
+    <div className="panel p-5 flex flex-col">
+      <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground inline-flex items-center gap-1.5">
+        <Target className="h-3.5 w-3.5 text-primary" /> Readiness
+      </p>
+      <div className="mt-2 flex items-center gap-4">
+        <ReadinessRing value={readiness} size={104} stroke={10} color={ringColor}>
+          <span className="font-display text-xl font-bold leading-none">{readiness}%</span>
+        </ReadinessRing>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2">
+            <span className="font-display text-lg font-semibold">Ready</span>
+            <span className={`chip ${status.chip}`}>{status.label}</span>
+          </div>
+          <div className="mt-2 space-y-1 text-xs text-muted-foreground">
+            <p>
+              <span className="text-foreground font-semibold">{attempted}</span>
+              <span className="text-muted-foreground">/{total}</span> questions done
+            </p>
+            <p>
+              <span className="text-foreground font-semibold">{reviewCount}</span> in review
+            </p>
+          </div>
         </div>
       </div>
-
-      {/* Placeholder grid for future smart guidance */}
-      <div className="mt-4 grid gap-2 grid-cols-2 lg:grid-cols-5 text-xs">
-        <MissionSlot label="Why recommended" hint="Highest exam-yield gap." />
-        <MissionSlot label="What this improves" hint="Readiness on weakest topic." />
-        <MissionSlot label="Est. time" hint="~25 min" />
-        <MissionSlot label="Questions" hint={`${count} new + ${reviewSlice} review`} />
-        <MissionSlot label="Expected gain" hint="+3–5% readiness" />
-      </div>
-      <p className="text-[11px] text-muted-foreground mt-2">
-        Short on time? Drop to 3 questions on the weakest topic only.
-      </p>
-    </section>
-  );
-}
-
-function MissionSlot({ label, hint }: { label: string; hint: string }) {
-  return (
-    <div className="rounded-md border border-dashed border-border/70 bg-secondary/30 px-2.5 py-2">
-      <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">
-        {label}
-      </p>
-      <p className="text-[11px] text-foreground/80 mt-0.5 leading-snug">{hint}</p>
     </div>
   );
 }
+
+function TodaysPlanCard({
+  weakestChapter,
+  focusChapter,
+  focusTopic,
+  count,
+  reviewSlice,
+}: {
+  weakestChapter?: ChapterStat;
+  focusChapter?: string;
+  focusTopic?: string;
+  count: number;
+  reviewSlice: number;
+}) {
+  return (
+    <div className="panel p-5 flex flex-col border-primary/50 ring-1 ring-primary/25 bg-[color-mix(in_oklch,var(--color-primary)_8%,var(--color-card))]">
+      <div className="flex items-center justify-between">
+        <p className="text-[10px] font-semibold uppercase tracking-wider text-primary inline-flex items-center gap-1.5">
+          <Flame className="h-3.5 w-3.5" /> Today&apos;s plan
+        </p>
+        <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">
+          ~25 min · +3–5%
+        </span>
+      </div>
+
+      <ul className="mt-3 space-y-1.5 text-sm">
+        <PlanLine>
+          Do <strong>{count}</strong> questions
+        </PlanLine>
+        <PlanLine>
+          Focus:{" "}
+          <strong className="text-foreground">
+            {focusChapter ? focusChapter.replace(/^Chapter \d+ — /, "") : "Pick a chapter"}
+            {focusTopic ? ` — ${focusTopic}` : ""}
+          </strong>
+        </PlanLine>
+        <PlanLine>
+          Clear <strong>{reviewSlice}</strong> review item{reviewSlice === 1 ? "" : "s"}
+        </PlanLine>
+      </ul>
+
+      <div className="mt-auto pt-4 flex flex-wrap gap-2">
+        {weakestChapter ? (
+          <Link
+            to="/sprint/$chapterId"
+            params={{ chapterId: weakestChapter.ch.id }}
+            className="btn-primary flex-1 justify-center"
+          >
+            <Sparkles className="h-3.5 w-3.5" /> Start Smart Sprint
+          </Link>
+        ) : (
+          <Link to="/question-bank" className="btn-primary flex-1 justify-center">
+            Open question bank <ArrowRight className="h-3.5 w-3.5" />
+          </Link>
+        )}
+        <Link to="/review" className="btn-ghost">
+          Review queue
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+function PlanLine({ children }: { children: React.ReactNode }) {
+  return (
+    <li className="flex items-start gap-2">
+      <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-primary shrink-0" />
+      <span className="text-foreground/90">{children}</span>
+    </li>
+  );
+}
+
+function Stat({
+  label,
+  value,
+  tone,
+}: {
+  label: string;
+  value: string;
+  tone?: "danger" | "warn" | "success";
+}) {
+  const toneCls =
+    tone === "danger"
+      ? "text-destructive"
+      : tone === "warn"
+        ? "text-warning"
+        : tone === "success"
+          ? "text-success"
+          : "text-foreground";
+  return (
+    <div className="rounded-md bg-secondary/50 border border-border/60 px-2.5 py-2">
+      <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">
+        {label}
+      </p>
+      <p className={`text-sm font-bold ${toneCls}`}>{value}</p>
+    </div>
+  );
+}
+
 
 export function ChapterCard({ s }: { s: ChapterStat }) {
   const meta = statusMeta(s.status);

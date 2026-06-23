@@ -5,12 +5,15 @@ import {
   ArrowRight,
   ChevronLeft,
   ChevronRight,
+  Database,
   Flame,
   ListOrdered,
   Map as MapIcon,
   MessageSquare,
   Sparkles,
   Target,
+  Timer,
+  UserCircle,
   Zap,
 } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
@@ -20,7 +23,7 @@ import {
   questionsQuery,
   topicsByChapterQuery,
 } from "@/lib/queries";
-import { getChapterMap, type ChapterMap } from "@/lib/chapter-map";
+import { getChapterMap } from "@/lib/chapter-map";
 import { progress } from "@/lib/progress";
 import {
   buildReviewIds,
@@ -80,7 +83,6 @@ function BattleMapPage() {
     [chapter, questions, topics, latest, reviewIds],
   );
 
-  // If no real attempts yet, use the demo seed for this chapter
   const stat = useMemo(() => {
     if (attempts.length > 0) return realStat;
     const demo = demoChapterStats([chapter])[0];
@@ -105,11 +107,31 @@ function BattleMapPage() {
     <AppShell>
       <BackLink />
 
+      {/* Tabs */}
+      <ChapterTabs chapterId={chapter.id} active="map" />
+
+      {/* Data source label */}
+      <div className="mb-4 inline-flex items-center gap-1.5 text-xs text-muted-foreground">
+        <Database className="h-3.5 w-3.5" />
+        <span>
+          Based on{" "}
+          <span className="text-foreground font-semibold">
+            {map.total_questions}
+          </span>{" "}
+          chapter questions
+        </span>
+      </div>
+
       {/* Hero */}
       <section className="panel p-5 sm:p-6 mb-5">
         <div className="flex flex-col sm:flex-row gap-5 sm:items-stretch">
           <div className="shrink-0 flex items-center justify-center sm:justify-start">
-            <ReadinessRing value={stat.attempted === 0 ? 8 : stat.readiness} size={140} stroke={12} color={color}>
+            <ReadinessRing
+              value={stat.attempted === 0 ? 8 : stat.readiness}
+              size={140}
+              stroke={12}
+              color={color}
+            >
               <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">
                 Ready
               </span>
@@ -175,20 +197,69 @@ function BattleMapPage() {
         </div>
       </section>
 
+      {/* Personal overlay */}
+      {map.personal_overlay && (
+        <Section
+          icon={UserCircle}
+          title="Your personal overlay"
+          subtitle="Where this chapter meets your data."
+        >
+          <div className="grid gap-3 md:grid-cols-3">
+            <OverlayCard
+              tone="info"
+              label="Chapter high-frequency topic"
+              value={map.personal_overlay.chapter_top_topic}
+            />
+            <OverlayCard
+              tone="danger"
+              label="Your weakest area"
+              value={map.personal_overlay.student_weak_topic}
+            />
+            <OverlayCard
+              tone="primary"
+              label="Best next move"
+              value={map.personal_overlay.best_next_move}
+            />
+          </div>
+          <div className="mt-3">
+            <Link
+              to="/chapter/$chapterId"
+              params={{ chapterId: chapter.id }}
+              className="btn-primary"
+            >
+              <Sparkles className="h-4 w-4" /> Start recommended sprint
+            </Link>
+          </div>
+        </Section>
+      )}
+
       {/* Frequency map */}
       <Section
         icon={Zap}
         title="Question frequency map"
         subtitle="What this chapter actually tests, by share of exam questions."
       >
+        <p className="text-xs text-muted-foreground mb-3">
+          Higher percentage = more often tested, so don't spend equal time on
+          everything.
+        </p>
         <ul className="space-y-2.5">
           {map.frequency.map((f) => (
             <li key={f.topic_id}>
-              <div className="flex items-center justify-between text-sm">
-                <span className="font-medium">{f.label}</span>
-                <span className="text-muted-foreground text-xs">
-                  {f.frequency_percent}%
-                </span>
+              <div className="flex items-center justify-between text-sm gap-3">
+                <span className="font-medium truncate">{f.label}</span>
+                <div className="flex items-center gap-3 shrink-0">
+                  <span className="text-muted-foreground text-xs">
+                    {f.frequency_percent}%
+                  </span>
+                  <Link
+                    to="/chapter/$chapterId"
+                    params={{ chapterId: chapter.id }}
+                    className="text-xs text-primary hover:underline inline-flex items-center gap-1"
+                  >
+                    Practice these <ArrowRight className="h-3 w-3" />
+                  </Link>
+                </div>
               </div>
               <div className="h-2.5 mt-1 bg-secondary/60 rounded-full overflow-hidden">
                 <div
@@ -213,7 +284,10 @@ function BattleMapPage() {
       >
         <div className="grid gap-3 md:grid-cols-2">
           {map.wording_decoder.map((g) => (
-            <div key={g.task} className="rounded-lg border border-border bg-surface/60 p-4">
+            <div
+              key={g.task}
+              className="rounded-lg border border-border bg-surface/60 p-4 flex flex-col"
+            >
               <div className="flex flex-wrap gap-1.5 mb-3">
                 {g.wording_patterns.map((p) => (
                   <span
@@ -227,14 +301,38 @@ function BattleMapPage() {
               <div className="flex items-center gap-2 text-xs text-muted-foreground">
                 <ArrowRight className="h-3.5 w-3.5 text-primary" />
                 <span>
-                  <span className="font-semibold text-foreground">Task:</span> {g.task}
+                  <span className="font-semibold text-foreground">Task:</span>{" "}
+                  {g.task}
                 </span>
               </div>
               <div className="flex items-start gap-2 text-xs text-muted-foreground mt-1">
                 <ArrowRight className="h-3.5 w-3.5 text-primary mt-0.5" />
                 <span>
-                  <span className="font-semibold text-foreground">Move:</span> {g.move}
+                  <span className="font-semibold text-foreground">Move:</span>{" "}
+                  {g.move}
                 </span>
+              </div>
+
+              <div className="mt-3 pt-3 border-t border-border/60 flex flex-wrap items-center justify-between gap-2">
+                {g.example_question_id && g.example_label ? (
+                  <Link
+                    to="/question/$questionId"
+                    params={{ questionId: g.example_question_id }}
+                    className="text-xs inline-flex items-center gap-1.5 rounded-md border border-border bg-muted/30 px-2 py-1 hover:bg-muted/60"
+                  >
+                    <Target className="h-3 w-3 text-primary" />
+                    See example: {g.example_label}
+                  </Link>
+                ) : (
+                  <span />
+                )}
+                <Link
+                  to="/chapter/$chapterId"
+                  params={{ chapterId: chapter.id }}
+                  className="text-xs text-primary hover:underline inline-flex items-center gap-1"
+                >
+                  Drill this move <ArrowRight className="h-3 w-3" />
+                </Link>
               </div>
             </div>
           ))}
@@ -247,18 +345,25 @@ function BattleMapPage() {
         title="Move map"
         subtitle="How to attack any question in this chapter, in order."
       >
-        <ol className="flex flex-wrap items-center gap-2">
+        <ol className="grid gap-2 sm:grid-cols-2">
           {map.move_map.map((step, i) => (
-            <li key={step} className="flex items-center gap-2">
-              <span className="inline-flex items-center gap-2 rounded-md border border-primary/30 bg-primary/10 px-3 py-1.5 text-sm">
-                <span className="font-display text-primary font-semibold">
+            <li
+              key={step}
+              className="flex items-center justify-between gap-3 rounded-md border border-primary/30 bg-primary/10 px-3 py-2 text-sm"
+            >
+              <span className="flex items-center gap-2 min-w-0">
+                <span className="font-display text-primary font-semibold shrink-0">
                   {i + 1}
                 </span>
-                <span>{step}</span>
+                <span className="truncate">{step}</span>
               </span>
-              {i < map.move_map.length - 1 && (
-                <ArrowRight className="h-4 w-4 text-muted-foreground" />
-              )}
+              <Link
+                to="/chapter/$chapterId"
+                params={{ chapterId: chapter.id }}
+                className="text-[11px] text-primary hover:underline inline-flex items-center gap-1 shrink-0"
+              >
+                Drill <ArrowRight className="h-3 w-3" />
+              </Link>
             </li>
           ))}
         </ol>
@@ -276,13 +381,25 @@ function BattleMapPage() {
               t.tone === "danger"
                 ? "border-destructive/50 bg-destructive/10"
                 : "border-warning/50 bg-warning/10";
-            const dot = t.tone === "danger" ? "text-destructive" : "text-warning";
+            const dot =
+              t.tone === "danger" ? "text-destructive" : "text-warning";
             return (
               <div key={t.title} className={`rounded-lg border p-4 ${border}`}>
-                <p className={`inline-flex items-center gap-1.5 text-sm font-semibold ${dot}`}>
+                <p
+                  className={`inline-flex items-center gap-1.5 text-sm font-semibold ${dot}`}
+                >
                   <AlertTriangle className="h-4 w-4" /> {t.title}
                 </p>
                 <p className="text-sm mt-1.5 text-foreground/90">{t.detail}</p>
+                <div className="mt-3">
+                  <Link
+                    to="/chapter/$chapterId"
+                    params={{ chapterId: chapter.id }}
+                    className="text-xs text-primary hover:underline inline-flex items-center gap-1"
+                  >
+                    Drill this trap <ArrowRight className="h-3 w-3" />
+                  </Link>
+                </div>
               </div>
             );
           })}
@@ -306,9 +423,25 @@ function BattleMapPage() {
                 {i + 1}
               </span>
               <div className="flex-1 min-w-0">
-                <p className="font-semibold">{p.label}</p>
-                <p className="text-xs text-muted-foreground mt-0.5">{p.reason}</p>
+                <div className="flex flex-wrap items-center gap-2">
+                  <p className="font-semibold">{p.label}</p>
+                  {p.minutes !== undefined && (
+                    <span className="inline-flex items-center gap-1 text-[11px] rounded-md border border-border bg-muted/40 px-1.5 py-0.5 text-muted-foreground">
+                      <Timer className="h-3 w-3" /> {p.minutes} min
+                    </span>
+                  )}
+                </div>
+                <p className="text-xs text-muted-foreground mt-0.5">
+                  {p.reason}
+                </p>
               </div>
+              <Link
+                to="/chapter/$chapterId"
+                params={{ chapterId: chapter.id }}
+                className="btn-primary shrink-0"
+              >
+                <Sparkles className="h-3.5 w-3.5" /> Start sprint
+              </Link>
             </li>
           ))}
         </ol>
@@ -342,6 +475,38 @@ function BackLink() {
     >
       <ChevronLeft className="h-4 w-4" /> Dashboard
     </Link>
+  );
+}
+
+export function ChapterTabs({
+  chapterId,
+  active,
+}: {
+  chapterId: string;
+  active: "map" | "bank";
+}) {
+  const base =
+    "inline-flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-md transition-colors";
+  const on = "bg-primary/15 text-primary border border-primary/30 font-semibold";
+  const off =
+    "border border-border text-muted-foreground hover:text-foreground hover:bg-muted/40";
+  return (
+    <div className="mb-3 inline-flex items-center gap-1.5 rounded-lg border border-border bg-surface/40 p-1">
+      <Link
+        to="/chapter/$chapterId/map"
+        params={{ chapterId }}
+        className={`${base} ${active === "map" ? on : off}`}
+      >
+        <MapIcon className="h-3.5 w-3.5" /> Battle Map
+      </Link>
+      <Link
+        to="/chapter/$chapterId"
+        params={{ chapterId }}
+        className={`${base} ${active === "bank" ? on : off}`}
+      >
+        <ListOrdered className="h-3.5 w-3.5" /> Question Bank
+      </Link>
+    </div>
   );
 }
 
@@ -382,6 +547,39 @@ function MiniStat({ label, value }: { label: string; value: string }) {
         {label}
       </p>
       <p className="text-sm font-semibold">{value}</p>
+    </div>
+  );
+}
+
+function OverlayCard({
+  tone,
+  label,
+  value,
+}: {
+  tone: "info" | "danger" | "primary";
+  label: string;
+  value: string;
+}) {
+  const styles =
+    tone === "danger"
+      ? "border-destructive/40 bg-destructive/10"
+      : tone === "primary"
+        ? "border-primary/40 bg-primary/10"
+        : "border-border bg-surface/60";
+  const labelColor =
+    tone === "danger"
+      ? "text-destructive"
+      : tone === "primary"
+        ? "text-primary"
+        : "text-muted-foreground";
+  return (
+    <div className={`rounded-lg border p-3 ${styles}`}>
+      <p
+        className={`text-[10px] uppercase tracking-wider font-semibold ${labelColor}`}
+      >
+        {label}
+      </p>
+      <p className="text-sm mt-1 font-medium">{value}</p>
     </div>
   );
 }

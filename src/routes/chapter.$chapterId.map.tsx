@@ -44,22 +44,6 @@ function slug(s: string): string {
     .slice(0, 60);
 }
 
-function smartPracticeSearch(map: ChapterMap): {
-  topic?: string;
-  mode: string;
-  label: string;
-  from: string;
-} {
-  const first = map.practice_priority[0];
-  return {
-    topic: first?.topic_id,
-    mode: "sprint",
-    label: first
-      ? `Smart Practice — ${first.label}`
-      : "Smart Practice",
-    from: "battle-map",
-  };
-}
 
 export const Route = createFileRoute("/chapter/$chapterId/map")({
   loader: ({ context, params }) => {

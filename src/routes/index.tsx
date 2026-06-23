@@ -540,21 +540,35 @@ function TodaysPlanCard({
         </span>
       </div>
 
-      <ul className="mt-3 space-y-1.5 text-sm">
+      <ul className="mt-3 space-y-1 text-xs">
         <PlanLine>
-          Do <strong>{count}</strong> questions
+          Do <strong className="text-foreground">{count}</strong> questions
         </PlanLine>
         <PlanLine>
           Focus:{" "}
           <strong className="text-foreground">
-            {focusChapter ? focusChapter.replace(/^Chapter \d+ — /, "") : "Pick a chapter"}
-            {focusTopic ? ` — ${focusTopic}` : ""}
+            {focusTopic ?? (focusChapter ? focusChapter.replace(/^Chapter \d+ — /, "") : "Pick a chapter")}
           </strong>
         </PlanLine>
         <PlanLine>
-          Clear <strong>{reviewSlice}</strong> review item{reviewSlice === 1 ? "" : "s"}
+          Clear <strong className="text-foreground">{reviewSlice}</strong> review item{reviewSlice === 1 ? "" : "s"}
         </PlanLine>
       </ul>
+
+      {weakestChapter && (
+        <div className="mt-3 rounded-md border border-warning/40 bg-[color-mix(in_oklch,var(--color-warning)_10%,transparent)] px-2.5 py-2">
+          <p className="text-[10px] uppercase tracking-wider font-semibold text-warning inline-flex items-center gap-1">
+            <Zap className="h-3 w-3" /> Biggest risk
+          </p>
+          <p className="text-xs font-semibold mt-0.5 truncate">
+            {focusTopic ?? focusChapter}
+          </p>
+          <p className="text-[11px] text-muted-foreground leading-snug">
+            Missing the first move — later mechanism questions fall apart.
+          </p>
+        </div>
+      )}
+
 
       <div className="mt-auto pt-4 flex flex-wrap gap-2">
         {weakestChapter ? (

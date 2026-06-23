@@ -118,7 +118,13 @@ function QuestionPage() {
           {data.question.prompt}
         </p>
 
-        <DecoderBox questionId={data.question.id} chapterId={chapter.id} />
+        <DecoderBox
+          key={data.question.id}
+          questionId={data.question.id}
+          chapterId={chapter.id}
+          questionType={data.question.question_type}
+          tried={tried}
+        />
 
         {/* Future: question image from Supabase Storage */}
         <QuestionImage url={data.question.question_image_url} label="Question figure" />

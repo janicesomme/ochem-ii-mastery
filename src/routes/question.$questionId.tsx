@@ -472,7 +472,6 @@ function DecoderBox({
     </div>
   );
 }
-}
 
 function QuestionImage({ url, label }: { url?: string | null; label: string }) {
   if (!url) return null;

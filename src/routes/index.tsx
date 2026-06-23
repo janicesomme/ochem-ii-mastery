@@ -179,9 +179,13 @@ function Dashboard() {
           return { id: q.id, title: q.title, chapter_id: q.chapter_id, reason, tone };
         });
 
-  const weakestChapter = [...chapterStats]
-    .filter((c) => c.attempted > 0)
-    .sort((a, b) => a.readiness - b.readiness)[0];
+  // In demo mode, point at Aromatic Chemistry / EAS — that's where weak topics cluster.
+  const weakestChapter = demoActive
+    ? chapterStats.find((c) => c.ch.id === "ch-3") ?? chapterStats[0]
+    : [...chapterStats]
+        .filter((c) => c.attempted > 0)
+        .sort((a, b) => a.readiness - b.readiness)[0];
+
 
   return (
     <AppShell>

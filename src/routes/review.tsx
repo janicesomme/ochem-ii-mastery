@@ -5,6 +5,7 @@ import { AppShell, DifficultyChip, ScoreChip } from "@/components/AppShell";
 import { allQuestionsQuery } from "@/lib/queries";
 import { progress } from "@/lib/progress";
 import { useEffect, useState } from "react";
+import { ReviewTutorIntro } from "@/components/TutorVoice";
 
 export const Route = createFileRoute("/review")({
   head: () => ({
@@ -57,6 +58,11 @@ function ReviewPage() {
           stick.
         </p>
       </header>
+      {queue.length > 0 && (
+        <div className="mb-4">
+          <ReviewTutorIntro count={queue.length} />
+        </div>
+      )}
       {queue.length === 0 ? (
         <div className="panel p-8 text-center">
           <p className="text-muted-foreground text-sm">

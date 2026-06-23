@@ -14,9 +14,15 @@ import {
 } from "lucide-react";
 import { AppShell, DifficultyChip } from "@/components/AppShell";
 import { Scratchpad } from "@/components/Scratchpad";
-import { chapterQuery, questionDetailQuery, questionsQuery } from "@/lib/queries";
+import {
+  chapterQuery,
+  questionDetailQuery,
+  questionsQuery,
+  topicsByChapterQuery,
+} from "@/lib/queries";
 import { getQuestionDecoder } from "@/lib/chapter-map";
 import { progress } from "@/lib/progress";
+import { ScoreFeedback } from "@/components/TutorVoice";
 
 export const Route = createFileRoute("/question/$questionId")({
   loader: ({ context, params }) =>
@@ -52,6 +58,9 @@ function QuestionPage() {
   const { questionId } = Route.useParams();
   const { data } = useSuspenseQuery(questionDetailQuery(questionId));
   const { data: chapter } = useSuspenseQuery(chapterQuery(data.question.chapter_id));
+  const { data: topics } = useSuspenseQuery(
+    topicsByChapterQuery(data.question.chapter_id),
+  );
   const navigate = useNavigate();
   const { data: siblings } = useSuspenseQuery(
     questionsQuery({ chapterId: data.question.chapter_id }),
@@ -351,6 +360,23 @@ function QuestionPage() {
                 </p>
               )}
             </div>
+
+            {scored !== null && (
+              <ScoreFeedback
+                score={scored as 0 | 1 | 3 | 5}
+                hintsUsed={hintsRevealed}
+                usedSolution={showSolution}
+                topicLabel={
+                  topics.find((t) => t.id === data.question.topic_id)?.title ?? null
+                }
+                chapterId={chapter.id}
+                questionType={data.question.question_type}
+                attempts={progress.all()}
+                topicQuestionIds={siblings
+                  .filter((q) => q.topic_id === data.question.topic_id)
+                  .map((q) => q.id)}
+              />
+            )}
           </div>
         )}
       </article>

@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { ReadinessRing } from "@/components/ReadinessRing";
+import { PlanTutorNote } from "@/components/TutorVoice";
 import {
   allQuestionsQuery,
   chaptersQuery,
@@ -568,6 +569,9 @@ function TodaysPlanCard({
           </p>
         </div>
       )}
+
+      <PlanTutorNote focusTopic={focusTopic ?? focusChapter} />
+
 
 
       <div className="mt-auto pt-4 flex flex-wrap gap-2">

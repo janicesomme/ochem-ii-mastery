@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { AppShell } from "@/components/AppShell";
+import { SprintTutorSummary } from "@/components/TutorVoice";
 import {
   chapterQuery,
   questionsQuery,
@@ -461,6 +462,20 @@ function ActiveSprint({
               label="To review"
               value={`${summary.toReview.length}`}
               tone={summary.toReview.length > 0 ? "warn" : undefined}
+            />
+          </div>
+          <div className="mt-4">
+            <SprintTutorSummary
+              avgScorePct={summary.avgScorePct}
+              weakestTopicLabel={summary.weakestTopic?.label}
+              improvedTopicLabel={
+                summary.avgScorePct >= 60 && summary.weakestTopic
+                  ? session.plan.mix.find(
+                      (m) => m.topic_id !== summary.weakestTopic?.topic_id,
+                    )?.label
+                  : undefined
+              }
+              chapterId={chapterId}
             />
           </div>
           {summary.weakestTopic && (

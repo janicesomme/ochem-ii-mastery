@@ -71,7 +71,9 @@ function ChapterPage() {
       >
         <ChevronLeft className="h-4 w-4" /> Dashboard
       </Link>
+      <ChapterTabs chapterId={chapter.id} active="bank" />
       <header className="mb-6">
+
         <p className="chip">Chapter {chapter.number}</p>
         <h1 className="text-3xl font-semibold mt-2">{chapter.title}</h1>
         {chapter.description && (

@@ -1,22 +1,28 @@
 import type { Attempt } from "./progress";
 import type { Chapter, Question, Topic } from "./queries-types";
 
-export type ReadinessStatus = "strong" | "shaky" | "danger" | "neutral" | "untested";
+export type ReadinessStatus = "strong" | "solid" | "shaky" | "danger" | "untested";
 
+// Fixed thresholds:
+// untested (0 attempts) = gray
+// 0–49% = Danger (red)
+// 50–69% = Shaky (orange)
+// 70–84% = Solid (green)
+// 85–100% = Strong (bright green)
 export function statusFor(readiness: number, attempted: number): ReadinessStatus {
   if (attempted === 0) return "untested";
-  if (readiness >= 80) return "strong";
-  if (readiness >= 55) return "neutral";
-  if (readiness >= 30) return "shaky";
+  if (readiness >= 85) return "strong";
+  if (readiness >= 70) return "solid";
+  if (readiness >= 50) return "shaky";
   return "danger";
 }
 
 export function statusMeta(status: ReadinessStatus) {
   switch (status) {
     case "strong":
-      return { label: "Strong", color: "var(--color-success)", chip: "chip-success" };
-    case "neutral":
-      return { label: "In progress", color: "var(--color-primary)", chip: "chip-accent" };
+      return { label: "Strong", color: "var(--color-strong)", chip: "chip-strong" };
+    case "solid":
+      return { label: "Solid", color: "var(--color-success)", chip: "chip-success" };
     case "shaky":
       return { label: "Shaky", color: "var(--color-warning)", chip: "chip-warn" };
     case "danger":
@@ -24,6 +30,15 @@ export function statusMeta(status: ReadinessStatus) {
     case "untested":
       return { label: "Untested", color: "var(--color-muted-foreground)", chip: "chip" };
   }
+}
+
+// Color a ring/bar by readiness % using the SAME fixed thresholds.
+export function readinessColor(readiness: number, untested = false): string {
+  if (untested) return "var(--color-muted-foreground)";
+  if (readiness >= 85) return "var(--color-strong)";
+  if (readiness >= 70) return "var(--color-success)";
+  if (readiness >= 50) return "var(--color-warning)";
+  return "var(--color-destructive)";
 }
 
 export function latestPerQuestion(attempts: Attempt[]): Map<string, Attempt> {

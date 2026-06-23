@@ -47,9 +47,10 @@ export function AppShell({ children }: { children: ReactNode }) {
       <header className="border-b border-border bg-background/70 backdrop-blur-xl sticky top-0 z-30">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 py-3 flex items-center justify-between gap-4">
           <Link to="/" className="flex items-center gap-2 group">
-            <span className="relative inline-flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-accent text-primary-foreground font-bold shadow-lg shadow-primary/30">
+            <span className="relative inline-flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground font-bold shadow-lg shadow-primary/30">
               N
             </span>
+
             <span className="hidden sm:flex flex-col leading-tight">
               <span className="text-sm font-semibold tracking-tight">No-Fear Ochem II</span>
               <span className="text-[11px] text-muted-foreground">Study command center</span>

@@ -37,86 +37,99 @@
   --color-ring: var(--ring);
   --color-surface: var(--surface);
   --color-surface-foreground: var(--surface-foreground);
+  --color-strong: var(--strong);
+  --color-strong-foreground: var(--strong-foreground);
+
 }
 
 :root {
   --radius: 0.85rem;
 
-  /* Light mode — warm paper */
-  --background: oklch(0.985 0.008 85);
-  --foreground: oklch(0.18 0.03 240);
+  /* Light mode — clean paper */
+  --background: oklch(0.985 0.004 240);
+  --foreground: oklch(0.18 0.02 250);
 
   --surface: oklch(1 0 0);
-  --surface-foreground: oklch(0.18 0.03 240);
+  --surface-foreground: oklch(0.18 0.02 250);
 
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.18 0.03 240);
+  --card-foreground: oklch(0.18 0.02 250);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.18 0.03 240);
+  --popover-foreground: oklch(0.18 0.02 250);
 
-  --primary: oklch(0.55 0.13 205);
-  --primary-foreground: oklch(0.985 0.008 85);
+  /* Teal accent — for buttons/links only */
+  --primary: oklch(0.62 0.13 195);
+  --primary-foreground: oklch(0.99 0.005 240);
 
-  --secondary: oklch(0.94 0.02 200);
-  --secondary-foreground: oklch(0.28 0.06 220);
+  --secondary: oklch(0.95 0.008 240);
+  --secondary-foreground: oklch(0.25 0.03 250);
 
-  --muted: oklch(0.95 0.008 90);
-  --muted-foreground: oklch(0.46 0.02 240);
+  --muted: oklch(0.95 0.006 240);
+  --muted-foreground: oklch(0.46 0.015 250);
 
-  --accent: oklch(0.78 0.14 65);
-  --accent-foreground: oklch(0.25 0.06 60);
+  --accent: oklch(0.7 0.16 35);
+  --accent-foreground: oklch(0.99 0.005 240);
 
-  --destructive: oklch(0.58 0.22 25);
-  --destructive-foreground: oklch(0.985 0.008 85);
+  --destructive: oklch(0.6 0.22 25);
+  --destructive-foreground: oklch(0.99 0.005 240);
 
-  --success: oklch(0.62 0.15 155);
-  --success-foreground: oklch(0.985 0.008 85);
+  --success: oklch(0.66 0.16 150);
+  --success-foreground: oklch(0.99 0.005 240);
 
-  --warning: oklch(0.78 0.16 75);
-  --warning-foreground: oklch(0.25 0.06 60);
+  --strong: oklch(0.78 0.2 145);
+  --strong-foreground: oklch(0.15 0.04 150);
 
-  --border: oklch(0.9 0.01 90);
-  --input: oklch(0.9 0.01 90);
-  --ring: oklch(0.55 0.13 205);
+  --warning: oklch(0.74 0.17 55);
+  --warning-foreground: oklch(0.2 0.05 60);
+
+  --border: oklch(0.9 0.008 240);
+  --input: oklch(0.9 0.008 240);
+  --ring: oklch(0.62 0.13 195);
 }
 
 .dark {
-  --background: oklch(0.16 0.025 250);
-  --foreground: oklch(0.97 0.008 220);
+  /* Near-black charcoal, no blue/green tint */
+  --background: oklch(0.135 0.003 270);
+  --foreground: oklch(0.97 0.003 250);
 
-  --surface: oklch(0.215 0.03 250);
-  --surface-foreground: oklch(0.97 0.008 220);
+  --surface: oklch(0.185 0.004 270);
+  --surface-foreground: oklch(0.97 0.003 250);
 
-  --card: oklch(0.215 0.03 250);
-  --card-foreground: oklch(0.97 0.008 220);
-  --popover: oklch(0.215 0.03 250);
-  --popover-foreground: oklch(0.97 0.008 220);
+  --card: oklch(0.185 0.004 270);
+  --card-foreground: oklch(0.97 0.003 250);
+  --popover: oklch(0.185 0.004 270);
+  --popover-foreground: oklch(0.97 0.003 250);
 
-  --primary: oklch(0.82 0.14 200);
-  --primary-foreground: oklch(0.14 0.03 250);
+  /* Teal accent — buttons/links/highlights only */
+  --primary: oklch(0.78 0.13 192);
+  --primary-foreground: oklch(0.14 0.01 270);
 
-  --secondary: oklch(0.28 0.04 245);
-  --secondary-foreground: oklch(0.96 0.01 220);
+  --secondary: oklch(0.24 0.006 270);
+  --secondary-foreground: oklch(0.96 0.005 250);
 
-  --muted: oklch(0.26 0.03 250);
-  --muted-foreground: oklch(0.74 0.015 230);
+  --muted: oklch(0.22 0.005 270);
+  --muted-foreground: oklch(0.72 0.01 250);
 
-  --accent: oklch(0.82 0.14 70);
-  --accent-foreground: oklch(0.2 0.05 60);
+  --accent: oklch(0.78 0.16 40);
+  --accent-foreground: oklch(0.18 0.04 50);
 
-  --destructive: oklch(0.7 0.22 22);
-  --destructive-foreground: oklch(0.98 0.01 220);
+  --destructive: oklch(0.68 0.22 25);
+  --destructive-foreground: oklch(0.99 0.005 250);
 
-  --success: oklch(0.78 0.17 155);
-  --success-foreground: oklch(0.14 0.03 250);
+  --success: oklch(0.74 0.17 150);
+  --success-foreground: oklch(0.14 0.01 270);
 
-  --warning: oklch(0.84 0.17 75);
+  --strong: oklch(0.85 0.22 142);
+  --strong-foreground: oklch(0.14 0.04 150);
+
+  --warning: oklch(0.8 0.17 60);
   --warning-foreground: oklch(0.2 0.05 60);
 
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 14%);
-  --ring: oklch(0.82 0.14 200);
+  --border: oklch(1 0 0 / 9%);
+  --input: oklch(1 0 0 / 12%);
+  --ring: oklch(0.78 0.13 192);
 }
+
 
 @layer base {
   * {
@@ -127,10 +140,6 @@
     color: var(--color-foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
-    background-image:
-      radial-gradient(circle at 12% -10%, color-mix(in oklch, var(--color-primary) 18%, transparent), transparent 55%),
-      radial-gradient(circle at 95% 0%, color-mix(in oklch, var(--color-accent) 14%, transparent), transparent 50%);
-    background-attachment: fixed;
   }
   h1, h2, h3, h4 {
     font-family: var(--font-display);
@@ -140,24 +149,14 @@
 
 @layer components {
   .panel {
-    background-color: color-mix(in oklch, var(--color-surface) 92%, transparent);
+    background-color: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
-    backdrop-filter: blur(8px);
   }
   .panel-glow {
     position: relative;
   }
-  .panel-glow::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    pointer-events: none;
-    background: linear-gradient(135deg,
-      color-mix(in oklch, var(--color-primary) 14%, transparent),
-      transparent 55%);
-  }
+
   .chip {
     display: inline-flex;
     align-items: center;
@@ -182,6 +181,12 @@
     color: var(--color-success);
     border-color: color-mix(in oklch, var(--color-success) 35%, transparent);
   }
+  .chip-strong {
+    background: color-mix(in oklch, var(--color-strong) 22%, transparent);
+    color: var(--color-strong);
+    border-color: color-mix(in oklch, var(--color-strong) 45%, transparent);
+  }
+
   .chip-warn {
     background: color-mix(in oklch, var(--color-warning) 22%, transparent);
     color: var(--color-warning);
@@ -200,7 +205,7 @@
     border-radius: var(--radius-md);
     font-weight: 600;
     font-size: 0.875rem;
-    background: linear-gradient(135deg, var(--color-primary), color-mix(in oklch, var(--color-primary) 60%, var(--color-accent)));
+    background: var(--color-primary);
     color: var(--color-primary-foreground);
     box-shadow: 0 6px 20px -8px color-mix(in oklch, var(--color-primary) 70%, transparent);
     transition: transform 150ms ease, box-shadow 200ms ease;

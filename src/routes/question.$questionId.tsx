@@ -383,6 +383,32 @@ function QuestionPage() {
   );
 }
 
+function DecoderBox({ questionId, chapterId }: { questionId: string; chapterId: string }) {
+  const d = getQuestionDecoder(questionId);
+  if (!d) return null;
+  return (
+    <div className="mt-5 rounded-lg border border-primary/30 bg-primary/10 p-3.5 text-sm">
+      <p className="text-[11px] uppercase tracking-wider font-semibold text-primary inline-flex items-center gap-1.5">
+        <Sparkles className="h-3.5 w-3.5" /> Decoder
+      </p>
+      <p className="mt-1.5">
+        This question is asking you to:{" "}
+        <span className="font-semibold">{d.task.toLowerCase()}</span>.
+      </p>
+      <p className="text-xs text-muted-foreground mt-1">
+        <span className="font-semibold text-foreground">Move:</span> {d.move}
+      </p>
+      <Link
+        to="/chapter/$chapterId/map"
+        params={{ chapterId }}
+        className="text-xs text-primary hover:underline inline-flex items-center gap-1 mt-2"
+      >
+        See chapter battle map →
+      </Link>
+    </div>
+  );
+}
+
 function QuestionImage({ url, label }: { url?: string | null; label: string }) {
   if (!url) return null;
   return (

@@ -17,6 +17,7 @@ import { Route as QuickSheetsIndexRouteImport } from './routes/quick-sheets.inde
 import { Route as QuickSheetsSheetIdRouteImport } from './routes/quick-sheets.$sheetId'
 import { Route as QuestionQuestionIdRouteImport } from './routes/question.$questionId'
 import { Route as ChapterChapterIdRouteImport } from './routes/chapter.$chapterId'
+import { Route as ChapterChapterIdMapRouteImport } from './routes/chapter.$chapterId.map'
 
 const ReviewRoute = ReviewRouteImport.update({
   id: '/review',
@@ -58,6 +59,11 @@ const ChapterChapterIdRoute = ChapterChapterIdRouteImport.update({
   path: '/chapter/$chapterId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ChapterChapterIdMapRoute = ChapterChapterIdMapRouteImport.update({
+  id: '/chapter/$chapterId/map',
+  path: '/chapter/$chapterId/map',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -65,6 +71,7 @@ export interface FileRoutesByFullPath {
   '/question-bank': typeof QuestionBankRoute
   '/review': typeof ReviewRoute
   '/chapter/$chapterId': typeof ChapterChapterIdRoute
+  '/chapter/$chapterId/map': typeof ChapterChapterIdMapRoute
   '/question/$questionId': typeof QuestionQuestionIdRoute
   '/quick-sheets/$sheetId': typeof QuickSheetsSheetIdRoute
   '/quick-sheets/': typeof QuickSheetsIndexRoute
@@ -75,6 +82,7 @@ export interface FileRoutesByTo {
   '/question-bank': typeof QuestionBankRoute
   '/review': typeof ReviewRoute
   '/chapter/$chapterId': typeof ChapterChapterIdRoute
+  '/chapter/$chapterId/map': typeof ChapterChapterIdMapRoute
   '/question/$questionId': typeof QuestionQuestionIdRoute
   '/quick-sheets/$sheetId': typeof QuickSheetsSheetIdRoute
   '/quick-sheets': typeof QuickSheetsIndexRoute
@@ -86,6 +94,7 @@ export interface FileRoutesById {
   '/question-bank': typeof QuestionBankRoute
   '/review': typeof ReviewRoute
   '/chapter/$chapterId': typeof ChapterChapterIdRoute
+  '/chapter/$chapterId/map': typeof ChapterChapterIdMapRoute
   '/question/$questionId': typeof QuestionQuestionIdRoute
   '/quick-sheets/$sheetId': typeof QuickSheetsSheetIdRoute
   '/quick-sheets/': typeof QuickSheetsIndexRoute
@@ -98,6 +107,7 @@ export interface FileRouteTypes {
     | '/question-bank'
     | '/review'
     | '/chapter/$chapterId'
+    | '/chapter/$chapterId/map'
     | '/question/$questionId'
     | '/quick-sheets/$sheetId'
     | '/quick-sheets/'
@@ -108,6 +118,7 @@ export interface FileRouteTypes {
     | '/question-bank'
     | '/review'
     | '/chapter/$chapterId'
+    | '/chapter/$chapterId/map'
     | '/question/$questionId'
     | '/quick-sheets/$sheetId'
     | '/quick-sheets'
@@ -118,6 +129,7 @@ export interface FileRouteTypes {
     | '/question-bank'
     | '/review'
     | '/chapter/$chapterId'
+    | '/chapter/$chapterId/map'
     | '/question/$questionId'
     | '/quick-sheets/$sheetId'
     | '/quick-sheets/'
@@ -129,6 +141,7 @@ export interface RootRouteChildren {
   QuestionBankRoute: typeof QuestionBankRoute
   ReviewRoute: typeof ReviewRoute
   ChapterChapterIdRoute: typeof ChapterChapterIdRoute
+  ChapterChapterIdMapRoute: typeof ChapterChapterIdMapRoute
   QuestionQuestionIdRoute: typeof QuestionQuestionIdRoute
   QuickSheetsSheetIdRoute: typeof QuickSheetsSheetIdRoute
   QuickSheetsIndexRoute: typeof QuickSheetsIndexRoute
@@ -192,6 +205,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ChapterChapterIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/chapter/$chapterId/map': {
+      id: '/chapter/$chapterId/map'
+      path: '/chapter/$chapterId/map'
+      fullPath: '/chapter/$chapterId/map'
+      preLoaderRoute: typeof ChapterChapterIdMapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -201,6 +221,7 @@ const rootRouteChildren: RootRouteChildren = {
   QuestionBankRoute: QuestionBankRoute,
   ReviewRoute: ReviewRoute,
   ChapterChapterIdRoute: ChapterChapterIdRoute,
+  ChapterChapterIdMapRoute: ChapterChapterIdMapRoute,
   QuestionQuestionIdRoute: QuestionQuestionIdRoute,
   QuickSheetsSheetIdRoute: QuickSheetsSheetIdRoute,
   QuickSheetsIndexRoute: QuickSheetsIndexRoute,

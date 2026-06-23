@@ -229,11 +229,14 @@ function Dashboard() {
         perDay={perDay}
       />
 
+      {/* Today's chapter insight */}
+      <TodaysChapterInsight />
+
       {/* Chapter readiness */}
       <section className="mt-8 mb-8">
         <SectionHeader
           title="Chapter readiness"
-          subtitle="Tap a ring to keep practicing."
+          subtitle="Tap Battle map to plan your attack."
         />
         <div className="grid gap-3 sm:grid-cols-2">
           {chapterStats.map((s) => (

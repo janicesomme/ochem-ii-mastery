@@ -25,6 +25,7 @@ export function Scratchpad({ value, onChange, height = 280 }: Props) {
   const [color, setColor] = useState(COLORS[0]);
   const [size, setSize] = useState(2.5);
   const [drawing, setDrawing] = useState(false);
+  const [tool, setTool] = useState<Tool>("pen");
   const drewRef = useRef(false);
 
   // Resize canvas to container (HiDPI safe)

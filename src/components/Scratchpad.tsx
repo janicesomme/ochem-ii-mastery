@@ -12,6 +12,7 @@ type Props = {
 type Stroke = {
   color: string;
   size: number;
+  erase?: boolean;
   points: { x: number; y: number }[];
 };
 

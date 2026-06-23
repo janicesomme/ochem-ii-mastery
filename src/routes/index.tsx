@@ -576,23 +576,21 @@ function TodaysMission({
   perDay: number | null;
 }) {
   const count = perDay ?? 5;
+  const reviewSlice = Math.min(reviewCount, 5);
   return (
-    <section className="panel p-5 border-primary/40">
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-        <div>
+    <section className="panel p-5 border-primary/50 ring-1 ring-primary/20">
+      <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+        <div className="min-w-0">
           <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground inline-flex items-center gap-1.5">
             <Flame className="h-3.5 w-3.5 text-accent" /> Today&apos;s mission
           </p>
-          <p className="text-lg mt-2">
+          <p className="text-lg mt-2 font-medium">
             {weakestChapter ? (
               <>
-                Do <strong>{count}</strong> questions in{" "}
-                <strong>{weakestChapter.ch.title}</strong>
-                {weakestTopic ? (
-                  <> — focus on <strong>{weakestTopic}</strong></>
-                ) : null}
+                Do <strong>{count}</strong> questions:{" "}
+                <strong>{weakestTopic ?? weakestChapter.ch.title}</strong>
                 {reviewCount > 0 ? (
-                  <>, then clear <strong>{Math.min(reviewCount, 5)}</strong> review items.</>
+                  <> + <strong>{reviewSlice}</strong> review items.</>
                 ) : (
                   "."
                 )}
@@ -601,31 +599,16 @@ function TodaysMission({
               <>Pick any chapter and knock out {count} questions to get a baseline.</>
             )}
           </p>
-          <p className="text-xs text-muted-foreground mt-2 inline-flex items-center gap-1.5">
-            <Target className="h-3 w-3" /> Next best action:{" "}
-            {weakestChapter
-              ? `attack the weakest chapter first.`
-              : `start anywhere — just get reps in.`}
-          </p>
         </div>
         <div className="flex flex-wrap gap-2 shrink-0">
           {weakestChapter ? (
-            <>
-              <Link
-                to="/sprint/$chapterId"
-                params={{ chapterId: weakestChapter.ch.id }}
-                className="btn-primary"
-              >
-                <Sparkles className="h-3.5 w-3.5" /> Start smart sprint
-              </Link>
-              <Link
-                to="/chapter/$chapterId/map"
-                params={{ chapterId: weakestChapter.ch.id }}
-                className="btn-ghost"
-              >
-                Open battle map <ArrowRight className="h-3.5 w-3.5" />
-              </Link>
-            </>
+            <Link
+              to="/sprint/$chapterId"
+              params={{ chapterId: weakestChapter.ch.id }}
+              className="btn-primary"
+            >
+              <Sparkles className="h-3.5 w-3.5" /> Start smart sprint
+            </Link>
           ) : (
             <Link to="/question-bank" className="btn-primary">
               Open question bank <ArrowRight className="h-3.5 w-3.5" />
@@ -636,7 +619,30 @@ function TodaysMission({
           </Link>
         </div>
       </div>
+
+      {/* Placeholder grid for future smart guidance */}
+      <div className="mt-4 grid gap-2 grid-cols-2 lg:grid-cols-5 text-xs">
+        <MissionSlot label="Why recommended" hint="Highest exam-yield gap." />
+        <MissionSlot label="What this improves" hint="Readiness on weakest topic." />
+        <MissionSlot label="Est. time" hint="~25 min" />
+        <MissionSlot label="Questions" hint={`${count} new + ${reviewSlice} review`} />
+        <MissionSlot label="Expected gain" hint="+3–5% readiness" />
+      </div>
+      <p className="text-[11px] text-muted-foreground mt-2">
+        Short on time? Drop to 3 questions on the weakest topic only.
+      </p>
     </section>
+  );
+}
+
+function MissionSlot({ label, hint }: { label: string; hint: string }) {
+  return (
+    <div className="rounded-md border border-dashed border-border/70 bg-secondary/30 px-2.5 py-2">
+      <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">
+        {label}
+      </p>
+      <p className="text-[11px] text-foreground/80 mt-0.5 leading-snug">{hint}</p>
+    </div>
   );
 }
 

@@ -140,10 +140,6 @@
     color: var(--color-foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
-    background-image:
-      radial-gradient(circle at 12% -10%, color-mix(in oklch, var(--color-primary) 18%, transparent), transparent 55%),
-      radial-gradient(circle at 95% 0%, color-mix(in oklch, var(--color-accent) 14%, transparent), transparent 50%);
-    background-attachment: fixed;
   }
   h1, h2, h3, h4 {
     font-family: var(--font-display);
@@ -153,24 +149,14 @@
 
 @layer components {
   .panel {
-    background-color: color-mix(in oklch, var(--color-surface) 92%, transparent);
+    background-color: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
-    backdrop-filter: blur(8px);
   }
   .panel-glow {
     position: relative;
   }
-  .panel-glow::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    pointer-events: none;
-    background: linear-gradient(135deg,
-      color-mix(in oklch, var(--color-primary) 14%, transparent),
-      transparent 55%);
-  }
+
   .chip {
     display: inline-flex;
     align-items: center;

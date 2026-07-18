@@ -1,10 +1,16 @@
-// Temporary compatibility wrapper while the project is detached from Lovable Cloud.
-// A later build-tested change will replace this with the standard TanStack Start config.
-import { defineConfig } from "@lovable.dev/vite-tanstack-config";
+import { defineConfig } from "vite";
+import tsConfigPaths from "vite-tsconfig-paths";
+import { tanstackStart } from "@tanstack/react-start/plugin/vite";
+import tailwindcss from "@tailwindcss/vite";
+import viteReact from "@vitejs/plugin-react";
+import { nitro } from "nitro/vite";
 
 export default defineConfig({
-  tanstackStart: {
-    // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
-    server: { entry: "server" },
-  },
+  plugins: [
+    tsConfigPaths(),
+    tanstackStart(),
+    nitro(),
+    viteReact(),
+    tailwindcss(),
+  ],
 });

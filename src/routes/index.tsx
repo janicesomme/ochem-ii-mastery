@@ -57,10 +57,10 @@ export const Route = createFileRoute("/")({
         content:
           "Your Ochem II study command center: exam countdown, readiness rings, weak spots, and today's mission.",
       },
-      { property: "og:title", content: "No-Fear Ochem II — Dashboard" },
+      { property: "og:title", content: "Dashboard — No-Fear Ochem II" },
       {
         property: "og:description",
-        content: "90% questions. Just enough help to get unstuck.",
+        content: "Your Ochem II study command center: exam countdown, readiness rings, weak spots, and today's mission.",
       },
     ],
   }),

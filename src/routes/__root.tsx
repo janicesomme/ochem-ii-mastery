@@ -7,10 +7,9 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import type { ReactNode } from "react";
 
 import appCss from "../styles.css?url";
-import { reportLovableError } from "../lib/lovable-error-reporting";
 
 function NotFoundComponent() {
   return (
@@ -37,9 +36,6 @@ function NotFoundComponent() {
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
   const router = useRouter();
-  useEffect(() => {
-    reportLovableError(error, { boundary: "tanstack_root_error_component" });
-  }, [error]);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -78,17 +74,26 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Dashboard — No-Fear Ochem II" },
-      { name: "description", content: "Your Ochem II study command center: exam countdown, readiness rings, weak spots, and today's mission." },
-      { name: "author", content: "Lovable" },
+      {
+        name: "description",
+        content:
+          "Your Ochem II study command center: exam countdown, readiness rings, weak spots, and today's mission.",
+      },
+      { name: "author", content: "No-Fear Ochem II" },
       { property: "og:title", content: "Dashboard — No-Fear Ochem II" },
-      { property: "og:description", content: "Your Ochem II study command center: exam countdown, readiness rings, weak spots, and today's mission." },
+      {
+        property: "og:description",
+        content:
+          "Your Ochem II study command center: exam countdown, readiness rings, weak spots, and today's mission.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
       { name: "twitter:title", content: "Dashboard — No-Fear Ochem II" },
-      { name: "twitter:description", content: "Your Ochem II study command center: exam countdown, readiness rings, weak spots, and today's mission." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/8c984f67-508a-4069-bf5e-f59217271d2d/id-preview-19ca6233--f765e521-3c1e-4077-b42b-1a422c6214aa.lovable.app-1784385046376.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/8c984f67-508a-4069-bf5e-f59217271d2d/id-preview-19ca6233--f765e521-3c1e-4077-b42b-1a422c6214aa.lovable.app-1784385046376.png" },
+      {
+        name: "twitter:description",
+        content:
+          "Your Ochem II study command center: exam countdown, readiness rings, weak spots, and today's mission.",
+      },
     ],
     links: [
       {

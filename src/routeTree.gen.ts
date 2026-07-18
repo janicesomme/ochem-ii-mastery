@@ -12,14 +12,18 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as ReviewRouteImport } from './routes/review'
 import { Route as QuestionBankRouteImport } from './routes/question-bank'
 import { Route as ProgressRouteImport } from './routes/progress'
+import { Route as McpRouteImport } from './routes/mcp'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as QuickSheetsIndexRouteImport } from './routes/quick-sheets.index'
 import { Route as SprintChapterIdRouteImport } from './routes/sprint.$chapterId'
 import { Route as QuickSheetsSheetIdRouteImport } from './routes/quick-sheets.$sheetId'
 import { Route as QuestionQuestionIdRouteImport } from './routes/question.$questionId'
 import { Route as DeepReviewReviewIdRouteImport } from './routes/deep-review.$reviewId'
+import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
+import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as ChapterChapterIdIndexRouteImport } from './routes/chapter.$chapterId.index'
 import { Route as ChapterChapterIdMapRouteImport } from './routes/chapter.$chapterId.map'
+import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 
 const ReviewRoute = ReviewRouteImport.update({
   id: '/review',
@@ -34,6 +38,11 @@ const QuestionBankRoute = QuestionBankRouteImport.update({
 const ProgressRoute = ProgressRouteImport.update({
   id: '/progress',
   path: '/progress',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const McpRoute = McpRouteImport.update({
+  id: '/mcp',
+  path: '/mcp',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -66,6 +75,18 @@ const DeepReviewReviewIdRoute = DeepReviewReviewIdRouteImport.update({
   path: '/deep-review/$reviewId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const Char91DotwellKnownChar93OauthProtectedResourceRoute =
+  Char91DotwellKnownChar93OauthProtectedResourceRouteImport.update({
+    id: '/.well-known/oauth-protected-resource',
+    path: '/.well-known/oauth-protected-resource',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const Char91DotmcpChar93ListToolsRoute =
+  Char91DotmcpChar93ListToolsRouteImport.update({
+    id: '/.mcp/list-tools',
+    path: '/.mcp/list-tools',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ChapterChapterIdIndexRoute = ChapterChapterIdIndexRouteImport.update({
   id: '/chapter/$chapterId/',
   path: '/chapter/$chapterId/',
@@ -76,44 +97,62 @@ const ChapterChapterIdMapRoute = ChapterChapterIdMapRouteImport.update({
   path: '/chapter/$chapterId/map',
   getParentRoute: () => rootRouteImport,
 } as any)
+const Char91DotmcpChar93InvokeToolToolRoute =
+  Char91DotmcpChar93InvokeToolToolRouteImport.update({
+    id: '/.mcp/invoke-tool/$tool',
+    path: '/.mcp/invoke-tool/$tool',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/mcp': typeof McpRoute
   '/progress': typeof ProgressRoute
   '/question-bank': typeof QuestionBankRoute
   '/review': typeof ReviewRoute
+  '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
+  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/deep-review/$reviewId': typeof DeepReviewReviewIdRoute
   '/question/$questionId': typeof QuestionQuestionIdRoute
   '/quick-sheets/$sheetId': typeof QuickSheetsSheetIdRoute
   '/sprint/$chapterId': typeof SprintChapterIdRoute
   '/quick-sheets/': typeof QuickSheetsIndexRoute
+  '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/chapter/$chapterId/map': typeof ChapterChapterIdMapRoute
   '/chapter/$chapterId/': typeof ChapterChapterIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/mcp': typeof McpRoute
   '/progress': typeof ProgressRoute
   '/question-bank': typeof QuestionBankRoute
   '/review': typeof ReviewRoute
+  '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
+  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/deep-review/$reviewId': typeof DeepReviewReviewIdRoute
   '/question/$questionId': typeof QuestionQuestionIdRoute
   '/quick-sheets/$sheetId': typeof QuickSheetsSheetIdRoute
   '/sprint/$chapterId': typeof SprintChapterIdRoute
   '/quick-sheets': typeof QuickSheetsIndexRoute
+  '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/chapter/$chapterId/map': typeof ChapterChapterIdMapRoute
   '/chapter/$chapterId': typeof ChapterChapterIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/mcp': typeof McpRoute
   '/progress': typeof ProgressRoute
   '/question-bank': typeof QuestionBankRoute
   '/review': typeof ReviewRoute
+  '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
+  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/deep-review/$reviewId': typeof DeepReviewReviewIdRoute
   '/question/$questionId': typeof QuestionQuestionIdRoute
   '/quick-sheets/$sheetId': typeof QuickSheetsSheetIdRoute
   '/sprint/$chapterId': typeof SprintChapterIdRoute
   '/quick-sheets/': typeof QuickSheetsIndexRoute
+  '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/chapter/$chapterId/map': typeof ChapterChapterIdMapRoute
   '/chapter/$chapterId/': typeof ChapterChapterIdIndexRoute
 }
@@ -121,54 +160,70 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/mcp'
     | '/progress'
     | '/question-bank'
     | '/review'
+    | '/.mcp/list-tools'
+    | '/.well-known/oauth-protected-resource'
     | '/deep-review/$reviewId'
     | '/question/$questionId'
     | '/quick-sheets/$sheetId'
     | '/sprint/$chapterId'
     | '/quick-sheets/'
+    | '/.mcp/invoke-tool/$tool'
     | '/chapter/$chapterId/map'
     | '/chapter/$chapterId/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/mcp'
     | '/progress'
     | '/question-bank'
     | '/review'
+    | '/.mcp/list-tools'
+    | '/.well-known/oauth-protected-resource'
     | '/deep-review/$reviewId'
     | '/question/$questionId'
     | '/quick-sheets/$sheetId'
     | '/sprint/$chapterId'
     | '/quick-sheets'
+    | '/.mcp/invoke-tool/$tool'
     | '/chapter/$chapterId/map'
     | '/chapter/$chapterId'
   id:
     | '__root__'
     | '/'
+    | '/mcp'
     | '/progress'
     | '/question-bank'
     | '/review'
+    | '/.mcp/list-tools'
+    | '/.well-known/oauth-protected-resource'
     | '/deep-review/$reviewId'
     | '/question/$questionId'
     | '/quick-sheets/$sheetId'
     | '/sprint/$chapterId'
     | '/quick-sheets/'
+    | '/.mcp/invoke-tool/$tool'
     | '/chapter/$chapterId/map'
     | '/chapter/$chapterId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  McpRoute: typeof McpRoute
   ProgressRoute: typeof ProgressRoute
   QuestionBankRoute: typeof QuestionBankRoute
   ReviewRoute: typeof ReviewRoute
+  Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
+  Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   DeepReviewReviewIdRoute: typeof DeepReviewReviewIdRoute
   QuestionQuestionIdRoute: typeof QuestionQuestionIdRoute
   QuickSheetsSheetIdRoute: typeof QuickSheetsSheetIdRoute
   SprintChapterIdRoute: typeof SprintChapterIdRoute
   QuickSheetsIndexRoute: typeof QuickSheetsIndexRoute
+  Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
   ChapterChapterIdMapRoute: typeof ChapterChapterIdMapRoute
   ChapterChapterIdIndexRoute: typeof ChapterChapterIdIndexRoute
 }
@@ -194,6 +249,13 @@ declare module '@tanstack/react-router' {
       path: '/progress'
       fullPath: '/progress'
       preLoaderRoute: typeof ProgressRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mcp': {
+      id: '/mcp'
+      path: '/mcp'
+      fullPath: '/mcp'
+      preLoaderRoute: typeof McpRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -238,6 +300,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DeepReviewReviewIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/.well-known/oauth-protected-resource': {
+      id: '/.well-known/oauth-protected-resource'
+      path: '/.well-known/oauth-protected-resource'
+      fullPath: '/.well-known/oauth-protected-resource'
+      preLoaderRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/.mcp/list-tools': {
+      id: '/.mcp/list-tools'
+      path: '/.mcp/list-tools'
+      fullPath: '/.mcp/list-tools'
+      preLoaderRoute: typeof Char91DotmcpChar93ListToolsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/chapter/$chapterId/': {
       id: '/chapter/$chapterId/'
       path: '/chapter/$chapterId'
@@ -252,19 +328,31 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ChapterChapterIdMapRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/.mcp/invoke-tool/$tool': {
+      id: '/.mcp/invoke-tool/$tool'
+      path: '/.mcp/invoke-tool/$tool'
+      fullPath: '/.mcp/invoke-tool/$tool'
+      preLoaderRoute: typeof Char91DotmcpChar93InvokeToolToolRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  McpRoute: McpRoute,
   ProgressRoute: ProgressRoute,
   QuestionBankRoute: QuestionBankRoute,
   ReviewRoute: ReviewRoute,
+  Char91DotmcpChar93ListToolsRoute: Char91DotmcpChar93ListToolsRoute,
+  Char91DotwellKnownChar93OauthProtectedResourceRoute:
+    Char91DotwellKnownChar93OauthProtectedResourceRoute,
   DeepReviewReviewIdRoute: DeepReviewReviewIdRoute,
   QuestionQuestionIdRoute: QuestionQuestionIdRoute,
   QuickSheetsSheetIdRoute: QuickSheetsSheetIdRoute,
   SprintChapterIdRoute: SprintChapterIdRoute,
   QuickSheetsIndexRoute: QuickSheetsIndexRoute,
+  Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
   ChapterChapterIdMapRoute: ChapterChapterIdMapRoute,
   ChapterChapterIdIndexRoute: ChapterChapterIdIndexRoute,
 }

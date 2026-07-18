@@ -13,6 +13,13 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      VITE_SUPABASE_URL: https://wrsbykcmcoyemjnsdgrk.supabase.co
+      VITE_SUPABASE_PROJECT_ID: wrsbykcmcoyemjnsdgrk
+      VITE_SUPABASE_PUBLISHABLE_KEY: sb_publishable_EWGNQAeRoLq0HiN2AIvA1g_D-Qg4Mqd
+      SUPABASE_URL: https://wrsbykcmcoyemjnsdgrk.supabase.co
+      SUPABASE_PROJECT_ID: wrsbykcmcoyemjnsdgrk
+      SUPABASE_PUBLISHABLE_KEY: sb_publishable_EWGNQAeRoLq0HiN2AIvA1g_D-Qg4Mqd
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -26,11 +33,7 @@ jobs:
         run: bun install --frozen-lockfile
 
       - name: Build
-        env:
-          VITE_SUPABASE_URL: https://wrsbykcmcoyemjnsdgrk.supabase.co
-          VITE_SUPABASE_PROJECT_ID: wrsbykcmcoyemjnsdgrk
-          VITE_SUPABASE_PUBLISHABLE_KEY: sb_publishable_EWGNQAeRoLq0HiN2AIvA1g_D-Qg4Mqd
-          SUPABASE_URL: https://wrsbykcmcoyemjnsdgrk.supabase.co
-          SUPABASE_PROJECT_ID: wrsbykcmcoyemjnsdgrk
-          SUPABASE_PUBLISHABLE_KEY: sb_publishable_EWGNQAeRoLq0HiN2AIvA1g_D-Qg4Mqd
         run: bun run build
+
+      - name: Verify StudyOS public read surfaces
+        run: bun run verify:studyos

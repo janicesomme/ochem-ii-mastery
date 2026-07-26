@@ -10,474 +10,641 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "14.5"
+    PostgrestVersion: "13.0.4"
   }
   public: {
     Tables: {
-      chapters: {
+      courses: {
         Row: {
-          created_at: string
-          description: string | null
+          created_at: string | null
+          exam_date: string | null
           id: string
-          number: number
-          sort_order: number
-          title: string
+          institution: string | null
+          name: string
+          question_source: string
+          semester: string | null
+          student_id: string
+          subject: string
         }
         Insert: {
-          created_at?: string
-          description?: string | null
+          created_at?: string | null
+          exam_date?: string | null
           id?: string
-          number: number
-          sort_order?: number
-          title: string
+          institution?: string | null
+          name: string
+          question_source?: string
+          semester?: string | null
+          student_id: string
+          subject: string
         }
         Update: {
-          created_at?: string
-          description?: string | null
+          created_at?: string | null
+          exam_date?: string | null
           id?: string
-          number?: number
-          sort_order?: number
-          title?: string
+          institution?: string | null
+          name?: string
+          question_source?: string
+          semester?: string | null
+          student_id?: string
+          subject?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "courses_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "students"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      exam_questions: {
+        Row: {
+          ai_tagged: boolean
+          answer_image_url: string | null
+          answer_key: string | null
+          concept_canonical: string[] | null
+          confusable_concepts: string[] | null
+          confusable_with: string[] | null
+          course_id: string
+          created_at: string | null
+          difficulty: string
+          exam_number: number | null
+          exam_year: number | null
+          has_structure: boolean | null
+          hint: string | null
+          id: string
+          image_url: string | null
+          janice_shortcut: string | null
+          pack: string | null
+          pattern: string | null
+          point_value: number | null
+          pre_lesson_needed: string | null
+          q_id: string
+          question_order: number | null
+          question_type: string
+          raw_text: string | null
+          reagents_involved: string[] | null
+          related_knowledge_unit_ids: string[] | null
+          source_doc: string
+          source_exam_id: string | null
+          source_page: string | null
+          struggle_point: string | null
+          student_id: string
+          student_visible_trigger: string | null
+          sub_parts: string[] | null
+          suitable_use: string | null
+          topics: string[] | null
+          verified: boolean | null
+          vocab_needed: string[] | null
+          what_student_does: string | null
+          why_easy_in_system: string | null
+        }
+        Insert: {
+          ai_tagged?: boolean
+          answer_image_url?: string | null
+          answer_key?: string | null
+          concept_canonical?: string[] | null
+          confusable_concepts?: string[] | null
+          confusable_with?: string[] | null
+          course_id: string
+          created_at?: string | null
+          difficulty: string
+          exam_number?: number | null
+          exam_year?: number | null
+          has_structure?: boolean | null
+          hint?: string | null
+          id?: string
+          image_url?: string | null
+          janice_shortcut?: string | null
+          pack?: string | null
+          pattern?: string | null
+          point_value?: number | null
+          pre_lesson_needed?: string | null
+          q_id: string
+          question_order?: number | null
+          question_type: string
+          raw_text?: string | null
+          reagents_involved?: string[] | null
+          related_knowledge_unit_ids?: string[] | null
+          source_doc: string
+          source_exam_id?: string | null
+          source_page?: string | null
+          struggle_point?: string | null
+          student_id: string
+          student_visible_trigger?: string | null
+          sub_parts?: string[] | null
+          suitable_use?: string | null
+          topics?: string[] | null
+          verified?: boolean | null
+          vocab_needed?: string[] | null
+          what_student_does?: string | null
+          why_easy_in_system?: string | null
+        }
+        Update: {
+          ai_tagged?: boolean
+          answer_image_url?: string | null
+          answer_key?: string | null
+          concept_canonical?: string[] | null
+          confusable_concepts?: string[] | null
+          confusable_with?: string[] | null
+          course_id?: string
+          created_at?: string | null
+          difficulty?: string
+          exam_number?: number | null
+          exam_year?: number | null
+          has_structure?: boolean | null
+          hint?: string | null
+          id?: string
+          image_url?: string | null
+          janice_shortcut?: string | null
+          pack?: string | null
+          pattern?: string | null
+          point_value?: number | null
+          pre_lesson_needed?: string | null
+          q_id?: string
+          question_order?: number | null
+          question_type?: string
+          raw_text?: string | null
+          reagents_involved?: string[] | null
+          related_knowledge_unit_ids?: string[] | null
+          source_doc?: string
+          source_exam_id?: string | null
+          source_page?: string | null
+          struggle_point?: string | null
+          student_id?: string
+          student_visible_trigger?: string | null
+          sub_parts?: string[] | null
+          suitable_use?: string | null
+          topics?: string[] | null
+          verified?: boolean | null
+          vocab_needed?: string[] | null
+          what_student_does?: string | null
+          why_easy_in_system?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "exam_questions_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "exam_questions_source_exam_id_fkey"
+            columns: ["source_exam_id"]
+            isOneToOne: false
+            referencedRelation: "source_exams"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "exam_questions_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "students"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      md_attempts: {
+        Row: {
+          ask: string | null
+          concept: string | null
+          created_at: string
+          disguise: string
+          id: string
+          is_correct: boolean
+          mode: string | null
+          qid: string
+          user_id: string
+        }
+        Insert: {
+          ask?: string | null
+          concept?: string | null
+          created_at?: string
+          disguise: string
+          id?: string
+          is_correct: boolean
+          mode?: string | null
+          qid: string
+          user_id: string
+        }
+        Update: {
+          ask?: string | null
+          concept?: string | null
+          created_at?: string
+          disguise?: string
+          id?: string
+          is_correct?: boolean
+          mode?: string | null
+          qid?: string
+          user_id?: string
         }
         Relationships: []
       }
-      question_answers: {
+      o2_eas_images: {
         Row: {
-          content: string
+          caption: string | null
           created_at: string
+          display_order: number
           id: string
-          question_id: string
+          image_type: string
+          problem_id: string
+          storage_url: string | null
         }
         Insert: {
-          content: string
+          caption?: string | null
           created_at?: string
+          display_order?: number
           id?: string
-          question_id: string
+          image_type: string
+          problem_id: string
+          storage_url?: string | null
         }
         Update: {
-          content?: string
+          caption?: string | null
           created_at?: string
+          display_order?: number
           id?: string
-          question_id?: string
+          image_type?: string
+          problem_id?: string
+          storage_url?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "question_answers_question_id_fkey"
-            columns: ["question_id"]
+            foreignKeyName: "o2_eas_images_problem_id_fkey"
+            columns: ["problem_id"]
             isOneToOne: false
-            referencedRelation: "questions"
+            referencedRelation: "o2_eas_problems"
             referencedColumns: ["id"]
           },
         ]
       }
-      question_hints: {
+      o2_eas_problems: {
         Row: {
-          content: string
-          created_at: string
-          hint_level: number
-          id: string
-          kind: string
-          question_id: string
-        }
-        Insert: {
-          content: string
-          created_at?: string
-          hint_level: number
-          id?: string
-          kind?: string
-          question_id: string
-        }
-        Update: {
-          content?: string
-          created_at?: string
-          hint_level?: number
-          id?: string
-          kind?: string
-          question_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "question_hints_question_id_fkey"
-            columns: ["question_id"]
-            isOneToOne: false
-            referencedRelation: "questions"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      question_steps: {
-        Row: {
-          content: string
-          created_at: string
-          id: string
-          question_id: string
-          step_number: number
-        }
-        Insert: {
-          content: string
-          created_at?: string
-          id?: string
-          question_id: string
-          step_number: number
-        }
-        Update: {
-          content?: string
-          created_at?: string
-          id?: string
-          question_id?: string
-          step_number?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "question_steps_question_id_fkey"
-            columns: ["question_id"]
-            isOneToOne: false
-            referencedRelation: "questions"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      questions: {
-        Row: {
-          chapter_id: string
+          chapter: number
+          checklist_hint: string | null
           common_trap: string | null
           created_at: string
-          difficulty: string
+          decomposition_type: string | null
+          difficulty: number | null
+          expected_image_types: Json | null
+          has_missing_structure: boolean
+          high_yield: boolean | null
+          hint_1: string | null
+          hint_2: string | null
           id: string
           memory_trick: string | null
-          prompt: string
-          question_type: string
-          sort_order: number
-          title: string
-          topic_id: string | null
+          needs_image: boolean | null
+          prior_knowledge_needed: Json | null
+          problem_number: string
+          question_analysis: Json | null
+          question_text_raw: string
+          question_type: string | null
+          readiness_category: string | null
+          solution_status: string
+          solution_text_raw: string
+          source: string
+          topic: string | null
         }
         Insert: {
-          chapter_id: string
+          chapter: number
+          checklist_hint?: string | null
           common_trap?: string | null
           created_at?: string
-          difficulty: string
-          id?: string
-          memory_trick?: string | null
-          prompt: string
-          question_type: string
-          sort_order?: number
-          title: string
-          topic_id?: string | null
-        }
-        Update: {
-          chapter_id?: string
-          common_trap?: string | null
-          created_at?: string
-          difficulty?: string
-          id?: string
-          memory_trick?: string | null
-          prompt?: string
-          question_type?: string
-          sort_order?: number
-          title?: string
-          topic_id?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "questions_chapter_id_fkey"
-            columns: ["chapter_id"]
-            isOneToOne: false
-            referencedRelation: "chapters"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "questions_topic_id_fkey"
-            columns: ["topic_id"]
-            isOneToOne: false
-            referencedRelation: "topics"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      quick_sheets: {
-        Row: {
-          chapter_id: string | null
-          content: string
-          created_at: string
+          decomposition_type?: string | null
+          difficulty?: number | null
+          expected_image_types?: Json | null
+          has_missing_structure?: boolean
+          high_yield?: boolean | null
+          hint_1?: string | null
+          hint_2?: string | null
           id: string
-          sort_order: number
-          summary: string
-          title: string
-        }
-        Insert: {
-          chapter_id?: string | null
-          content: string
-          created_at?: string
-          id?: string
-          sort_order?: number
-          summary: string
-          title: string
+          memory_trick?: string | null
+          needs_image?: boolean | null
+          prior_knowledge_needed?: Json | null
+          problem_number: string
+          question_analysis?: Json | null
+          question_text_raw: string
+          question_type?: string | null
+          readiness_category?: string | null
+          solution_status: string
+          solution_text_raw: string
+          source: string
+          topic?: string | null
         }
         Update: {
-          chapter_id?: string | null
-          content?: string
+          chapter?: number
+          checklist_hint?: string | null
+          common_trap?: string | null
           created_at?: string
+          decomposition_type?: string | null
+          difficulty?: number | null
+          expected_image_types?: Json | null
+          has_missing_structure?: boolean
+          high_yield?: boolean | null
+          hint_1?: string | null
+          hint_2?: string | null
           id?: string
-          sort_order?: number
-          summary?: string
-          title?: string
+          memory_trick?: string | null
+          needs_image?: boolean | null
+          prior_knowledge_needed?: Json | null
+          problem_number?: string
+          question_analysis?: Json | null
+          question_text_raw?: string
+          question_type?: string | null
+          readiness_category?: string | null
+          solution_status?: string
+          solution_text_raw?: string
+          source?: string
+          topic?: string | null
+        }
+        Relationships: []
+      }
+      o2_eas_solution_steps: {
+        Row: {
+          created_at: string
+          do_this: string
+          id: string
+          problem_id: string
+          step_order: number
+          vocab: Json | null
+          why: string
+        }
+        Insert: {
+          created_at?: string
+          do_this: string
+          id?: string
+          problem_id: string
+          step_order: number
+          vocab?: Json | null
+          why: string
+        }
+        Update: {
+          created_at?: string
+          do_this?: string
+          id?: string
+          problem_id?: string
+          step_order?: number
+          vocab?: Json | null
+          why?: string
         }
         Relationships: [
           {
-            foreignKeyName: "quick_sheets_chapter_id_fkey"
-            columns: ["chapter_id"]
+            foreignKeyName: "o2_eas_solution_steps_problem_id_fkey"
+            columns: ["problem_id"]
             isOneToOne: false
-            referencedRelation: "chapters"
+            referencedRelation: "o2_eas_problems"
             referencedColumns: ["id"]
           },
         ]
       }
-      topics: {
+      pm_activities: {
         Row: {
-          chapter_id: string
-          created_at: string
+          category: string
+          competencies: string[] | null
           description: string | null
+          end_date: string | null
+          hours_completed: number
+          hours_planned: number
           id: string
-          sort_order: number
-          title: string
+          narrative_theme: string | null
+          profile_id: string
+          start_date: string | null
         }
         Insert: {
-          chapter_id: string
-          created_at?: string
+          category: string
+          competencies?: string[] | null
           description?: string | null
+          end_date?: string | null
+          hours_completed?: number
+          hours_planned?: number
           id?: string
-          sort_order?: number
-          title: string
+          narrative_theme?: string | null
+          profile_id: string
+          start_date?: string | null
         }
         Update: {
-          chapter_id?: string
-          created_at?: string
+          category?: string
+          competencies?: string[] | null
           description?: string | null
+          end_date?: string | null
+          hours_completed?: number
+          hours_planned?: number
           id?: string
-          sort_order?: number
-          title?: string
+          narrative_theme?: string | null
+          profile_id?: string
+          start_date?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "topics_chapter_id_fkey"
-            columns: ["chapter_id"]
+            foreignKeyName: "pm_activities_profile_id_fkey"
+            columns: ["profile_id"]
             isOneToOne: false
-            referencedRelation: "chapters"
+            referencedRelation: "pm_profiles"
             referencedColumns: ["id"]
           },
         ]
       }
-      user_question_attempts: {
-        Row: {
-          attempt_text: string | null
-          created_at: string
-          hints_used: number
-          id: string
-          question_id: string
-          score: number
-          used_solution: boolean
-          user_id: string
-        }
-        Insert: {
-          attempt_text?: string | null
-          created_at?: string
-          hints_used?: number
-          id?: string
-          question_id: string
-          score: number
-          used_solution?: boolean
-          user_id: string
-        }
-        Update: {
-          attempt_text?: string | null
-          created_at?: string
-          hints_used?: number
-          id?: string
-          question_id?: string
-          score?: number
-          used_solution?: boolean
-          user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "user_question_attempts_question_id_fkey"
-            columns: ["question_id"]
-            isOneToOne: false
-            referencedRelation: "questions"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      user_question_notes: {
+      pm_essay_reviews: {
         Row: {
           created_at: string
+          essay_sha256: string
           id: string
-          note: string
-          question_id: string
-          updated_at: string
-          user_id: string
+          model: string
+          profile_id: string
+          review: Json
+          rubric_version: string
+          scores: Json
         }
         Insert: {
           created_at?: string
+          essay_sha256: string
           id?: string
-          note: string
-          question_id: string
-          updated_at?: string
-          user_id: string
+          model: string
+          profile_id: string
+          review: Json
+          rubric_version: string
+          scores: Json
         }
         Update: {
           created_at?: string
+          essay_sha256?: string
           id?: string
-          note?: string
-          question_id?: string
-          updated_at?: string
-          user_id?: string
+          model?: string
+          profile_id?: string
+          review?: Json
+          rubric_version?: string
+          scores?: Json
         }
         Relationships: [
           {
-            foreignKeyName: "user_question_notes_question_id_fkey"
-            columns: ["question_id"]
+            foreignKeyName: "pm_essay_reviews_profile_id_fkey"
+            columns: ["profile_id"]
             isOneToOne: false
-            referencedRelation: "questions"
+            referencedRelation: "pm_profiles"
             referencedColumns: ["id"]
           },
         ]
       }
-    }
-    Views: {
-      [_ in never]: never
-    }
-    Functions: {
-      [_ in never]: never
-    }
-    Enums: {
-      [_ in never]: never
-    }
-    CompositeTypes: {
-      [_ in never]: never
-    }
-  }
-}
-
-type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">
-
-type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, "public">]
-
-export type Tables<
-  DefaultSchemaTableNameOrOptions extends
-    | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
-    | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals
-  }
-    ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
-        DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
-    : never = never,
-> = DefaultSchemaTableNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals
-}
-  ? (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
-      DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])[TableName] extends {
-      Row: infer R
-    }
-    ? R
-    : never
-  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema["Tables"] &
-        DefaultSchema["Views"])
-    ? (DefaultSchema["Tables"] &
-        DefaultSchema["Views"])[DefaultSchemaTableNameOrOptions] extends {
-        Row: infer R
+      pm_facts_grid: {
+        Row: {
+          acceptees: number | null
+          acceptees_suppressed: boolean
+          applicants: number | null
+          applicants_suppressed: boolean
+          cycle_year: number
+          gpa_band: string
+          id: string
+          imported_at: string
+          mcat_band: string
+          source_file: string
+          source_sha256: string
+          source_sheet: string
+        }
+        Insert: {
+          acceptees?: number | null
+          acceptees_suppressed?: boolean
+          applicants?: number | null
+          applicants_suppressed?: boolean
+          cycle_year: number
+          gpa_band: string
+          id?: string
+          imported_at?: string
+          mcat_band: string
+          source_file: string
+          source_sha256: string
+          source_sheet: string
+        }
+        Update: {
+          acceptees?: number | null
+          acceptees_suppressed?: boolean
+          applicants?: number | null
+          applicants_suppressed?: boolean
+          cycle_year?: number
+          gpa_band?: string
+          id?: string
+          imported_at?: string
+          mcat_band?: string
+          source_file?: string
+          source_sha256?: string
+          source_sheet?: string
+        }
+        Relationships: []
       }
-      ? R
-      : never
-    : never
-
-export type TablesInsert<
-  DefaultSchemaTableNameOrOptions extends
-    | keyof DefaultSchema["Tables"]
-    | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals
-  }
-    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
-> = DefaultSchemaTableNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals
-}
-  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-      Insert: infer I
-    }
-    ? I
-    : never
-  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
-    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
-        Insert: infer I
+      pm_narratives: {
+        Row: {
+          id: string
+          mission_fit_school_ids: string[] | null
+          profile_id: string
+          strength_score: number | null
+          supporting_activity_ids: string[] | null
+          theme: string
+          updated_at: string | null
+        }
+        Insert: {
+          id?: string
+          mission_fit_school_ids?: string[] | null
+          profile_id: string
+          strength_score?: number | null
+          supporting_activity_ids?: string[] | null
+          theme: string
+          updated_at?: string | null
+        }
+        Update: {
+          id?: string
+          mission_fit_school_ids?: string[] | null
+          profile_id?: string
+          strength_score?: number | null
+          supporting_activity_ids?: string[] | null
+          theme?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pm_narratives_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "pm_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
-      ? I
-      : never
-    : never
-
-export type TablesUpdate<
-  DefaultSchemaTableNameOrOptions extends
-    | keyof DefaultSchema["Tables"]
-    | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals
-  }
-    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
-> = DefaultSchemaTableNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals
-}
-  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-      Update: infer U
-    }
-    ? U
-    : never
-  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
-    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
-        Update: infer U
+      pm_outcomes_corpus: {
+        Row: {
+          acceptances: number | null
+          clinical_hours: number | null
+          consent_to_store: boolean
+          cycle_year: number | null
+          gap_years: number | null
+          gpa: number | null
+          has_publication: boolean | null
+          id: string
+          interviews: number | null
+          matriculated_school_id: string | null
+          mcat: number | null
+          raw_source_url: string | null
+          research_hours: number | null
+          schools_applied: number | null
+          state: string | null
+          user_id: string
+          volunteer_hours: number | null
+        }
+        Insert: {
+          acceptances?: number | null
+          clinical_hours?: number | null
+          consent_to_store?: boolean
+          cycle_year?: number | null
+          gap_years?: number | null
+          gpa?: number | null
+          has_publication?: boolean | null
+          id?: string
+          interviews?: number | null
+          matriculated_school_id?: string | null
+          mcat?: number | null
+          raw_source_url?: string | null
+          research_hours?: number | null
+          schools_applied?: number | null
+          state?: string | null
+          user_id: string
+          volunteer_hours?: number | null
+        }
+        Update: {
+          acceptances?: number | null
+          clinical_hours?: number | null
+          consent_to_store?: boolean
+          cycle_year?: number | null
+          gap_years?: number | null
+          gpa?: number | null
+          has_publication?: boolean | null
+          id?: string
+          interviews?: number | null
+          matriculated_school_id?: string | null
+          mcat?: number | null
+          raw_source_url?: string | null
+          research_hours?: number | null
+          schools_applied?: number | null
+          state?: string | null
+          user_id?: string
+          volunteer_hours?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pm_outcomes_corpus_matriculated_school_id_fkey"
+            columns: ["matriculated_school_id"]
+            isOneToOne: false
+            referencedRelation: "pm_schools"
+            referencedColumns: ["id"]
+          },
+        ]
       }
-      ? U
-      : never
-    : never
-
-export type Enums<
-  DefaultSchemaEnumNameOrOptions extends
-    | keyof DefaultSchema["Enums"]
-    | { schema: keyof DatabaseWithoutInternals },
-  EnumName extends DefaultSchemaEnumNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals
-  }
-    ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
-    : never = never,
-> = DefaultSchemaEnumNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals
-}
-  ? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
-  : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema["Enums"]
-    ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
-    : never
-
-export type CompositeTypes<
-  PublicCompositeTypeNameOrOptions extends
-    | keyof DefaultSchema["CompositeTypes"]
-    | { schema: keyof DatabaseWithoutInternals },
-  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals
-  }
-    ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
-    : never = never,
-> = PublicCompositeTypeNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals
-}
-  ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
-  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
-    ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
-    : never
-
-export const Constants = {
-  public: {
-    Enums: {},
-  },
-} as const
+      pm_profiles: {
+        Row: {
+          gap_years: number
+          gpa_cum: number | null
+          gpa_science: number | null
+          grad_year: number | null
+          id: string
+          mcat_date: string | null
+          mcat_total: number | null
+          state

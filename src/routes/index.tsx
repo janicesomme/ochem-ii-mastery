@@ -18,8 +18,9 @@ import {
   allQuestionsQuery,
   chaptersQuery,
   quickSheetsQuery,
+  type Topic,
 } from "@/lib/queries";
-import { topics as allTopics, chapters as allChapters } from "@/lib/mock-data";
+import { chapters as allChapters } from "@/lib/mock-data";
 import { getTodaysChapterInsight } from "@/lib/chapter-map";
 import { progress, type Attempt } from "@/lib/progress";
 import { daysUntil, getExam, setExam, type ExamSettings } from "@/lib/exam";
@@ -47,6 +48,14 @@ import {
   type DemoWeakSpot,
 } from "@/lib/demo";
 import { useEffect, useMemo, useState } from "react";
+
+// "Today's Chapter Insight" (below) is a separate, still-mock content system
+// (chapter-map.ts) hardcoded against mock chapter ids like "ch-3" — it isn't
+// wired to real chapters yet, so allChapters stays on mock-data deliberately;
+// swapping it here would silently and permanently hide that panel instead of
+// fixing it. allTopics has no such coupling, so it's safe to empty out (see
+// queries.ts — no real sub-topic table exists behind exam_questions yet).
+const allTopics: Topic[] = [];
 
 export const Route = createFileRoute("/")({
   head: () => ({

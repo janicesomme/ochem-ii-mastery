@@ -4,8 +4,7 @@ import { ArrowRight, ChevronLeft, Target, TrendingUp, Zap } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { AppShell } from "@/components/AppShell";
 import { ReadinessRing } from "@/components/ReadinessRing";
-import { allQuestionsQuery, chaptersQuery } from "@/lib/queries";
-import { topics as allTopics } from "@/lib/mock-data";
+import { allQuestionsQuery, chaptersQuery, type Topic } from "@/lib/queries";
 import { progress, type Attempt } from "@/lib/progress";
 import { daysUntil, getExam } from "@/lib/exam";
 import {
@@ -27,6 +26,11 @@ import {
   DEMO_WEAK_SPOTS,
   demoChapterStats,
 } from "@/lib/demo";
+
+// No real sub-topic table exists behind exam_questions yet (see queries.ts).
+// Topic-level breakdowns below degrade gracefully to empty rather than
+// showing invented mock topics now that this page reads real chapters/questions.
+const allTopics: Topic[] = [];
 
 export const Route = createFileRoute("/progress")({
   head: () => ({

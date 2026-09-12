@@ -1,0 +1,45 @@
+{
+  "status": "draft-text-grounded-not-structure-verified",
+  "records": [
+    {
+      "source": "smith-6e",
+      "question": "17.39",
+      "part": "a",
+      "pattern": "ketone-reduction-stereochemistry",
+      "task": "Choose reduction conditions",
+      "verification": "text task and named molecule readable; solution diagram pending"
+    },
+    {
+      "source": "smith-6e",
+      "question": "17.48",
+      "part": null,
+      "pattern": "grignard-protic-group-conflict",
+      "task": "Explain failed synthesis and repair it",
+      "verification": "text explanation checked; full sequence diagram pending"
+    },
+    {
+      "source": "klein-4e",
+      "question": "12.38",
+      "part": "a",
+      "pattern": "reverse-alcohol-reduction",
+      "task": "Identify starting aldehyde",
+      "verification": "solution identifies aldehyde; exact structure pending"
+    },
+    {
+      "source": "klein-4e",
+      "question": "12.38",
+      "part": "b",
+      "pattern": "reverse-alcohol-reduction",
+      "task": "Identify starting ketone",
+      "verification": "solution identifies ketone; exact structure pending"
+    },
+    {
+      "source": "klein-4e",
+      "question": "12.38",
+      "part": "c",
+      "pattern": "reverse-alcohol-reduction",
+      "task": "Identify starting ketone",
+      "verification": "solution identifies ketone; exact structure pending"
+    }
+  ]
+}

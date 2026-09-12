@@ -1,0 +1,111 @@
+[
+  {
+    "id": 1,
+    "title": "A longer chain",
+    "a": {
+      "n": 4
+    },
+    "b": {
+      "n": 6
+    },
+    "verdict": "Same reaction rule",
+    "noticed": "B has a longer carbon chain. Both ends are still aldehydes, and both use NaBH₄.",
+    "why": "An aldehyde has a carbon double-bonded to O and also bonded to H. NaBH₄ turns that end into a primary alcohol. The longer chain stays longer—you use the same move at its end.",
+    "carry": "Check the reacting group before worrying about chain length. Same rule does not mean the two whole products are identical."
+  },
+  {
+    "id": 2,
+    "title": "The drawing points the other way",
+    "a": {
+      "kind": "ketone",
+      "n": 5
+    },
+    "b": {
+      "kind": "ketone",
+      "n": 5,
+      "down": true
+    },
+    "verdict": "Same reaction rule—and the same molecule",
+    "noticed": "B is the same structure turned over on the page. Its connections have not changed.",
+    "why": "Both drawings show a ketone: the carbon double-bonded to O has a carbon group on each side. NaBH₄ gives the same secondary alcohol. Page direction does not change the reaction.",
+    "carry": "Read the connections, not whether the oxygen points up or down. These plain bonds do not specify a different stereoisomer."
+  },
+  {
+    "id": 3,
+    "title": "Two rings join the picture",
+    "a": {
+      "n": 4
+    },
+    "b": {
+      "n": 4,
+      "large": true
+    },
+    "verdict": "Same reaction rule",
+    "noticed": "B has two rings attached to the chain. The reacting end is still an aldehyde.",
+    "why": "NaBH₄ turns the aldehyde into a primary alcohol in both examples. The rings shown here stay unchanged. Keep the complete skeleton when drawing each product.",
+    "carry": "A larger skeleton is not automatically a new reaction. Still scan its other groups before deciding they stay unchanged."
+  },
+  {
+    "id": 4,
+    "title": "A different reagent name",
+    "a": {
+      "n": 4
+    },
+    "b": {
+      "n": 4,
+      "reagent": "LiAlH₄"
+    },
+    "verdict": "Same product here",
+    "noticed": "A uses NaBH₄ in methanol. B uses LiAlH₄, followed by water.",
+    "why": "Both sets of conditions reduce this aldehyde to the same primary alcohol. LiAlH₄ reacts with more types of groups, but this simple aldehyde gives the same product.",
+    "carry": "These reagents are not interchangeable in every question. Decide what they do to the particular group in front of you. Never use methanol as the LiAlH₄ reaction solvent; the water step comes afterward."
+  },
+  {
+    "id": 5,
+    "title": "Aldehyde or ketone?",
+    "a": {
+      "n": 3
+    },
+    "b": {
+      "kind": "ketone",
+      "n": 5
+    },
+    "verdict": "Same bond-changing move; different alcohol type",
+    "noticed": "A has H attached to the carbon double-bonded to O. B has carbon groups on both sides of that carbon.",
+    "why": "NaBH₄ turns both into alcohols. The aldehyde gives a primary alcohol: its OH carbon has one carbon neighbor. The ketone gives a secondary alcohol: its OH carbon has two carbon neighbors.",
+    "carry": "Use the same reduction move, but keep the carbon connections. They tell you which alcohol type you made."
+  },
+  {
+    "id": 6,
+    "title": "One extra oxygen matters",
+    "a": {
+      "kind": "ketone",
+      "n": 3
+    },
+    "b": {
+      "kind": "ester",
+      "n": 2
+    },
+    "verdict": "Different outcome: only A reacts",
+    "noticed": "In B, the carbon double-bonded to O is also bonded to another O that joins a carbon group. That makes B an ester.",
+    "why": "NaBH₄ turns A’s ketone into an alcohol. It leaves B’s ester unchanged under these conditions. Finding the double bond to oxygen is only the first check.",
+    "carry": "Look at what else is attached to the carbon double-bonded to O. That extra oxygen changes which rule applies."
+  },
+  {
+    "id": 7,
+    "title": "Now the reagent change matters",
+    "a": {
+      "kind": "ester",
+      "n": 4
+    },
+    "b": {
+      "kind": "ester",
+      "n": 4,
+      "reagent": "LiAlH₄"
+    },
+    "verdict": "Different outcome: only B reacts",
+    "noticed": "The starting ester is identical. Only the reagent conditions change.",
+    "why": "NaBH₄ leaves this ester unchanged. LiAlH₄, followed by water, turns it into two alcohol pieces. The carbonyl side becomes a primary alcohol; the oxygen-linked methyl piece becomes methanol.",
+    "carry": "Pair the reagent with the starting group. The reagent swap made no product difference for the aldehyde in pair 4, but it makes a big difference for this ester."
+  }
+]

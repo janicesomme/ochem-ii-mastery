@@ -19,12 +19,14 @@ def mol(kind,n=4,product=False,cue=False,large=False):
   ring2=[(43+32*math.cos(math.radians(a)),140+32*math.sin(math.radians(a))) for a in [0,60,120,180,240,300]]
   for i in range(6):s+=line(ring2[i],ring2[(i+1)%6])
   s+=line((75,140),(122,140))
-  chain=[(218,140),(250,120),(282,140),(314,120),(346,140)]
+  chain=[(218,140),(250,160),(282,140),(314,160),(346,140)]
   for a,b in zip(chain,chain[1:]):s+=line(a,b)
   cx,cy=346,140
  else:
   start=205-((n-1)*42)/2
-  chain=[(start+i*42,140 if i%2==0 else 117) for i in range(n)]
+  # Janice drawing convention: upward O/OH sits on a peak, never inside a valley.
+  idx=(n-1)//2 if kind=='ketone' else n-1
+  chain=[(start+i*42,117 if i%2==idx%2 else 140) for i in range(n)]
   for a,b in zip(chain,chain[1:]):s+=line(a,b)
   idx=(n-1)//2 if kind=='ketone' else n-1
   cx,cy=chain[idx]
@@ -82,6 +84,6 @@ copy='# Same reaction, three question formats — editable copy\n\n'
 for title,para,_ in learn:copy+=f'## {title}\n\n{para}\n\n'
 for q in questions:copy+=f'## {q["id"]} — {q["title"]}\n\n**Hint:** {q["clue"]}\n\n**Answer explanation:** {q["answer"]}\n\n'
 (P/'teaching-copy.md').write_text(copy)
-for id in ['A1','K2','A3','A4','B1','E1']:
+for id in ['A1','K1','K2','A3','A4','B1','E1']:
  v=(P/f'{id}-answer.svg').read_bytes();doc=fitz.open(stream=v,filetype='svg');doc[0].get_pixmap(matrix=fitz.Matrix(1.15,1.15)).save(P/f'{id}-preview.png')
 print('Created 10 original practice questions, 2 worked patterns, and skeletal answer reveals.')

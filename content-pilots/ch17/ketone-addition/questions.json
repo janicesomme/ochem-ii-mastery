@@ -1,0 +1,113 @@
+[
+  {
+    "id": "1",
+    "group": "1 · Two familiar aldehydes",
+    "kind": "aldehyde",
+    "n": 2,
+    "size": 1,
+    "prompt": "Add methyl. Draw the product connections.",
+    "hint": "Find the aldehyde carbon and add the carbon supplied by CH₃MgBr.",
+    "answer": "Add methyl at the aldehyde carbon and finish with OH there. That carbon now has two carbon neighbors, so the product is a secondary alcohol."
+  },
+  {
+    "id": "2",
+    "group": "1 · Two familiar aldehydes",
+    "kind": "aldehyde",
+    "n": 3,
+    "size": 2,
+    "prompt": "Add ethyl. Keep its two carbons together.",
+    "hint": "The carbon holding MgBr makes the new bond. Its partner carbon comes with it.",
+    "answer": "The ethyl group joins at the aldehyde carbon. After water, you have a secondary alcohol. The OH carbon has two carbon neighbors."
+  },
+  {
+    "id": "3",
+    "group": "3 · Repeat the ketone move",
+    "kind": "ketone",
+    "n": 3,
+    "size": 1,
+    "prompt": "Add methyl to this ketone.",
+    "hint": "Keep the carbon group on each side of the carbon double-bonded to O. Add one new methyl group at that same carbon.",
+    "answer": "Keep both original methyl groups. Add the third methyl group and finish with OH. The OH carbon has three carbon neighbors: this is a tertiary alcohol."
+  },
+  {
+    "id": "4",
+    "group": "3 · Repeat the ketone move",
+    "kind": "ketone",
+    "n": 5,
+    "size": 1,
+    "prompt": "Same addition, longer groups on the ketone.",
+    "hint": "The groups on the left and right are longer, but both stay attached. Where does the new methyl go?",
+    "answer": "Put methyl on the carbon that was double-bonded to O. Keep both existing ethyl groups and finish with OH. The product is still a tertiary alcohol."
+  },
+  {
+    "id": "5",
+    "group": "3 · Repeat the ketone move",
+    "kind": "ketone",
+    "n": 7,
+    "size": 1,
+    "prompt": "Repeat it once more.",
+    "hint": "Do not count the whole chain to classify the alcohol. Look only at the carbon carrying OH and its direct carbon neighbors.",
+    "answer": "The original two propyl groups stay attached. Add methyl at the same carbon and finish with OH. There are three direct carbon neighbors, so this is a tertiary alcohol."
+  },
+  {
+    "id": "6A",
+    "group": "4 · Same reagent, aldehyde or ketone?",
+    "kind": "aldehyde",
+    "n": 3,
+    "size": 2,
+    "prompt": "A: add ethyl to the aldehyde.",
+    "hint": "Before the addition, the aldehyde carbon has one carbon neighbor and one H.",
+    "answer": "Add the ethyl group and finish with OH. The OH carbon now has two carbon neighbors: secondary alcohol."
+  },
+  {
+    "id": "6B",
+    "group": "4 · Same reagent, aldehyde or ketone?",
+    "kind": "ketone",
+    "n": 5,
+    "size": 2,
+    "prompt": "B: add ethyl to the ketone.",
+    "hint": "Before the addition, the ketone carbon already has two carbon neighbors.",
+    "answer": "Add the same ethyl group and finish with OH. Keep both carbon groups that were already there. The OH carbon now has three carbon neighbors: tertiary alcohol."
+  },
+  {
+    "id": "7",
+    "group": "5 · Change the question format",
+    "kind": "ketone",
+    "n": 3,
+    "size": 2,
+    "prompt": "Draw the product connections.",
+    "hint": "Ethyl is one connected two-carbon piece. Add it to the ketone carbon without removing either existing methyl group.",
+    "answer": "The OH carbon ends with two methyl groups and one ethyl group. It has three direct carbon neighbors, even though the ethyl branch contains two carbons."
+  },
+  {
+    "id": "8",
+    "group": "5 · Change the question format",
+    "kind": "ketone",
+    "n": 5,
+    "size": 1,
+    "missing": "reagent",
+    "prompt": "Draw the methyl or ethyl Grignard reagent that makes this product.",
+    "hint": "Compare the starting ketone with the product. The two existing ethyl groups stay. How many carbons are in the newly added group?",
+    "answer": "Choose CH₃MgBr. The new group is methyl: one added carbon. Keep the water step after the addition."
+  },
+  {
+    "id": "9",
+    "group": "6 · Mixed practice: identify the starting group yourself",
+    "kind": "aldehyde",
+    "n": 2,
+    "size": 1,
+    "prompt": "Draw the product connections and name the alcohol type.",
+    "hint": "Is the carbon double-bonded to O attached to H, or to a carbon group on both sides?",
+    "answer": "It is an aldehyde. Methyl addition gives a secondary alcohol: the OH carbon has two carbon neighbors."
+  },
+  {
+    "id": "10",
+    "group": "6 · Mixed practice: identify the starting group yourself",
+    "kind": "ketone",
+    "n": 5,
+    "size": 2,
+    "prompt": "Draw the product connections and name the alcohol type.",
+    "hint": "Identify the starting group first. Keep its original carbon connections while adding the incoming piece.",
+    "answer": "It is a ketone. Ethyl addition gives a tertiary alcohol: the OH carbon has three carbon neighbors."
+  }
+]

@@ -11,3 +11,7 @@ HTML structural checks: 10 answer disclosures, 10 hints, and 22 complete/partial
 Typography audit: zero errors; five false-positive formula warnings refer to task IDs K1–K4 and B1. IDs remain baseline text. Wording audit: no long-sentence or undefined-term flags in the editable copy; the generic lesson template flags missing prescribed headings/why section because this is a short pattern worksheet. No full pedagogy-audit pass is claimed. Janice's wording review remains pending.
 
 The v1 tests the proposed teaching sequence; effectiveness has not been established by student testing. It is not a complete NaBH4 reaction scope reference or an exam-frequency claim.
+
+## Janice’s drawing convention
+
+For these open-chain illustrations, place upward-pointing O/OH groups at a skeletal peak. Adjacent chain bonds slope down and away from the attachment carbon. Apply the same coordinates to the question and answer. The zigzag phase is now chosen from the reacting carbon position, rather than from the chain’s first carbon. The larger molecule’s terminal chain is oriented to put the aldehyde/alcohol bond outside the chain angle. This is the project’s visual convention; equivalent orientations can represent the same chemistry.

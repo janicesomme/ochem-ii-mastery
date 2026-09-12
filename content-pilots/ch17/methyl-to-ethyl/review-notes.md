@@ -11,3 +11,7 @@ Reaction conditions: dry ether, then water. Product skeletons describe connectiv
 Typography audit: zero errors/warnings. Wording audit on editable copy: average 8.2 words/sentence, maximum 17; prescribed full-lesson section flags remain, so no full pedagogy-audit pass is claimed. The interactive document uses native details elements. No live browser verification or learner-effectiveness claim is made. Janice's wording review remains pending.
 
 Original source drawings and code are saved on the isolated content branch. Student app integration remains outside this task.
+
+## V2 superseding reagent drawing convention
+
+Janice rejected the single unlabeled vertical bond above MgBr. Methylmagnesium bromide must be shown explicitly as CH₃–MgBr. Ethylmagnesium bromide uses a conventional left-to-right skeletal zigzag ending at MgBr. The carbon–metal bond meets Mg, not Br. This supersedes the earlier downward MgBr layout and exact source/product orientation claim: the ethyl piece rotates intact when placed into the product, preserving connectivity and its internal bond length. Updated the explanation to identify the other ethyl carbon on the LEFT of the circled joining carbon. Expanded clearance between reagent labels and reaction arrows. Checked all reagent occurrences in the regenerated contact sheets. V2 has a distinct filename and visible version label.

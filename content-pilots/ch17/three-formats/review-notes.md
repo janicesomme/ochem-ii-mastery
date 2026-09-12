@@ -15,3 +15,7 @@ The v1 tests the proposed teaching sequence; effectiveness has not been establis
 ## Janice’s drawing convention
 
 For these open-chain illustrations, place upward-pointing O/OH groups at a skeletal peak. Adjacent chain bonds slope down and away from the attachment carbon. Apply the same coordinates to the question and answer. The zigzag phase is now chosen from the reacting carbon position, rather than from the chain’s first carbon. The larger molecule’s terminal chain is oriented to put the aldehyde/alcohol bond outside the chain angle. This is the project’s visual convention; equivalent orientations can represent the same chemistry.
+
+## V2 complete drawing check
+
+Rebuilt as three-question-formats-v2-peaks-checked.html with a visible V2 label. Inspected all 22 displayed SVG reaction panels in four contact sheets, including every prompt, both worked examples and every revealed answer. All upward C=O groups are at peaks. Added generator assertions requiring adjacent chain carbon coordinates to be lower on the page than the reacting carbon, including the large molecule's terminal site. This guards against the previously reported valley placement. A new filename distinguishes this version from earlier downloads; the cause of the user's older-looking display is not established.

@@ -1,0 +1,93 @@
+{
+  "output_dir": "/workspace/scratch/02ef34bd6a23/eoc17/sites-that-matter/crop-qa",
+  "defaults": {
+    "render_dpi": 450,
+    "preview_dpi": 150,
+    "preview_page_width_in": 8.5,
+    "preview_page_height_in": 11,
+    "max_words": 70
+  },
+  "items": [
+    {
+      "id": "smith_17_41a",
+      "concept": "Only the ketone changes with NaBH\u2084",
+      "teaching_purpose": "Compare the ketone that changes with the ester that stays unchanged.",
+      "source_pdf": "/workspace/scratch/02ef34bd6a23/upload/Smith chp 17-Intro to Carbonyls SOLUTIONS(3).pdf",
+      "source_label": "Smith chapter 17 solutions manual",
+      "page": 17,
+      "source_page_label": "17\u201317",
+      "crop_norm": [
+        0.1539855072463768,
+        0.3367198838896952,
+        0.5353260869565217,
+        0.39622641509433965
+      ],
+      "target_width_in": 6.8,
+      "max_height_in": 2.0,
+      "required_elements": [
+        "All starting and product structures in the selected reaction(s)",
+        "All reaction arrows, reagents and conditions",
+        "All substituents, oxygen labels, and small products"
+      ],
+      "exclude_elements": [
+        "Neighboring problems",
+        "Page headers",
+        "Unrelated text"
+      ]
+    },
+    {
+      "id": "smith_17_42ab",
+      "concept": "Changing the reagent changes which sites react",
+      "teaching_purpose": "Compare the same starting molecule under NaBH\u2084 and LiAlH\u2084; retain both complete product sets.",
+      "source_pdf": "/workspace/scratch/02ef34bd6a23/upload/Smith chp 17-Intro to Carbonyls SOLUTIONS(3).pdf",
+      "source_label": "Smith chapter 17 solutions manual",
+      "page": 17,
+      "source_page_label": "17\u201317",
+      "crop_norm": [
+        0.2028985507246377,
+        0.49709724238026126,
+        0.8786231884057971,
+        0.6197387518142236
+      ],
+      "target_width_in": 6.8,
+      "max_height_in": 2.0,
+      "required_elements": [
+        "All starting and product structures in the selected reaction(s)",
+        "All reaction arrows, reagents and conditions",
+        "All substituents, oxygen labels, and small products"
+      ],
+      "exclude_elements": [
+        "Neighboring problems",
+        "Page headers",
+        "Unrelated text"
+      ]
+    },
+    {
+      "id": "smith_17_44",
+      "concept": "Follow one site, then find both alkene sites",
+      "teaching_purpose": "Follow the alcohol through oxidation and carbon addition, then locate both nonaromatic C=C bonds before ozone cleavage.",
+      "source_pdf": "/workspace/scratch/02ef34bd6a23/upload/Smith chp 17-Intro to Carbonyls SOLUTIONS(3).pdf",
+      "source_label": "Smith chapter 17 solutions manual",
+      "page": 18,
+      "source_page_label": "17\u201318",
+      "crop_norm": [
+        0.14492753623188406,
+        0.3497822931785196,
+        0.8876811594202898,
+        0.7082728592162555
+      ],
+      "target_width_in": 7.6,
+      "max_height_in": 5.0,
+      "required_elements": [
+        "All starting and product structures in the selected reaction(s)",
+        "All reaction arrows, reagents and conditions",
+        "All substituents, oxygen labels, and small products"
+      ],
+      "exclude_elements": [
+        "Neighboring problems",
+        "Page headers",
+        "Unrelated text"
+      ]
+    }
+  ]
+}

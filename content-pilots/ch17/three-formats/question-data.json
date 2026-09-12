@@ -1,0 +1,103 @@
+[
+  {
+    "id": "A1",
+    "group": "2 · Repeat the aldehyde pattern",
+    "kind": "aldehyde",
+    "n": 5,
+    "missing": "product",
+    "title": "Draw the product.",
+    "clue": "Find the carbon that has both a double bond to O and a bond to H.",
+    "answer": "NaBH₄ turns this aldehyde into a primary alcohol. Make the bond to oxygen single and put H on the oxygen. The same carbon also gains H. Keep the chain exactly as it was."
+  },
+  {
+    "id": "A2",
+    "group": "2 · Repeat the aldehyde pattern",
+    "kind": "aldehyde",
+    "n": 6,
+    "missing": "product",
+    "title": "One more: draw the product.",
+    "clue": "The chain is longer. Does the group at the end still fit the aldehyde pattern?",
+    "answer": "Yes—the end is still an aldehyde, so the same move gives a primary alcohol. A longer chain does not change this reaction."
+  },
+  {
+    "id": "K1",
+    "group": "3 · Repeat the ketone pattern",
+    "kind": "ketone",
+    "n": 5,
+    "missing": "product",
+    "title": "Draw the product.",
+    "clue": "The carbon double-bonded to O has a carbon group on each side. That makes it a ketone.",
+    "answer": "NaBH₄ turns this ketone into a secondary alcohol. Make the bond to oxygen single and put H on oxygen. The same carbon also gains H. Keep both carbon groups attached."
+  },
+  {
+    "id": "K2",
+    "group": "3 · Repeat the ketone pattern",
+    "kind": "ketone",
+    "n": 7,
+    "missing": "product",
+    "title": "One more: draw the product.",
+    "clue": "Ignore the chain length for a moment. How many carbon groups are attached to the carbon double-bonded to O?",
+    "answer": "There are two carbon groups attached, so this is still a ketone. NaBH₄ gives a secondary alcohol. The longer chains stay in place."
+  },
+  {
+    "id": "A3",
+    "group": "4 · Same reaction, different question",
+    "kind": "aldehyde",
+    "n": 4,
+    "missing": "reagent",
+    "title": "Choose a reagent and solvent.",
+    "clue": "Compare the two drawings. An aldehyde has become a primary alcohol, and no carbon has been added.",
+    "answer": "NaBH₄ in methanol is one suitable choice. You already know this reaction—you are supplying what goes over the arrow this time. Other valid reduction conditions can also work."
+  },
+  {
+    "id": "A4",
+    "group": "4 · Same reaction, different question",
+    "kind": "aldehyde",
+    "n": 5,
+    "missing": "start",
+    "title": "Draw the aldehyde that would give this alcohol.",
+    "clue": "Start at the alcohol end and undo the reaction. Keep the carbon chain.",
+    "answer": "Draw the aldehyde shown. Turn the single bond to oxygen back into a double bond and remove the H from oxygen. That end carbon has one H in the starting aldehyde. The skeletal drawing leaves most carbon-bound H implicit."
+  },
+  {
+    "id": "K3",
+    "group": "4 · Same reaction, different question",
+    "kind": "ketone",
+    "n": 5,
+    "missing": "reagent",
+    "title": "Choose a reagent and solvent.",
+    "clue": "A ketone has become a secondary alcohol. The carbon groups on either side are unchanged.",
+    "answer": "NaBH₄ in methanol is one suitable choice here too. The question format changed, but the reaction pattern did not."
+  },
+  {
+    "id": "K4",
+    "group": "4 · Same reaction, different question",
+    "kind": "ketone",
+    "n": 7,
+    "missing": "start",
+    "title": "Draw the ketone that would give this alcohol.",
+    "clue": "Find the carbon carrying OH. Keep both of its carbon groups and undo the alcohol-forming change.",
+    "answer": "Draw the ketone shown. Restore the double bond to oxygen and remove the H from oxygen. The H added to the middle carbon during reduction is also absent in the ketone."
+  },
+  {
+    "id": "B1",
+    "group": "5 · Find it inside a larger molecule",
+    "kind": "aldehyde",
+    "n": 4,
+    "missing": "product",
+    "large": true,
+    "title": "Find the reacting site, then draw the product.",
+    "clue": "Scan for a carbon double-bonded to O and bonded to H. The rings do not stop that end group from being an aldehyde.",
+    "answer": "The aldehyde at the far right becomes a primary alcohol. Both rings and the connecting chain stay unchanged under these conditions. The highlighted answer shows the same local move as A1 and A2."
+  },
+  {
+    "id": "E1",
+    "group": "6 · Check the limit of the rule",
+    "kind": "ester",
+    "n": 4,
+    "missing": "product",
+    "title": "Does this molecule change?",
+    "clue": "Do not stop at the double bond to O. The same carbon is also bonded to another O, which joins a carbon group. That makes this an ester.",
+    "answer": "No reaction under these conditions: NaBH₄ in methanol leaves this ester unchanged. The repeated starting structure below shows that no alcohol product forms. Seeing a double bond to oxygen is not enough—you must identify the group."
+  }
+]

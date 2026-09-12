@@ -1,0 +1,1799 @@
+{
+  "status": "starter for editorial review",
+  "patterns": [
+    {
+      "id": "P1",
+      "title": "Choose the site that reacts",
+      "notice": "Find each C=O and check what is attached to its carbon. Also look for OH and C=C.",
+      "move": "Match the reagent to each group before changing any bonds. “No reaction” is a valid result.",
+      "appearance": "A model, a line drawing, or a large molecule can contain the same reactive group.",
+      "meaningful_change": "An ester is not a ketone. An extra OH can destroy a Grignard reagent; a nearby C=C can create another reaction site.",
+      "practice": "17.35A(a) → 17.41(a) → 17.42(a)",
+      "practice_reason": "Same NaBH₄ decision, with more surrounding structure. Compare 17.35B(a), where the ester stays unchanged.",
+      "references": [
+        "17.35 A(a)",
+        "17.35 A(b)",
+        "17.35 A(c)",
+        "17.35 A(d)",
+        "17.35 A(e)",
+        "17.35 B(a)",
+        "17.35 B(b)",
+        "17.35 B(c)",
+        "17.35 B(d)",
+        "17.35 B(e)",
+        "17.37 (a)",
+        "17.37 (b)",
+        "17.37 (c)",
+        "17.37 (d)",
+        "17.37 (e)",
+        "17.37 (f)",
+        "17.37 (g)",
+        "17.37 (h)",
+        "17.37 (i)",
+        "17.37 (j)",
+        "17.37 (k)",
+        "17.38 (a)",
+        "17.38 (b)",
+        "17.38 (c)",
+        "17.38 (d)",
+        "17.40 (a)",
+        "17.40 (b)",
+        "17.40 (c)",
+        "17.40 (d)",
+        "17.40 (e)",
+        "17.40 (f)",
+        "17.41 (a)",
+        "17.41 (b)",
+        "17.41 (c)",
+        "17.41 (d)",
+        "17.42 (a)",
+        "17.42 (b)",
+        "17.42 (c)",
+        "17.42 (d)",
+        "17.42 (e)"
+      ]
+    },
+    {
+      "id": "P2",
+      "title": "Turn an aldehyde or ketone into an alcohol",
+      "notice": "Look for an aldehyde or ketone and a reducing reagent such as NaBH₄.",
+      "move": "Change C=O to C–OH. Add H to that same carbon.",
+      "appearance": "The C=O may sit at a chain end, inside a ring, or on a large skeleton.",
+      "meaningful_change": "This drawing move does not cover esters or amides. H₂/Pd may also change C=C under the stated conditions.",
+      "practice": "17.37(a) → 17.37(b) → 17.35A(a)",
+      "practice_reason": "Repeat the aldehyde reduction with another reagent; then notice that a ketone gives a secondary alcohol.",
+      "references": [
+        "17.35 A(a)",
+        "17.35 A(b)",
+        "17.37 (a)",
+        "17.37 (b)",
+        "17.37 (c)",
+        "17.39 (a)",
+        "17.39 (b)",
+        "17.39 (c)",
+        "17.40 (a)",
+        "17.40 (c)",
+        "17.41 (a)",
+        "17.41 (b)",
+        "17.42 (a)",
+        "17.42 (b)",
+        "17.45 (c)",
+        "17.47 Left structure",
+        "17.47 Right structure",
+        "17.49 H",
+        "17.50 A",
+        "17.69 A",
+        "17.69 B",
+        "17.74 Whole question"
+      ]
+    },
+    {
+      "id": "P3",
+      "title": "Reduce an ester, acid, or amide",
+      "notice": "Look for C=O bonded to O or N, then check the hydride reagent.",
+      "move": "With LiAlH₄, an ester or acid carbonyl end becomes CH₂OH. An amide C=O becomes CH₂ while its C–N bond stays. A nitrile, C≡N, becomes CH₂NH₂.",
+      "appearance": "An ester link may be hidden inside a ring or connect two large pieces.",
+      "meaningful_change": "An ester can split into alcohol pieces; an amide follows a different bond pattern. The bulky reagent in 17.41(d) stops an acid chloride at an aldehyde.",
+      "practice": "17.35B(b) → 17.41(b) → 17.55",
+      "practice_reason": "Repeat ester reduction, then open two ester links. Use 17.41(c) to contrast the amide rule.",
+      "references": [
+        "17.35 B(b)",
+        "17.41 (b)",
+        "17.41 (c)",
+        "17.41 (d)",
+        "17.42 (b)",
+        "17.45 (d)",
+        "17.55 Whole question",
+        "17.56 (a)",
+        "17.56 (b)",
+        "17.56 (c)",
+        "17.74 Whole question",
+        "17.76 Y"
+      ]
+    },
+    {
+      "id": "P4",
+      "title": "Turn an alcohol into C=O—or an aldehyde into COOH",
+      "notice": "Find OH or CHO and identify the oxidizing reagent.",
+      "move": "A secondary alcohol becomes a ketone. PCC changes a primary alcohol to an aldehyde; the aqueous strong oxidizing mixture can continue to COOH.",
+      "appearance": "The same change may be a single product question or a middle step in synthesis.",
+      "meaningful_change": "PCC, the silver reagent, and dichromate do not change the same set of groups. Count the carbon neighbors of the OH carbon.",
+      "practice": "17.37(e) → 17.37(f) → 17.42(c–e)",
+      "practice_reason": "Repeat aldehyde oxidation, then compare which additional OH groups change.",
+      "references": [
+        "17.35 A(e)",
+        "17.35 B(e)",
+        "17.36 (a)",
+        "17.36 (b)",
+        "17.36 (c)",
+        "17.37 (d)",
+        "17.37 (e)",
+        "17.37 (f)",
+        "17.42 (c)",
+        "17.42 (d)",
+        "17.42 (e)",
+        "17.44 Whole question",
+        "17.63 (b)",
+        "17.63 (c)",
+        "17.63 (d)",
+        "17.64 (a)",
+        "17.64 (b)",
+        "17.64 (c)",
+        "17.65 (a)",
+        "17.65 (b)",
+        "17.65 (c)",
+        "17.68 Whole question"
+      ]
+    },
+    {
+      "id": "P5",
+      "title": "Add one carbon group at C=O",
+      "notice": "Find an aldehyde or ketone and the carbon carrying MgBr, Li, or a negative charge.",
+      "move": "Bond that incoming carbon to the C=O carbon. Turn the oxygen into OH after the finishing water step.",
+      "appearance": "The incoming piece can be methyl, phenyl, an alkyne, or a larger chain. C=O can be in a ring.",
+      "meaningful_change": "Use the carbon that carries the metal or charge. Do not add at a nearby C=C when the specified reagent instead adds at C=O.",
+      "practice": "17.37(g) → 17.37(h) → 17.37(j–k)",
+      "practice_reason": "Repeat the same joining move with differently drawn carbon pieces. Then try the ring ketone in 17.43(b).",
+      "references": [
+        "17.35 A(c)",
+        "17.35 A(d)",
+        "17.36 (a)",
+        "17.36 (b)",
+        "17.36 (c)",
+        "17.37 (g)",
+        "17.37 (h)",
+        "17.37 (j)",
+        "17.37 (k)",
+        "17.40 (d)",
+        "17.40 (e)",
+        "17.43 (b)",
+        "17.44 Whole question",
+        "17.45 (a)",
+        "17.48 Whole question",
+        "17.49 A",
+        "17.49 K",
+        "17.51 Whole question",
+        "17.52 Whole question",
+        "17.57 (a)",
+        "17.57 (b)",
+        "17.57 (c)",
+        "17.58 Route 1",
+        "17.58 Route 2",
+        "17.58 Route 3",
+        "17.60 (a), route 1",
+        "17.60 (a), route 2",
+        "17.60 (b), route 1",
+        "17.60 (b), route 2",
+        "17.63 (c)",
+        "17.63 (d)",
+        "17.64 (a)",
+        "17.64 (b)",
+        "17.64 (c)",
+        "17.65 (a)",
+        "17.65 (b)",
+        "17.65 (c)",
+        "17.66 (a)",
+        "17.66 (b)",
+        "17.67 (a)",
+        "17.67 (b)",
+        "17.73 Whole question",
+        "17.76 X",
+        "17.76 Mechanism to X",
+        "17.77 P, the minor product"
+      ]
+    },
+    {
+      "id": "P6",
+      "title": "An ester or acid chloride can take two carbon groups",
+      "notice": "Find an ester or acid chloride and excess Grignard or organolithium reagent.",
+      "move": "Remove the ester’s singly bonded OR piece, or the acid chloride’s Cl. Add two copies of the incoming carbon group at its C=O carbon, which ends with OH.",
+      "appearance": "The ester may be attached to a ring or occur as one site in a larger structure.",
+      "meaningful_change": "A ketone takes one group. A cuprate with an acid chloride stops at a ketone. The tether in 17.52 makes the second addition close a ring. The special conditions in 17.54 require separate treatment.",
+      "practice": "17.35B(c) → 17.43(d) → 17.70",
+      "practice_reason": "Repeat the two-addition pattern, then recognize it from spectra. Contrast 17.35A(c).",
+      "references": [
+        "17.35 B(c)",
+        "17.35 B(d)",
+        "17.43 (c)",
+        "17.43 (d)",
+        "17.51 Whole question",
+        "17.52 Whole question",
+        "17.53 Whole question",
+        "17.59 (a)",
+        "17.59 (b)",
+        "17.60 (b), route 3",
+        "17.70 E",
+        "17.70 F"
+      ]
+    },
+    {
+      "id": "P7",
+      "title": "Add at the far end of C=O–C=C",
+      "notice": "Spot C=O–C=C and check for the cuprate reagent in these problems.",
+      "move": "Add the incoming group at the far alkene carbon. Make the original C=C single and keep C=O after the finishing step.",
+      "appearance": "This connected pattern can be in a ring, a chain, or a molecule with another double bond.",
+      "meaningful_change": "Grignard and organolithium reagents in the paired examples add at C=O instead. Keep any double bond in the incoming vinyl group.",
+      "practice": "17.38(c) → 17.43(e) → 17.40(f)",
+      "practice_reason": "Repeat with ring and chain; then distinguish the original double bond from the incoming one.",
+      "references": [
+        "17.38 (c)",
+        "17.40 (f)",
+        "17.43 (e)",
+        "17.67 (a)",
+        "17.67 (b)",
+        "17.78 Whole question"
+      ]
+    },
+    {
+      "id": "P8",
+      "title": "Open the little oxygen ring",
+      "notice": "Find the three-membered epoxide ring and compare its two carbons.",
+      "move": "For these basic carbon reagents, attach at the less crowded carbon and break that carbon’s bond to O. O stays on the other carbon and becomes OH. In 17.73, use the reverse connection pattern to close an epoxide from O⁻ and a neighboring C–Cl site.",
+      "appearance": "The epoxide may be on a straight chain, a ring, or a fused-ring structure.",
+      "meaningful_change": "The new group comes from the opposite side of the broken C–O bond. If the two ends are equivalent, check whether they still give different 3D products.",
+      "practice": "17.38(d) → 17.43(f) → 17.45(b)",
+      "practice_reason": "Repeat ring opening, then make the opposite-face requirement explicit. Reverse the move in 17.61.",
+      "references": [
+        "17.36 (d)",
+        "17.38 (d)",
+        "17.43 (f)",
+        "17.45 (b)",
+        "17.46 Whole question",
+        "17.49 G",
+        "17.61 (a)",
+        "17.61 (b)",
+        "17.61 (c)",
+        "17.63 (b)",
+        "17.73 Whole question"
+      ]
+    },
+    {
+      "id": "P9",
+      "title": "Cover OH, do the carbon chemistry, uncover OH",
+      "notice": "Look for an OH that must survive a strong carbon reagent.",
+      "move": "Replace the OH hydrogen with a protecting group. Do the needed reaction, then remove the cover to recover OH.",
+      "appearance": "OH may be far from the bond you are trying to make. It still affects reagent compatibility.",
+      "meaningful_change": "An exposed OH can use up the Grignard reagent. A permanent ether in the target is not a temporary protecting group.",
+      "practice": "17.37(l) → 17.48 → 17.66(a)",
+      "practice_reason": "Learn the covering move, then use it to prevent a failed reaction and to build an alkyne.",
+      "references": [
+        "17.37 (l)",
+        "17.48 Whole question",
+        "17.66 (a)",
+        "17.66 (b)",
+        "17.68 Whole question",
+        "17.74 Whole question"
+      ]
+    },
+    {
+      "id": "P10",
+      "title": "Choose how many carbons to add",
+      "notice": "Compare the starting skeleton with the target. Count the new carbons.",
+      "move": "A Grignard plus formaldehyde adds one carbon ending in OH. Ethylene oxide adds two ending in OH. CO₂ adds one ending in COOH.",
+      "appearance": "The original piece may be straight, branched, aromatic, or cyclic.",
+      "meaningful_change": "These three partners do not add the same number of carbons or give the same end group.",
+      "practice": "17.36(c) → 17.49F → 17.63(a)",
+      "practice_reason": "Repeat the one-carbon OH extension. Contrast the two-carbon extension in 17.36(d) and COOH extension in 17.43(a).",
+      "references": [
+        "17.36 (c)",
+        "17.36 (d)",
+        "17.43 (a)",
+        "17.49 F",
+        "17.61 (a)",
+        "17.63 (a)",
+        "17.63 (d)",
+        "17.65 (b)",
+        "17.77 P, the minor product"
+      ]
+    },
+    {
+      "id": "P11",
+      "title": "Choose the face, not just the connection",
+      "notice": "Check wedges, dashes, existing stereocenters, and any face-selective reagent.",
+      "move": "First make the correct connections. Then decide which side receives the new bond and which existing orientations stay.",
+      "appearance": "The same product connection can require a mirror-image pair, several relative arrangements, or one favored face.",
+      "meaningful_change": "CBS reagent labels do not give a universal opposite R/S product label. Existing groups and bridges can make the faces different.",
+      "practice": "17.39(a) → 17.39(b–c) → 17.47",
+      "practice_reason": "Compare equal-face addition with a favored face; then use crowding to choose the approach.",
+      "references": [
+        "17.39 (a)",
+        "17.39 (b)",
+        "17.39 (c)",
+        "17.45 (a)",
+        "17.45 (b)",
+        "17.45 (c)",
+        "17.45 (d)",
+        "17.46 Whole question",
+        "17.47 Left structure",
+        "17.47 Right structure",
+        "17.50 A",
+        "17.50 Final product",
+        "17.61 (b)",
+        "17.61 (c)",
+        "17.68 Whole question",
+        "17.74 Whole question"
+      ]
+    },
+    {
+      "id": "P12",
+      "title": "Work backward from the target",
+      "notice": "Find the target’s OH carbon, N-adjacent carbon, or new carbon–carbon bond.",
+      "move": "Undo a known forward move: cut the added carbon group away and restore the carbonyl or epoxide starting pattern. Then check the forward reaction.",
+      "appearance": "The question may ask for starting materials, several routes, or a full synthesis from restricted ingredients.",
+      "meaningful_change": "An ester route needs two matching added groups. A ring bond cannot always be cut into two separate starting molecules. Starting-material restrictions still apply.",
+      "practice": "17.57(a) → 17.57(b) → 17.59",
+      "practice_reason": "Repeat backward carbonyl cuts; then impose the matching-pair requirement for an ester route.",
+      "references": [
+        "17.36 (a)",
+        "17.36 (b)",
+        "17.36 (c)",
+        "17.36 (d)",
+        "17.56 (a)",
+        "17.56 (b)",
+        "17.56 (c)",
+        "17.57 (a)",
+        "17.57 (b)",
+        "17.57 (c)",
+        "17.58 Route 1",
+        "17.58 Route 2",
+        "17.58 Route 3",
+        "17.59 (a)",
+        "17.59 (b)",
+        "17.60 (a), route 1",
+        "17.60 (a), route 2",
+        "17.60 (b), route 1",
+        "17.60 (b), route 2",
+        "17.60 (b), route 3",
+        "17.61 (a)",
+        "17.61 (b)",
+        "17.61 (c)",
+        "17.63 (a)",
+        "17.63 (b)",
+        "17.63 (c)",
+        "17.63 (d)",
+        "17.64 (a)",
+        "17.64 (b)",
+        "17.64 (c)",
+        "17.65 (a)",
+        "17.65 (b)",
+        "17.65 (c)",
+        "17.66 (a)",
+        "17.66 (b)",
+        "17.67 (a)",
+        "17.67 (b)",
+        "17.68 Whole question",
+        "17.74 Whole question"
+      ]
+    },
+    {
+      "id": "S1",
+      "title": "Connect the main moves with earlier reactions",
+      "notice": "Look for a necessary change such as OH to Br, Br to MgBr, alkene to epoxide, or alcohol to alkene.",
+      "move": "Use the earlier reaction that prepares the next step. Keep track of every intermediate. Also retain the specific rule from 17.38(a): a cuprate replaces acid-chloride Cl with one carbon group and stops at a ketone.",
+      "appearance": "These moves are often buried inside a long synthesis rather than asked alone.",
+      "meaningful_change": "Ring substitution position, carbon count, protecting groups, and reagent order can decide whether a route works.",
+      "practice": "17.49H–J → 17.63(a) → 17.64(b)",
+      "practice_reason": "Repeat OH-to-Grignard preparation, then check why aromatic bromination must come later.",
+      "references": [
+        "17.36 (a)",
+        "17.36 (b)",
+        "17.36 (c)",
+        "17.36 (d)",
+        "17.38 (a)",
+        "17.40 (b)",
+        "17.40 (c)",
+        "17.44 Whole question",
+        "17.46 Whole question",
+        "17.48 Whole question",
+        "17.49 B",
+        "17.49 C",
+        "17.49 D",
+        "17.49 E",
+        "17.49 F",
+        "17.49 I",
+        "17.49 J",
+        "17.50 B",
+        "17.50 C",
+        "17.50 Final product",
+        "17.62 Route 1",
+        "17.62 Route 2",
+        "17.62 Route 3",
+        "17.63 (a)",
+        "17.63 (b)",
+        "17.63 (c)",
+        "17.63 (d)",
+        "17.64 (a)",
+        "17.64 (b)",
+        "17.64 (c)",
+        "17.65 (a)",
+        "17.65 (b)",
+        "17.65 (c)",
+        "17.66 (a)",
+        "17.66 (b)",
+        "17.67 (a)",
+        "17.67 (b)",
+        "17.68 Whole question",
+        "17.74 Whole question"
+      ]
+    },
+    {
+      "id": "S2",
+      "title": "Use the product to guide electron arrows",
+      "notice": "Mark the bond that must form or break, then find the electron pair that can make that change.",
+      "move": "Start each curved arrow at a bond or lone pair. Point it to the atom or bond receiving that pair, and check charges afterward.",
+      "appearance": "An addition may be followed by ester opening, another addition, ring closing, or proton transfer.",
+      "meaningful_change": "Knowing the product does not replace the intermediate steps. Do not draw an arrow starting at a positive charge.",
+      "practice": "17.51 → 17.53 → 17.55",
+      "practice_reason": "Repeat addition and ester opening with different reagents. Then see a new ring close in 17.52.",
+      "references": [
+        "17.51 Whole question",
+        "17.52 Whole question",
+        "17.53 Whole question",
+        "17.54 Whole question",
+        "17.55 Whole question",
+        "17.73 Whole question",
+        "17.76 X",
+        "17.76 Mechanism to X",
+        "17.77 P, the minor product",
+        "17.77 N, the major product",
+        "17.77 Mechanism idea",
+        "17.78 Whole question",
+        "17.79 Whole question"
+      ]
+    },
+    {
+      "id": "S3",
+      "title": "Use spectra to check a proposed structure",
+      "notice": "First use the reagent and formula to suggest a product. Then inspect the stated IR and NMR clues.",
+      "move": "IR helps identify groups such as C=O or OH. NMR signal sizes and splitting help check which H environments the structure contains.",
+      "appearance": "Two compounds can have the same mass but different groups. Symmetry can make a large structure give few signals.",
+      "meaningful_change": "Mass alone does not identify a structure. An OH peak is not a reliable substitute for counting H attached to the OH-bearing carbon.",
+      "practice": "17.49 F/G/K comparison → 17.69 → 17.70",
+      "practice_reason": "Repeat the check of H near OH, then use symmetry and integration. 17.71–72 add less familiar reaction clues.",
+      "references": [
+        "17.49 Tell F, G, and K apart by NMR",
+        "17.69 A",
+        "17.69 B",
+        "17.70 E",
+        "17.70 F",
+        "17.71 Whole question",
+        "17.72 Whole question",
+        "17.75 Whole question"
+      ]
+    },
+    {
+      "id": "S4",
+      "title": "Use another electron arrangement to find a reactive site",
+      "notice": "Look for a charged carbon next to a double bond or a C=O–C=C system.",
+      "move": "Draw another allowed electron arrangement without moving the atoms. Use it to locate a reactive or electron-poor carbon.",
+      "appearance": "This can explain a reaction at an unexpected carbon or a larger NMR shift farther from oxygen.",
+      "meaningful_change": "Resonance drawings are not separate molecules that take turns existing. Check charges and carbon’s bond count.",
+      "practice": "17.75 → 17.77",
+      "practice_reason": "Use the same electron-delocalization idea for a spectrum explanation and for an unexpected bond-forming site. These are different tasks, not identical practice.",
+      "references": [
+        "17.72 Whole question",
+        "17.75 Whole question",
+        "17.77 N, the major product",
+        "17.77 Mechanism idea"
+      ]
+    },
+    {
+      "id": "S5",
+      "title": "Recognize a special pathway before using the usual shortcut",
+      "notice": "Look for the unfamiliar starting group, unusual product, or special conditions in the prompt.",
+      "move": "Use the specific intermediate shown by the solution to connect the starting group to the product.",
+      "appearance": "Examples include a nitrile becoming a ketone, an amide ending without oxygen, or one-addition ester conditions.",
+      "meaningful_change": "Do not force every carbon reagent plus C=O into “finish with an alcohol.” Keep these exceptions attached to their question and conditions.",
+      "practice": "17.54; 17.71; 17.72; 17.77–79",
+      "practice_reason": "These need separate mini-cards. They are not one interchangeable reaction family.",
+      "references": [
+        "17.54 Whole question",
+        "17.71 Whole question",
+        "17.72 Whole question",
+        "17.77 N, the major product",
+        "17.77 Mechanism idea",
+        "17.78 Whole question",
+        "17.79 Whole question"
+      ]
+    }
+  ],
+  "question_index": [
+    {
+      "question": "17.35",
+      "part": "A(a)",
+      "patterns": [
+        "P1",
+        "P2"
+      ],
+      "source": "solutions pp. 17–14–17–15; question PDF p. 75."
+    },
+    {
+      "question": "17.35",
+      "part": "A(b)",
+      "patterns": [
+        "P1",
+        "P2"
+      ],
+      "source": "solutions pp. 17–14–17–15; question PDF p. 75."
+    },
+    {
+      "question": "17.35",
+      "part": "A(c)",
+      "patterns": [
+        "P1",
+        "P5"
+      ],
+      "source": "solutions pp. 17–14–17–15; question PDF p. 75."
+    },
+    {
+      "question": "17.35",
+      "part": "A(d)",
+      "patterns": [
+        "P1",
+        "P5"
+      ],
+      "source": "solutions pp. 17–14–17–15; question PDF p. 75."
+    },
+    {
+      "question": "17.35",
+      "part": "A(e)",
+      "patterns": [
+        "P1",
+        "P4"
+      ],
+      "source": "solutions pp. 17–14–17–15; question PDF p. 75."
+    },
+    {
+      "question": "17.35",
+      "part": "B(a)",
+      "patterns": [
+        "P1"
+      ],
+      "source": "solutions pp. 17–14–17–15; question PDF p. 75."
+    },
+    {
+      "question": "17.35",
+      "part": "B(b)",
+      "patterns": [
+        "P1",
+        "P3"
+      ],
+      "source": "solutions pp. 17–14–17–15; question PDF p. 75."
+    },
+    {
+      "question": "17.35",
+      "part": "B(c)",
+      "patterns": [
+        "P1",
+        "P6"
+      ],
+      "source": "solutions pp. 17–14–17–15; question PDF p. 75."
+    },
+    {
+      "question": "17.35",
+      "part": "B(d)",
+      "patterns": [
+        "P1",
+        "P6"
+      ],
+      "source": "solutions pp. 17–14–17–15; question PDF p. 75."
+    },
+    {
+      "question": "17.35",
+      "part": "B(e)",
+      "patterns": [
+        "P1",
+        "P4"
+      ],
+      "source": "solutions pp. 17–14–17–15; question PDF p. 75."
+    },
+    {
+      "question": "17.36",
+      "part": "(a)",
+      "patterns": [
+        "P12",
+        "P5",
+        "P4",
+        "S1"
+      ],
+      "source": "solutions p. 17–15; question PDF p. 76."
+    },
+    {
+      "question": "17.36",
+      "part": "(b)",
+      "patterns": [
+        "P12",
+        "P5",
+        "P4",
+        "S1"
+      ],
+      "source": "solutions p. 17–15; question PDF p. 76."
+    },
+    {
+      "question": "17.36",
+      "part": "(c)",
+      "patterns": [
+        "P12",
+        "P5",
+        "P10",
+        "P4",
+        "S1"
+      ],
+      "source": "solutions p. 17–15; question PDF p. 76."
+    },
+    {
+      "question": "17.36",
+      "part": "(d)",
+      "patterns": [
+        "P12",
+        "P8",
+        "P10",
+        "S1"
+      ],
+      "source": "solutions p. 17–15; question PDF p. 76."
+    },
+    {
+      "question": "17.37",
+      "part": "(a)",
+      "patterns": [
+        "P1",
+        "P2"
+      ],
+      "source": "solutions pp. 17–15–17–16; question PDF p. 76."
+    },
+    {
+      "question": "17.37",
+      "part": "(b)",
+      "patterns": [
+        "P1",
+        "P2"
+      ],
+      "source": "solutions pp. 17–15–17–16; question PDF p. 76."
+    },
+    {
+      "question": "17.37",
+      "part": "(c)",
+      "patterns": [
+        "P1",
+        "P2"
+      ],
+      "source": "solutions pp. 17–15–17–16; question PDF p. 76."
+    },
+    {
+      "question": "17.37",
+      "part": "(d)",
+      "patterns": [
+        "P1",
+        "P4"
+      ],
+      "source": "solutions pp. 17–15–17–16; question PDF p. 76."
+    },
+    {
+      "question": "17.37",
+      "part": "(e)",
+      "patterns": [
+        "P1",
+        "P4"
+      ],
+      "source": "solutions pp. 17–15–17–16; question PDF p. 76."
+    },
+    {
+      "question": "17.37",
+      "part": "(f)",
+      "patterns": [
+        "P1",
+        "P4"
+      ],
+      "source": "solutions pp. 17–15–17–16; question PDF p. 76."
+    },
+    {
+      "question": "17.37",
+      "part": "(g)",
+      "patterns": [
+        "P1",
+        "P5"
+      ],
+      "source": "solutions pp. 17–15–17–16; question PDF p. 76."
+    },
+    {
+      "question": "17.37",
+      "part": "(h)",
+      "patterns": [
+        "P1",
+        "P5"
+      ],
+      "source": "solutions pp. 17–15–17–16; question PDF p. 76."
+    },
+    {
+      "question": "17.37",
+      "part": "(i)",
+      "patterns": [
+        "P1"
+      ],
+      "source": "solutions pp. 17–15–17–16; question PDF p. 76."
+    },
+    {
+      "question": "17.37",
+      "part": "(j)",
+      "patterns": [
+        "P1",
+        "P5"
+      ],
+      "source": "solutions pp. 17–15–17–16; question PDF p. 76."
+    },
+    {
+      "question": "17.37",
+      "part": "(k)",
+      "patterns": [
+        "P1",
+        "P5"
+      ],
+      "source": "solutions pp. 17–15–17–16; question PDF p. 76."
+    },
+    {
+      "question": "17.37",
+      "part": "(l)",
+      "patterns": [
+        "P9"
+      ],
+      "source": "solutions pp. 17–15–17–16; question PDF p. 76."
+    },
+    {
+      "question": "17.38",
+      "part": "(a)",
+      "patterns": [
+        "P1",
+        "S1"
+      ],
+      "source": "solutions p. 17–16; question PDF p. 77."
+    },
+    {
+      "question": "17.38",
+      "part": "(b)",
+      "patterns": [
+        "P1"
+      ],
+      "source": "solutions p. 17–16; question PDF p. 77."
+    },
+    {
+      "question": "17.38",
+      "part": "(c)",
+      "patterns": [
+        "P1",
+        "P7"
+      ],
+      "source": "solutions p. 17–16; question PDF p. 77."
+    },
+    {
+      "question": "17.38",
+      "part": "(d)",
+      "patterns": [
+        "P1",
+        "P8"
+      ],
+      "source": "solutions p. 17–16; question PDF p. 77."
+    },
+    {
+      "question": "17.39",
+      "part": "(a)",
+      "patterns": [
+        "P2",
+        "P11"
+      ],
+      "source": "solutions p. 17–16; question PDF p. 77."
+    },
+    {
+      "question": "17.39",
+      "part": "(b)",
+      "patterns": [
+        "P2",
+        "P11"
+      ],
+      "source": "solutions p. 17–16; question PDF p. 77."
+    },
+    {
+      "question": "17.39",
+      "part": "(c)",
+      "patterns": [
+        "P2",
+        "P11"
+      ],
+      "source": "solutions p. 17–16; question PDF p. 77."
+    },
+    {
+      "question": "17.40",
+      "part": "(a)",
+      "patterns": [
+        "P1",
+        "P2"
+      ],
+      "source": "solutions p. 17–17; question PDF p. 77."
+    },
+    {
+      "question": "17.40",
+      "part": "(b)",
+      "patterns": [
+        "P1",
+        "S1"
+      ],
+      "source": "solutions p. 17–17; question PDF p. 77."
+    },
+    {
+      "question": "17.40",
+      "part": "(c)",
+      "patterns": [
+        "P1",
+        "P2",
+        "S1"
+      ],
+      "source": "solutions p. 17–17; question PDF p. 77."
+    },
+    {
+      "question": "17.40",
+      "part": "(d)",
+      "patterns": [
+        "P1",
+        "P5"
+      ],
+      "source": "solutions p. 17–17; question PDF p. 77."
+    },
+    {
+      "question": "17.40",
+      "part": "(e)",
+      "patterns": [
+        "P1",
+        "P5"
+      ],
+      "source": "solutions p. 17–17; question PDF p. 77."
+    },
+    {
+      "question": "17.40",
+      "part": "(f)",
+      "patterns": [
+        "P1",
+        "P7"
+      ],
+      "source": "solutions p. 17–17; question PDF p. 77."
+    },
+    {
+      "question": "17.41",
+      "part": "(a)",
+      "patterns": [
+        "P1",
+        "P2"
+      ],
+      "source": "solutions p. 17–17; question PDF p. 78."
+    },
+    {
+      "question": "17.41",
+      "part": "(b)",
+      "patterns": [
+        "P1",
+        "P2",
+        "P3"
+      ],
+      "source": "solutions p. 17–17; question PDF p. 78."
+    },
+    {
+      "question": "17.41",
+      "part": "(c)",
+      "patterns": [
+        "P1",
+        "P3"
+      ],
+      "source": "solutions p. 17–17; question PDF p. 78."
+    },
+    {
+      "question": "17.41",
+      "part": "(d)",
+      "patterns": [
+        "P1",
+        "P3"
+      ],
+      "source": "solutions p. 17–17; question PDF p. 78."
+    },
+    {
+      "question": "17.42",
+      "part": "(a)",
+      "patterns": [
+        "P1",
+        "P2"
+      ],
+      "source": "solutions p. 17–17; question PDF p. 78."
+    },
+    {
+      "question": "17.42",
+      "part": "(b)",
+      "patterns": [
+        "P1",
+        "P2",
+        "P3"
+      ],
+      "source": "solutions p. 17–17; question PDF p. 78."
+    },
+    {
+      "question": "17.42",
+      "part": "(c)",
+      "patterns": [
+        "P1",
+        "P4"
+      ],
+      "source": "solutions p. 17–17; question PDF p. 78."
+    },
+    {
+      "question": "17.42",
+      "part": "(d)",
+      "patterns": [
+        "P1",
+        "P4"
+      ],
+      "source": "solutions p. 17–17; question PDF p. 78."
+    },
+    {
+      "question": "17.42",
+      "part": "(e)",
+      "patterns": [
+        "P1",
+        "P4"
+      ],
+      "source": "solutions p. 17–17; question PDF p. 78."
+    },
+    {
+      "question": "17.43",
+      "part": "(a)",
+      "patterns": [
+        "P10"
+      ],
+      "source": "solutions p. 17–18; question PDF pp. 78–79."
+    },
+    {
+      "question": "17.43",
+      "part": "(b)",
+      "patterns": [
+        "P5"
+      ],
+      "source": "solutions p. 17–18; question PDF pp. 78–79."
+    },
+    {
+      "question": "17.43",
+      "part": "(c)",
+      "patterns": [
+        "P6"
+      ],
+      "source": "solutions p. 17–18; question PDF pp. 78–79."
+    },
+    {
+      "question": "17.43",
+      "part": "(d)",
+      "patterns": [
+        "P6"
+      ],
+      "source": "solutions p. 17–18; question PDF pp. 78–79."
+    },
+    {
+      "question": "17.43",
+      "part": "(e)",
+      "patterns": [
+        "P7"
+      ],
+      "source": "solutions p. 17–18; question PDF pp. 78–79."
+    },
+    {
+      "question": "17.43",
+      "part": "(f)",
+      "patterns": [
+        "P8"
+      ],
+      "source": "solutions p. 17–18; question PDF pp. 78–79."
+    },
+    {
+      "question": "17.44",
+      "part": "Whole question",
+      "patterns": [
+        "P4",
+        "P5",
+        "S1"
+      ],
+      "source": "solutions p. 17–18; question PDF p. 79."
+    },
+    {
+      "question": "17.45",
+      "part": "(a)",
+      "patterns": [
+        "P5",
+        "P11"
+      ],
+      "source": "solutions pp. 17–18–17–19; question PDF p. 79."
+    },
+    {
+      "question": "17.45",
+      "part": "(b)",
+      "patterns": [
+        "P8",
+        "P11"
+      ],
+      "source": "solutions pp. 17–18–17–19; question PDF p. 79."
+    },
+    {
+      "question": "17.45",
+      "part": "(c)",
+      "patterns": [
+        "P2",
+        "P11"
+      ],
+      "source": "solutions pp. 17–18–17–19; question PDF p. 79."
+    },
+    {
+      "question": "17.45",
+      "part": "(d)",
+      "patterns": [
+        "P3",
+        "P11"
+      ],
+      "source": "solutions pp. 17–18–17–19; question PDF p. 79."
+    },
+    {
+      "question": "17.46",
+      "part": "Whole question",
+      "patterns": [
+        "P8",
+        "P11",
+        "S1"
+      ],
+      "source": "solutions p. 17–19; question PDF p. 79."
+    },
+    {
+      "question": "17.47",
+      "part": "Left structure",
+      "patterns": [
+        "P2",
+        "P11"
+      ],
+      "source": "solutions p. 17–19; question PDF p. 80."
+    },
+    {
+      "question": "17.47",
+      "part": "Right structure",
+      "patterns": [
+        "P2",
+        "P11"
+      ],
+      "source": "solutions p. 17–19; question PDF p. 80."
+    },
+    {
+      "question": "17.48",
+      "part": "Whole question",
+      "patterns": [
+        "P9",
+        "P5",
+        "S1"
+      ],
+      "source": "solutions pp. 17–19–17–20; question PDF p. 80."
+    },
+    {
+      "question": "17.49",
+      "part": "A",
+      "patterns": [
+        "P5"
+      ],
+      "source": "solutions p. 17–20; question PDF p. 80."
+    },
+    {
+      "question": "17.49",
+      "part": "B",
+      "patterns": [
+        "S1"
+      ],
+      "source": "solutions p. 17–20; question PDF p. 80."
+    },
+    {
+      "question": "17.49",
+      "part": "C",
+      "patterns": [
+        "S1"
+      ],
+      "source": "solutions p. 17–20; question PDF p. 80."
+    },
+    {
+      "question": "17.49",
+      "part": "D",
+      "patterns": [
+        "S1"
+      ],
+      "source": "solutions p. 17–20; question PDF p. 80."
+    },
+    {
+      "question": "17.49",
+      "part": "E",
+      "patterns": [
+        "S1"
+      ],
+      "source": "solutions p. 17–20; question PDF p. 80."
+    },
+    {
+      "question": "17.49",
+      "part": "F",
+      "patterns": [
+        "P10",
+        "S1"
+      ],
+      "source": "solutions p. 17–20; question PDF p. 80."
+    },
+    {
+      "question": "17.49",
+      "part": "G",
+      "patterns": [
+        "P8"
+      ],
+      "source": "solutions p. 17–20; question PDF p. 80."
+    },
+    {
+      "question": "17.49",
+      "part": "H",
+      "patterns": [
+        "P2"
+      ],
+      "source": "solutions p. 17–20; question PDF p. 80."
+    },
+    {
+      "question": "17.49",
+      "part": "I",
+      "patterns": [
+        "S1"
+      ],
+      "source": "solutions p. 17–20; question PDF p. 80."
+    },
+    {
+      "question": "17.49",
+      "part": "J",
+      "patterns": [
+        "S1"
+      ],
+      "source": "solutions p. 17–20; question PDF p. 80."
+    },
+    {
+      "question": "17.49",
+      "part": "K",
+      "patterns": [
+        "P5"
+      ],
+      "source": "solutions p. 17–20; question PDF p. 80."
+    },
+    {
+      "question": "17.49",
+      "part": "Tell F, G, and K apart by NMR",
+      "patterns": [
+        "S3"
+      ],
+      "source": "solutions p. 17–20; question PDF p. 80."
+    },
+    {
+      "question": "17.50",
+      "part": "A",
+      "patterns": [
+        "P2",
+        "P11"
+      ],
+      "source": "solutions p. 17–21; question PDF p. 80."
+    },
+    {
+      "question": "17.50",
+      "part": "B",
+      "patterns": [
+        "S1"
+      ],
+      "source": "solutions p. 17–21; question PDF p. 80."
+    },
+    {
+      "question": "17.50",
+      "part": "C",
+      "patterns": [
+        "S1"
+      ],
+      "source": "solutions p. 17–21; question PDF p. 80."
+    },
+    {
+      "question": "17.50",
+      "part": "Final product",
+      "patterns": [
+        "S1",
+        "P11"
+      ],
+      "source": "solutions p. 17–21; question PDF p. 80."
+    },
+    {
+      "question": "17.51",
+      "part": "Whole question",
+      "patterns": [
+        "P5",
+        "P6",
+        "S2"
+      ],
+      "source": "solutions p. 17–21; question PDF p. 81."
+    },
+    {
+      "question": "17.52",
+      "part": "Whole question",
+      "patterns": [
+        "P6",
+        "P5",
+        "S2"
+      ],
+      "source": "solutions p. 17–21; question PDF p. 81."
+    },
+    {
+      "question": "17.53",
+      "part": "Whole question",
+      "patterns": [
+        "P6",
+        "S2"
+      ],
+      "source": "solutions p. 17–22; question PDF p. 81."
+    },
+    {
+      "question": "17.54",
+      "part": "Whole question",
+      "patterns": [
+        "S5",
+        "S2"
+      ],
+      "source": "solutions p. 17–22; question PDF p. 81."
+    },
+    {
+      "question": "17.55",
+      "part": "Whole question",
+      "patterns": [
+        "P3",
+        "S2"
+      ],
+      "source": "solutions p. 17–22; question PDF p. 81."
+    },
+    {
+      "question": "17.56",
+      "part": "(a)",
+      "patterns": [
+        "P3",
+        "P12"
+      ],
+      "source": "solutions p. 17–23; question PDF p. 82."
+    },
+    {
+      "question": "17.56",
+      "part": "(b)",
+      "patterns": [
+        "P3",
+        "P12"
+      ],
+      "source": "solutions p. 17–23; question PDF p. 82."
+    },
+    {
+      "question": "17.56",
+      "part": "(c)",
+      "patterns": [
+        "P3",
+        "P12"
+      ],
+      "source": "solutions p. 17–23; question PDF p. 82."
+    },
+    {
+      "question": "17.57",
+      "part": "(a)",
+      "patterns": [
+        "P5",
+        "P12"
+      ],
+      "source": "solutions p. 17–23; question PDF p. 82."
+    },
+    {
+      "question": "17.57",
+      "part": "(b)",
+      "patterns": [
+        "P5",
+        "P12"
+      ],
+      "source": "solutions p. 17–23; question PDF p. 82."
+    },
+    {
+      "question": "17.57",
+      "part": "(c)",
+      "patterns": [
+        "P5",
+        "P12"
+      ],
+      "source": "solutions p. 17–23; question PDF p. 82."
+    },
+    {
+      "question": "17.58",
+      "part": "Route 1",
+      "patterns": [
+        "P5",
+        "P12"
+      ],
+      "source": "solutions p. 17–23; question PDF p. 82."
+    },
+    {
+      "question": "17.58",
+      "part": "Route 2",
+      "patterns": [
+        "P5",
+        "P12"
+      ],
+      "source": "solutions p. 17–23; question PDF p. 82."
+    },
+    {
+      "question": "17.58",
+      "part": "Route 3",
+      "patterns": [
+        "P5",
+        "P12"
+      ],
+      "source": "solutions p. 17–23; question PDF p. 82."
+    },
+    {
+      "question": "17.59",
+      "part": "(a)",
+      "patterns": [
+        "P6",
+        "P12"
+      ],
+      "source": "solutions p. 17–24; question PDF p. 82."
+    },
+    {
+      "question": "17.59",
+      "part": "(b)",
+      "patterns": [
+        "P6",
+        "P12"
+      ],
+      "source": "solutions p. 17–24; question PDF p. 82."
+    },
+    {
+      "question": "17.60",
+      "part": "(a), route 1",
+      "patterns": [
+        "P5",
+        "P12"
+      ],
+      "source": "solutions p. 17–24; question PDF p. 83."
+    },
+    {
+      "question": "17.60",
+      "part": "(a), route 2",
+      "patterns": [
+        "P5",
+        "P12"
+      ],
+      "source": "solutions p. 17–24; question PDF p. 83."
+    },
+    {
+      "question": "17.60",
+      "part": "(b), route 1",
+      "patterns": [
+        "P5",
+        "P12"
+      ],
+      "source": "solutions p. 17–24; question PDF p. 83."
+    },
+    {
+      "question": "17.60",
+      "part": "(b), route 2",
+      "patterns": [
+        "P5",
+        "P12"
+      ],
+      "source": "solutions p. 17–24; question PDF p. 83."
+    },
+    {
+      "question": "17.60",
+      "part": "(b), route 3",
+      "patterns": [
+        "P6",
+        "P12"
+      ],
+      "source": "solutions p. 17–24; question PDF p. 83."
+    },
+    {
+      "question": "17.61",
+      "part": "(a)",
+      "patterns": [
+        "P8",
+        "P10",
+        "P12"
+      ],
+      "source": "solutions p. 17–24; question PDF p. 83."
+    },
+    {
+      "question": "17.61",
+      "part": "(b)",
+      "patterns": [
+        "P8",
+        "P11",
+        "P12"
+      ],
+      "source": "solutions p. 17–24; question PDF p. 83."
+    },
+    {
+      "question": "17.61",
+      "part": "(c)",
+      "patterns": [
+        "P8",
+        "P11",
+        "P12"
+      ],
+      "source": "solutions p. 17–24; question PDF p. 83."
+    },
+    {
+      "question": "17.62",
+      "part": "Route 1",
+      "patterns": [
+        "S1"
+      ],
+      "source": "solutions p. 17–24; question PDF p. 83."
+    },
+    {
+      "question": "17.62",
+      "part": "Route 2",
+      "patterns": [
+        "S1"
+      ],
+      "source": "solutions p. 17–24; question PDF p. 83."
+    },
+    {
+      "question": "17.62",
+      "part": "Route 3",
+      "patterns": [
+        "S1"
+      ],
+      "source": "solutions p. 17–24; question PDF p. 83."
+    },
+    {
+      "question": "17.63",
+      "part": "(a)",
+      "patterns": [
+        "P12",
+        "P10",
+        "S1"
+      ],
+      "source": "solutions pp. 17–24–17–25; question PDF p. 83."
+    },
+    {
+      "question": "17.63",
+      "part": "(b)",
+      "patterns": [
+        "P12",
+        "P8",
+        "P4",
+        "S1"
+      ],
+      "source": "solutions pp. 17–24–17–25; question PDF p. 83."
+    },
+    {
+      "question": "17.63",
+      "part": "(c)",
+      "patterns": [
+        "P12",
+        "P5",
+        "P4",
+        "S1"
+      ],
+      "source": "solutions pp. 17–24–17–25; question PDF p. 83."
+    },
+    {
+      "question": "17.63",
+      "part": "(d)",
+      "patterns": [
+        "P12",
+        "P10",
+        "P5",
+        "P4",
+        "S1"
+      ],
+      "source": "solutions pp. 17–24–17–25; question PDF p. 83."
+    },
+    {
+      "question": "17.64",
+      "part": "(a)",
+      "patterns": [
+        "P12",
+        "P5",
+        "P4",
+        "S1"
+      ],
+      "source": "solutions p. 17–25; question PDF p. 84."
+    },
+    {
+      "question": "17.64",
+      "part": "(b)",
+      "patterns": [
+        "P12",
+        "P5",
+        "P4",
+        "S1"
+      ],
+      "source": "solutions p. 17–25; question PDF p. 84."
+    },
+    {
+      "question": "17.64",
+      "part": "(c)",
+      "patterns": [
+        "P12",
+        "P5",
+        "P4",
+        "S1"
+      ],
+      "source": "solutions p. 17–25; question PDF p. 84."
+    },
+    {
+      "question": "17.65",
+      "part": "(a)",
+      "patterns": [
+        "P12",
+        "P5",
+        "P4",
+        "S1"
+      ],
+      "source": "solutions pp. 17–25–17–26; question PDF p. 84."
+    },
+    {
+      "question": "17.65",
+      "part": "(b)",
+      "patterns": [
+        "P12",
+        "P5",
+        "P10",
+        "P4",
+        "S1"
+      ],
+      "source": "solutions pp. 17–25–17–26; question PDF p. 84."
+    },
+    {
+      "question": "17.65",
+      "part": "(c)",
+      "patterns": [
+        "P12",
+        "P5",
+        "P4",
+        "S1"
+      ],
+      "source": "solutions pp. 17–25–17–26; question PDF p. 84."
+    },
+    {
+      "question": "17.66",
+      "part": "(a)",
+      "patterns": [
+        "P12",
+        "P9",
+        "P5",
+        "S1"
+      ],
+      "source": "solutions p. 17–26; question PDF p. 84."
+    },
+    {
+      "question": "17.66",
+      "part": "(b)",
+      "patterns": [
+        "P12",
+        "P9",
+        "P5",
+        "S1"
+      ],
+      "source": "solutions p. 17–26; question PDF p. 84."
+    },
+    {
+      "question": "17.67",
+      "part": "(a)",
+      "patterns": [
+        "P12",
+        "P7",
+        "P5",
+        "S1"
+      ],
+      "source": "solutions p. 17–27; question PDF p. 85."
+    },
+    {
+      "question": "17.67",
+      "part": "(b)",
+      "patterns": [
+        "P12",
+        "P7",
+        "P5",
+        "S1"
+      ],
+      "source": "solutions p. 17–27; question PDF p. 85."
+    },
+    {
+      "question": "17.68",
+      "part": "Whole question",
+      "patterns": [
+        "P12",
+        "P9",
+        "P4",
+        "P11",
+        "S1"
+      ],
+      "source": "solutions p. 17–27; question PDF p. 85."
+    },
+    {
+      "question": "17.69",
+      "part": "A",
+      "patterns": [
+        "P2",
+        "S3"
+      ],
+      "source": "solutions p. 17–27; question PDF p. 85."
+    },
+    {
+      "question": "17.69",
+      "part": "B",
+      "patterns": [
+        "P2",
+        "S3"
+      ],
+      "source": "solutions p. 17–27; question PDF p. 85."
+    },
+    {
+      "question": "17.70",
+      "part": "E",
+      "patterns": [
+        "P6",
+        "S3"
+      ],
+      "source": "solutions p. 17–28; question PDF pp. 85–86."
+    },
+    {
+      "question": "17.70",
+      "part": "F",
+      "patterns": [
+        "P6",
+        "S3"
+      ],
+      "source": "solutions p. 17–28; question PDF pp. 85–86."
+    },
+    {
+      "question": "17.71",
+      "part": "Whole question",
+      "patterns": [
+        "S3",
+        "S5"
+      ],
+      "source": "solutions p. 17–28; question PDF p. 86."
+    },
+    {
+      "question": "17.72",
+      "part": "Whole question",
+      "patterns": [
+        "S3",
+        "S4",
+        "S5"
+      ],
+      "source": "solutions p. 17–28; question PDF p. 86."
+    },
+    {
+      "question": "17.73",
+      "part": "Whole question",
+      "patterns": [
+        "P5",
+        "P8",
+        "S2"
+      ],
+      "source": "solutions p. 17–28; question PDF p. 87."
+    },
+    {
+      "question": "17.74",
+      "part": "Whole question",
+      "patterns": [
+        "P12",
+        "P2",
+        "P3",
+        "P9",
+        "P11",
+        "S1"
+      ],
+      "source": "solutions pp. 17–28–17–29; question PDF p. 87."
+    },
+    {
+      "question": "17.75",
+      "part": "Whole question",
+      "patterns": [
+        "S3",
+        "S4"
+      ],
+      "source": "solutions p. 17–29; question PDF p. 87."
+    },
+    {
+      "question": "17.76",
+      "part": "X",
+      "patterns": [
+        "P5",
+        "S2"
+      ],
+      "source": "solutions p. 17–29; question PDF p. 87."
+    },
+    {
+      "question": "17.76",
+      "part": "Mechanism to X",
+      "patterns": [
+        "P5",
+        "S2"
+      ],
+      "source": "solutions p. 17–29; question PDF p. 87."
+    },
+    {
+      "question": "17.76",
+      "part": "Y",
+      "patterns": [
+        "P3"
+      ],
+      "source": "solutions p. 17–29; question PDF p. 87."
+    },
+    {
+      "question": "17.77",
+      "part": "P, the minor product",
+      "patterns": [
+        "P5",
+        "P10",
+        "S2"
+      ],
+      "source": "solutions p. 17–30; question PDF p. 88."
+    },
+    {
+      "question": "17.77",
+      "part": "N, the major product",
+      "patterns": [
+        "S4",
+        "S5",
+        "S2"
+      ],
+      "source": "solutions p. 17–30; question PDF p. 88."
+    },
+    {
+      "question": "17.77",
+      "part": "Mechanism idea",
+      "patterns": [
+        "S4",
+        "S5",
+        "S2"
+      ],
+      "source": "solutions p. 17–30; question PDF p. 88."
+    },
+    {
+      "question": "17.78",
+      "part": "Whole question",
+      "patterns": [
+        "P7",
+        "S2",
+        "S5"
+      ],
+      "source": "solutions p. 17–30; question PDF p. 88."
+    },
+    {
+      "question": "17.79",
+      "part": "Whole question",
+      "patterns": [
+        "S2",
+        "S5"
+      ],
+      "source": "solutions p. 17–30; question PDF p. 88."
+    }
+  ]
+}
